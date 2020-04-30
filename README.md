@@ -1,0 +1,1 @@
+I owe you token is personal bond token to account p2p settlements
