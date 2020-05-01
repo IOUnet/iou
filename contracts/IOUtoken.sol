@@ -1,7 +1,8 @@
-pragma solidity ^0.6.0;
-import 'ERC223/token/ERC223/ERC223_token.sol';
+pragma solidity ^0.5.0;
+import "./token/ERC20/ERC20Burnable";
+import "./token/ERC20/ERC20Mintable";
 
-contract IOUtoken is ERC223 {
+contract IOUtoken is ERC20Mintable, ERC20Burnable {
 
     struct IOU {
         address receiver;
@@ -28,8 +29,15 @@ contract IOUtoken is ERC223 {
         _;
     }
 
+    modifier onlyTokenholder() {
+        require (balanceOf(msg.sender) > 0, "Only this token holder can do this");
+        _;
+    }
+
     function setOwner (address _newOwner) public onlyOwner {
+        _removeMinter(owner);
         owner = _newOwner;
+        _addMinter(_newOwner);
     }
 
     DescriptionIOU thisIOU;
@@ -52,7 +60,8 @@ contract IOUtoken is ERC223 {
                  string[256] _location, //where is 
                  address _actor
                 ) public ERC223 (name,  symbol,  decimals)  {
-        owner = _actor;
+        _removeMinter(msg.sender);
+        _addMinter (_actor;)
         _name = name;
         _symbol = symbol;
         _decimals = decimals;
@@ -66,17 +75,21 @@ contract IOUtoken is ERC223 {
 
 
     }
-    function feedback(uint8 _balls, bytes[256] _text) public onlyTokenholder {
-        feedback = FeedBack(msk.sender,now, _balls, "","", _text);
-        FeedBacksJournal.push(feedback);
 
+    function mint (address _who, uint256 _amount, string[256] _bond) public onlyOwner { 
+        IOU bond = IOU (_who, now, _bond);
+        allIOUs.push(bond);
+        IOUbyReceiver[_who].push(bond);
+        super.mint(_who, _amount);
     }
 
-    function mintIOU (address _who, string[256] _bond) public onlyOwner { 
+    function burn (uint256 _amount, string[256] _feedback) public {
 
-    }
-
-    function burn (uint256 _amount, string[256] _feedback) onlyTokenholder {
+        FeedBack feedback = FeedBack(msg.sender,now, _balls, _text);
+        allFeedbacks.push(feedback);
+        feedBacksbySender[msg.sender].push(feedback);
+        require (balanceOf(msg.sender) > _amount, "Too more to burn" )
+        super.burn(_amount);
 
     }
 
