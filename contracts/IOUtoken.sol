@@ -23,23 +23,6 @@ contract IOUtoken is ERC20Mintable, ERC20Burnable {
         string[256] public location; //where is it 
     }
 
-
-    modifier onlyOwner() {
-        require (owner == msg.sender, "Only owner can do this");
-        _;
-    }
-
-    modifier onlyTokenholder() {
-        require (balanceOf(msg.sender) > 0, "Only this token holder can do this");
-        _;
-    }
-
-    function setOwner (address _newOwner) public onlyOwner {
-        _removeMinter(owner);
-        owner = _newOwner;
-        _addMinter(_newOwner);
-    }
-
     DescriptionIOU thisIOU;
 
     FeedBack[] public allFeedbacks;
@@ -71,9 +54,18 @@ contract IOUtoken is ERC20Mintable, ERC20Burnable {
             _description,
             _location
         );
-        
 
+    }
 
+    modifier onlyOwner() {
+        require (owner == msg.sender, "Only owner can do this");
+        _;
+    }
+
+    function setOwner (address _newOwner) public onlyOwner {
+        _removeMinter(owner);
+        owner = _newOwner;
+        _addMinter(_newOwner);
     }
 
     function mint (address _who, uint256 _amount, string[256] _bond) public onlyOwner { 
