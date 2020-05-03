@@ -1,8 +1,8 @@
-pragma solidity >=  0.5.0;
-import "./option.sol";
+pragma solidity >=  0.6.0;
+import "./IOUtoken.sol";
 
 
-contract MakeOption {
+contract MakeIOU {
     function makeOption(address _addrBA1, // address of ERC20 of  BaseActive1;
                         address _addrBA2,// address of ERC20 of BaseActive2;
                         uint _amountBA1, //  security deposite percent of BaseActive1
