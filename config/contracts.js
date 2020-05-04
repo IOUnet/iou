@@ -30,10 +30,14 @@ module.exports = {
     // filteredFields: [],
 
     deploy: {
-      ERC20Detailed: {
+      IOUtoken: {
         fromIndex: 0,
         args: []
-      }
+      },
+      MakeIOU: {
+        fromIndex: 1,
+        args: []
+      },
     }
   },
 
