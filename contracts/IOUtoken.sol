@@ -62,7 +62,6 @@ contract IOUtoken is ERC20Mintable, ERC20Burnable {
 
     constructor (string memory _name, 
                  string memory _symbol, 
-                 uint8 _decimals, 
                  string _myName, //name of emitter
                  string _socialProfile, //profile  of emitter in social nets
                  string _description, //description of bond IOU to  work
@@ -76,7 +75,7 @@ contract IOUtoken is ERC20Mintable, ERC20Burnable {
         name = _name;
         require (_symbol.length < 5, "Too long symbol, must be < 4 chr" );
         symbol = _symbol;
-        decimals = _decimals;
+        decimals = 18;
         require (_myName.length < 257, "Too long Name, must be < 256 chr" );
         require (_socialProfile.length < 257, "Too long  Social Profile, must be < 256 chr" );
         require (_description.length < 257, "Too long description, must be < 256 chr" );

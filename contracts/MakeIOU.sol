@@ -3,21 +3,38 @@ import "./IOUtoken.sol";
 
 
 contract MakeIOU {
-    function makeOption(address _addrBA1, // address of ERC20 of  BaseActive1;
-                        address _addrBA2,// address of ERC20 of BaseActive2;
-                        uint _amountBA1, //  security deposite percent of BaseActive1
-                        uint _amountBA2, //  security deposite percent of BaseActive1
-                        uint _sd1, //  security deposite percent of BaseActive1
-                        uint _sd2, //  security deposite percent of BaseActive1
-                        uint _expDays, //ExpireDays;
-                        bytes memory _description
+    mapping (address => address[]) listIOUs;
+    mapping (string => address[]) listIOUsSoc;
+    address[] allIOU;
+    function makeIOU(string memory _name, 
+                 string memory _symbol, 
+                 uint8 _decimals, 
+                 string _myName, //name of emitter
+                 string _socialProfile, //profile  of emitter in social nets
+                 string _description, //description of bond IOU to  work
+                 string _location, //where is 
+                 string _units //units of deal
                         ) public returns (address) {
 
-        Options newOption = new Options(//_nameBA1, _nameBA2,
-                                        _addrBA1, _addrBA2,
-                                        _amountBA1, _amountBA2,
-                                        _sd1, _sd2,
-                                        _expDays, _description);
+        IOUtoken newIOU = new IOUtoken(_name, _symbol, _decimals, _myName, _socialProfile,  _description, _location, _units, msg.sender
+        );
+        allIOU.push(address(newIOU));
+        listIOUs[msg.sender].push(address(newIOU));
+        listIOUsSoc[_socialProfile].push(address(newIOU));
+        }
+
+    function getIOUList (address _owner) public view returns (address[] memory) {
+            return listIOUs[_owner];
+        }
+
+    function getIOUListSoc (string _profile) public view returns (address[] memory) {
+            return listIOUsSoc[_owner];
+                }
+
+    function withdraw (address _baseActive, uint256 _amount) public  onlyOwner {
+            IOUtoken  BA = IOUtoken (_baseActive);
+            BA.transfer (owner, _amount);
+        }
         return address (newOption);
 
     }
