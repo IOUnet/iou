@@ -30,12 +30,12 @@ module.exports = {
     // filteredFields: [],
 
     deploy: {
-      IOUtoken: {
+      /* IOUtoken: {
         fromIndex: 0,
         args: []
-      },
+      }, */
       MakeIOU: {
-        fromIndex: 1,
+        fromIndex: 0,
         args: []
       },
     }
