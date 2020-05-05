@@ -12,6 +12,8 @@ import ENS from './components/ens';
 import 'bootstrap/dist/css/bootstrap.css';
 import './dapp.css';
 
+import MetamaskOnboarding from '@metamask/onboarding'; //  to ./app/  https://github.com/MetaMask/metamask-onboarding.git  
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -112,5 +114,6 @@ class App extends React.Component {
     </div>);
   }
 }
-
+const onboarding = new MetamaskOnboarding()
+onboarding.startOnboarding()
 ReactDOM.render(<App/>, document.getElementById('app'));
