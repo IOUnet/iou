@@ -1,4 +1,5 @@
 pragma solidity >=  0.5.0;
+pragma experimental ABIEncoderV2;
 import "./IOUtoken.sol";
 
 
@@ -22,14 +23,13 @@ contract MakeIOU {
     }
 
 
-    function makeIOU(bytes memory _name, 
-                 bytes memory _symbol, 
-                 uint8 _decimals, 
-                 bytes memory _myName, //name of emitter
+    function makeIOU(bytes[256] memory _name, 
+                 bytes[256] memory _symbol, 
+                 bytes[256] memory _myName, //name of emitter
                  bytes memory _socialProfile, //profile  of emitter in social nets
-                 bytes memory _description, //description of bond IOU to  work
-                 bytes memory _location, //where is 
-                 bytes memory _units //units of deal
+                 bytes[256] memory _description, //description of bond IOU to  work
+                 bytes[256] memory _location, //where is 
+                 bytes[256] memory _units //units of deal
                         ) public returns (address) {
 
         IOUtoken newIOU = new IOUtoken(

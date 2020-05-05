@@ -1,4 +1,5 @@
 pragma solidity ^0.5.0;
+pragma experimental ABIEncoderV2;
 import "./token/ERC20/ERC20Burnable.sol";
 import "./token/ERC20/ERC20Mintable.sol";
 
@@ -27,25 +28,25 @@ contract IOUtoken is ERC20Mintable, ERC20Burnable {
     struct IOU {
         address receiver;
         uint time;
-        bytes IOUDescr; //what IOU is
+        bytes[256] IOUDescr; //what IOU is
     }
 
     struct FeedBack {
         address sender;
         uint time;
         uint8 rating; // estimation of skills in 255 grades
-        bytes text; //comment
+        bytes[256] text; //comment
     }
     struct DescriptionIOU {
-        bytes  myName ; //name of emitter
-        bytes  socialProfile ; //profile  of emitter in social nets
-        bytes  description ; //description of bond IOU to  work
-        bytes  location; //where is it 
-        bytes units;
+        bytes[256]  myName ; //name of emitter
+        bytes socialProfile ; //profile  of emitter in social nets
+        bytes[256]  description ; //description of bond IOU to  work
+        bytes[256]  location; //where is it 
+        bytes[256] units;
     }
 
-    bytes public name;
-    bytes public  symbol;
+    bytes[256] public name;
+    bytes[256] public  symbol;
     uint8 public decimals;
     uint256 public totalMinted;
     uint256 public totalBurned;
@@ -60,13 +61,13 @@ contract IOUtoken is ERC20Mintable, ERC20Burnable {
     address owner;
     //mapping (address => uint) Tokenholders;
 
-    constructor (bytes memory _name, 
-                 bytes memory _symbol, 
-                 bytes memory _myName, //name of emitter
+    constructor (bytes[256] memory _name, 
+                 bytes[256] memory _symbol, 
+                 bytes[256] memory _myName, //name of emitter
                  bytes memory _socialProfile, //profile  of emitter in social nets
-                 bytes memory _description, //description of bond IOU to  work
-                 bytes memory _location, //where is 
-                 bytes memory _units, //units of deal
+                 bytes[256] memory _description, //description of bond IOU to  work
+                 bytes[256] memory _location, //where is 
+                 bytes[256] memory _units, //units of deal
                  address _actor
                 ) public  {
         _removeMinter(msg.sender);
@@ -107,7 +108,7 @@ contract IOUtoken is ERC20Mintable, ERC20Burnable {
     _;
     }
 
-    function mint (address _who, uint256 _amount, bytes memory _descr) public onlyOwner { 
+    function mint (address _who, uint256 _amount, bytes[256] memory _descr) public onlyOwner { 
         require (_descr.length <256, "Description of IOU is too long, muust be < 256");
         IOU memory bond = IOU (_who, now, _descr);
         allIOUs.push(bond);
@@ -116,7 +117,7 @@ contract IOUtoken is ERC20Mintable, ERC20Burnable {
         totalMinted += _amount;
     }
 
-    function burn (uint256 _amount, uint8 _rating, bytes memory _feedback) public onlyHolder (_amount) {
+    function burn (uint256 _amount, uint8 _rating, bytes[256] memory _feedback) public onlyHolder (_amount) {
         require (_feedback.length <256, "Feedback is too long, muust be < 256");
 
         FeedBack memory feedback = FeedBack(msg.sender,now, _rating, _feedback);
@@ -143,7 +144,7 @@ contract IOUtoken is ERC20Mintable, ERC20Burnable {
         return allIOUs.length;
 
     
-    function getIOUid (uint256 _id)  public pure returns (address, uint256, bytes) {
+    function getIOUid (uint256 _id)  public pure returns (address, uint256, bytes[256]) {
         return (allIOUs[_id].receiver,
                 allIOUs[_id].time,
                 allIOUs[_id].IOUDescr
@@ -154,7 +155,7 @@ contract IOUtoken is ERC20Mintable, ERC20Burnable {
         return allFeedbacks.length;
 
     
-    function getFeedbackid (uint256 _id)  public pure returns (address, uint256, bytes) {
+    function getFeedbackid (uint256 _id)  public pure returns (address, uint256, bytes[256]) {
         return (allFeedbacks[_id].receivsenderer,
                 allFeedbacks[_id].time,
                 allFeedbacks[_id].FeedbackDescr
