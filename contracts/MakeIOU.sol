@@ -5,7 +5,7 @@ import "./IOUtoken.sol";
 
 contract MakeIOU {
     mapping (address => address[]) listIOUs;
-    mapping (bytes => address[]) listIOUsSoc;
+    mapping (string => address[]) listIOUsSoc;
     address[] allIOU;
     address private owner;
 
@@ -23,13 +23,13 @@ contract MakeIOU {
     }
 
 
-    function makeIOU(bytes[256] memory _name, 
-                 bytes[256] memory _symbol, 
-                 bytes[256] memory _myName, //name of emitter
-                 bytes memory _socialProfile, //profile  of emitter in social nets
-                 bytes[256] memory _description, //description of bond IOU to  work
-                 bytes[256] memory _location, //where is 
-                 bytes[256] memory _units //units of deal
+    function makeIOU(string memory _name, 
+                 string memory _symbol, 
+                 string memory _myName, //name of emitter
+                 string memory _socialProfile, //profile  of emitter in social nets
+                 string memory _description, //description of bond IOU to  work
+                 string memory _location, //where is 
+                 string memory _units //units of deal
                         ) public returns (address) {
 
         IOUtoken newIOU = new IOUtoken(
@@ -52,7 +52,7 @@ contract MakeIOU {
             return listIOUs[_owner];
         }
 
-    function getIOUListSoc (bytes memory _profile) public view returns (address[] memory) {
+    function getIOUListSoc (string memory _profile) public view returns (address[] memory) {
             return listIOUsSoc[_profile];
                 }
 

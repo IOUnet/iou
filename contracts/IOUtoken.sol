@@ -28,25 +28,25 @@ contract IOUtoken is ERC20Mintable, ERC20Burnable {
     struct IOU {
         address receiver;
         uint time;
-        bytes[256] IOUDescr; //what IOU is
+        string IOUDescr; //what IOU is
     }
 
     struct FeedBack {
         address sender;
         uint time;
         uint8 rating; // estimation of skills in 255 grades
-        bytes[256] text; //comment
+        string text; //comment
     }
     struct DescriptionIOU {
-        bytes[256]  myName ; //name of emitter
-        bytes socialProfile ; //profile  of emitter in social nets
-        bytes[256]  description ; //description of bond IOU to  work
-        bytes[256]  location; //where is it 
-        bytes[256] units;
+        string  myName ; //name of emitter
+        string socialProfile ; //profile  of emitter in social nets
+        string  description ; //description of bond IOU to  work
+        string  location; //where is it 
+        string units;
     }
 
-    bytes[256] public name;
-    bytes[256] public  symbol;
+    string public name;
+    string public  symbol;
     uint8 public decimals;
     uint256 public totalMinted;
     uint256 public totalBurned;
@@ -61,27 +61,27 @@ contract IOUtoken is ERC20Mintable, ERC20Burnable {
     address owner;
     //mapping (address => uint) Tokenholders;
 
-    constructor (bytes[256] memory _name, 
-                 bytes[256] memory _symbol, 
-                 bytes[256] memory _myName, //name of emitter
-                 bytes memory _socialProfile, //profile  of emitter in social nets
-                 bytes[256] memory _description, //description of bond IOU to  work
-                 bytes[256] memory _location, //where is 
-                 bytes[256] memory _units, //units of deal
+    constructor (string memory _name, 
+                 string memory _symbol, 
+                 string memory _myName, //name of emitter
+                 string memory _socialProfile, //profile  of emitter in social nets
+                 string memory _description, //description of bond IOU to  work
+                 string memory _location, //where is 
+                 string memory _units, //units of deal
                  address _actor
                 ) public  {
         _removeMinter(msg.sender);
         _addMinter (_actor);
-        require (_name.length < 13, "Too long name, must be < 12 chr" );
+        require (bytes(_name).length <16, "Too long name, must be < 12 chr" );
         name = _name;
-        require (_symbol.length < 5, "Too long symbol, must be < 4 chr" );
+        require (bytes(_symbol).length < 10, "Too long symbol, must be < 4 chr" );
         symbol = _symbol;
         decimals = 18;
-        require (_myName.length < 257, "Too long Name, must be < 256 chr" );
-        require (_socialProfile.length < 257, "Too long  Social Profile, must be < 256 chr" );
-        require (_description.length < 257, "Too long description, must be < 256 chr" );
-        require (_location.length < 257, "Too long location, must be < 256 chr" );
-        require (_units.length < 10, "Too long units, must be < 10 chr" );
+        require (bytes(_myName).length < 257, "Too long Name, must be < 256 chr" );
+        require (bytes(_socialProfile).length < 257, "Too long  Social Profile, must be < 256 chr" );
+        require (bytes(_description).length < 257, "Too long description, must be < 256 chr" );
+        require (bytes(_location).length < 257, "Too long location, must be < 256 chr" );
+        require (bytes(_units).length < 16, "Too long units, must be < 10 chr" );
         
         thisIOU = DescriptionIOU (
             _myName,
@@ -108,8 +108,8 @@ contract IOUtoken is ERC20Mintable, ERC20Burnable {
     _;
     }
 
-    function mint (address _who, uint256 _amount, bytes[256] memory _descr) public onlyOwner { 
-        require (_descr.length <256, "Description of IOU is too long, muust be < 256");
+    function mint (address _who, uint256 _amount, string memory _descr) public onlyOwner { 
+        require (bytes(_descr).length <256, "Description of IOU is too long, muust be < 256");
         IOU memory bond = IOU (_who, now, _descr);
         allIOUs.push(bond);
         IOUbyReceiver[_who].push(IOUbyReceiver[_who].length-1);
@@ -117,8 +117,8 @@ contract IOUtoken is ERC20Mintable, ERC20Burnable {
         totalMinted += _amount;
     }
 
-    function burn (uint256 _amount, uint8 _rating, bytes[256] memory _feedback) public onlyHolder (_amount) {
-        require (_feedback.length <256, "Feedback is too long, muust be < 256");
+    function burn (uint256 _amount, uint8 _rating, string memory _feedback) public onlyHolder (_amount) {
+        require (bytes(_feedback).length <256, "Feedback is too long, muust be < 256");
 
         FeedBack memory feedback = FeedBack(msg.sender,now, _rating, _feedback);
         allFeedbacks.push(feedback);
@@ -144,7 +144,7 @@ contract IOUtoken is ERC20Mintable, ERC20Burnable {
         return allIOUs.length;
 
     
-    function getIOUid (uint256 _id)  public pure returns (address, uint256, bytes[256]) {
+    function getIOUid (uint256 _id)  public pure returns (address, uint256, string) {
         return (allIOUs[_id].receiver,
                 allIOUs[_id].time,
                 allIOUs[_id].IOUDescr
@@ -155,7 +155,7 @@ contract IOUtoken is ERC20Mintable, ERC20Burnable {
         return allFeedbacks.length;
 
     
-    function getFeedbackid (uint256 _id)  public pure returns (address, uint256, bytes[256]) {
+    function getFeedbackid (uint256 _id)  public pure returns (address, uint256, string) {
         return (allFeedbacks[_id].receivsenderer,
                 allFeedbacks[_id].time,
                 allFeedbacks[_id].FeedbackDescr

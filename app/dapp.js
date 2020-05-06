@@ -6,9 +6,9 @@ import classnames from 'classnames';
 import EmbarkJS from 'Embark/EmbarkJS';
 import Blockchain from './components/blockchain';
 import Whisper from './components/whisper';
-import Storage from './components/storage';
+import MakeIOUs from './components/MakeIOUs';
 import ENS from './components/ens';
-
+import Storage from './components/storage';
 import 'bootstrap/dist/css/bootstrap.css';
 import './dapp.css';
 
@@ -78,7 +78,7 @@ class App extends React.Component {
       <Nav tabs>
         <NavItem>
           <NavLink onClick={() => this.handleSelect('1')} className={classnames({ active: this.state.activeKey === '1' })}>
-            {this._renderStatus('Blockchain', this.state.blockchainEnabled)}
+            {this._renderStatus('MakeIOUs', this.state.blockchainEnabled)}
           </NavLink>
         </NavItem>
         <NavItem>
@@ -99,7 +99,7 @@ class App extends React.Component {
       </Nav>
       <TabContent activeTab={this.state.activeKey}>
         <TabPane tabId="1">
-          <Blockchain/>
+          <MakeIOUs/>
         </TabPane>
         <TabPane tabId="2">
           <Storage enabled={this.state.storageEnabled}/>
@@ -114,6 +114,6 @@ class App extends React.Component {
     </div>);
   }
 }
-const onboarding = new MetamaskOnboarding()
-onboarding.startOnboarding()
+//const onboarding = new MetamaskOnboarding()
+//onboarding.startOnboarding()
 ReactDOM.render(<App/>, document.getElementById('app'));
