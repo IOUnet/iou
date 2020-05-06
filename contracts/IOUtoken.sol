@@ -38,6 +38,8 @@ contract IOUtoken is ERC20Mintable, ERC20Burnable {
         string text; //comment
     }
     struct DescriptionIOU {
+        string name;
+        string  symbol;
         string  myName ; //name of emitter
         string socialProfile ; //profile  of emitter in social nets
         string  description ; //description of bond IOU to  work
@@ -50,7 +52,7 @@ contract IOUtoken is ERC20Mintable, ERC20Burnable {
     uint8 public decimals;
     uint256 public totalMinted;
     uint256 public totalBurned;
-    DescriptionIOU thisIOU;
+    DescriptionIOU public thisIOU;
 
     FeedBack[] public allFeedbacks;
     mapping (address => uint256[]) public feedBacksbySender; // feedback from tokenholders
@@ -84,6 +86,8 @@ contract IOUtoken is ERC20Mintable, ERC20Burnable {
         require (bytes(_units).length < 16, "Too long units, must be < 10 chr" );
         
         thisIOU = DescriptionIOU (
+            _name,
+            _symbol,
             _myName,
             _socialProfile,
             _description,

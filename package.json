@@ -32,6 +32,7 @@
   },
   "dependencies": {
     "@metamask/onboarding": "file:app/metamask-onboarding",
-    "react-ga": "^2.7.0"
+    "react-ga": "^2.7.0",
+    "react-list-select": "^0.4.1"
   }
 }
