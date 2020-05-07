@@ -7,6 +7,7 @@ import EmbarkJS from 'Embark/EmbarkJS';
 import Blockchain from './components/blockchain';
 import Whisper from './components/whisper';
 import MakeIOUs from './components/MakeIOUs';
+import MintIOUs from './components/MintIOUs';
 import ENS from './components/ens';
 import Storage from './components/storage';
 import 'bootstrap/dist/css/bootstrap.css';
@@ -78,12 +79,12 @@ class App extends React.Component {
       <Nav tabs>
         <NavItem>
           <NavLink onClick={() => this.handleSelect('1')} className={classnames({ active: this.state.activeKey === '1' })}>
-            {this._renderStatus('MakeIOUs', this.state.blockchainEnabled)}
+            {this._renderStatus('Make new type of IOU ', this.state.blockchainEnabled)}
           </NavLink>
         </NavItem>
         <NavItem>
           <NavLink onClick={() => this.handleSelect('2')} className={classnames({ active: this.state.activeKey === '2' })}>
-            {this._renderStatus('Decentralized Storage', this.state.storageEnabled)}
+            {this._renderStatus('Give IOU', this.state.blockchainEnabled)}
           </NavLink>
         </NavItem>
         <NavItem>
@@ -102,7 +103,7 @@ class App extends React.Component {
           <MakeIOUs/>
         </TabPane>
         <TabPane tabId="2">
-          <Storage enabled={this.state.storageEnabled}/>
+          <MintIOUs />
         </TabPane>
         <TabPane tabId="3">
           <Whisper enabled={this.state.whisperEnabled}/>

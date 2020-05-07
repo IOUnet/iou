@@ -14,7 +14,7 @@ import List from 'react-list-select';
 ReactGA.initialize('UA-161540415-1');
 ReactGA.pageview(window.location.pathname + window.location.search);
 
-class MakeIOU extends React.Component {
+class MintIOU extends React.Component {
 
   constructor(props) {
     super(props);
@@ -32,8 +32,7 @@ class MakeIOU extends React.Component {
       units: "",     
       IOUsList: [],
       curIOU: "",
-      curOptstate:"" ,
-      ERC20: "" ,
+      creditorAddr: "",
 
     };
   }
@@ -67,7 +66,7 @@ class MakeIOU extends React.Component {
     this.setState({ logs: this.state.logs });
   }
 
-  async deployIOU (e) {
+  async sndIOU (e) {
     
     e.preventDefault();
     await EmbarkJS.enableEthereum();
@@ -137,74 +136,72 @@ class MakeIOU extends React.Component {
     return (<React.Fragment>
         
         
-        <h3> 1. Deploy IOU    </h3>
+          <h3> Choose IOU token </h3>          
           <Form>
-                <FormGroup>
-                <FormText color="muted">ERC20 token name (12 char)</FormText>
+          <FormGroup>
+            <Button color="primary" onClick={(e) => this.getIOUList(e)}>Get my IOUs list</Button>
+            <List
+                items={this.state.IOUsList}
+            //  selected={[0]}
+            //    disabled={[4]}
+                multiple={false}
+          //      onClick={(selected) => {this.state.getValue = _this.props.children }}
+                onChange={(e) => this.handleChangeList(e)}/>
+                
+            <FormText color="muted">Or paste IOU Smart contract address </FormText>
                   <Input type = "text"
-                    key="name"
-                // initialValues  = {this.state.addrBA1sell}
-                    name="name"
-                    placeholder="My token"                  
+                    key="getValue"
+                // initialValues  = {this.state.getValue}
+                    name="getValue"
+                    placeholder="Ethereum smart contract address 0x..."
+                   // initial// initialValues  = {this.state.getValue}
                     onChange={(e) => this.handleChange(e)}/>
-                <FormText color="muted">ERC20 token symbol (4 char)</FormText>
-                  <Input type = "text"
-                    key="symbol"
-                // initialValues  = {this.state.addrBA1sell}
-                    name="symbol"
-                    placeholder="SYM1"                  
-                    onChange={(e) => this.handleChange(e)}/>                    
-                 
-                 <FormText color="muted">You name, surname (up to 255 chr)</FormText>
-                  <Input type = "text"
-                    key="myName"
-                // initialValues  = {this.state.addrBA1sell}
-                    name="myName"
-                    placeholder="Bond, James"                  
-                    onChange={(e) => this.handleChange(e)}/>                    
+            <p>Current address value is <span className="value font-weight-bold">{this.state.getValue}</span></p>
+            {this.state.getValue && this.state.getValue !== 0 &&
+            <Button color="primary" onClick={(e) => this.getValue(e)}>Get full IOU description</Button>
+            }
+            <FormText color="muted">Click the button to get the IOU address value.</FormText>
+            {this.state.getValue && this.state.getValue !== 0 &&
+            <p>Current IOU is at  <span className="value font-weight-bold">{this.state.getValue}</span> <br />
+            <br/>
+           Name: {this.state.name}
+           <br /> 
+            Symbol: {this.state.symbol } <br/>
+            Issuer name: {this.state.myName } <br/>
+            Social Profile: {this.state.socialProfile} <br/>
+            Location: {this.state.location} <br/>
+            Description: {this.state.description }  <br/>
+            Units: {this.state.units }  <br/>
+            
+            </p>}
+          </FormGroup>
+        </Form>
+        
+        <h3> Give new debt receipt and transfer IOU  tokens</h3>
+        <Form onKeyDown={(e) => this.checkEnter(e, this.setValue)}>
 
-                 
-              <FormText color="muted">You name, surname (up to 255 chr)</FormText>
-                  <Input type = "text"
-                    key="socialProfile"
-                // initialValues  = {this.state.addrBA1sell}
-                    name="socialProfile"
-                    placeholder="www.bondbook.com/JamesBond007"                  
-                    onChange={(e) => this.handleChange(e)}/>   
+          <FormGroup > 
+              <FormText > I want to give my {this.state.name} IOUs in amount </FormText>
+              <Input
+                type="text"
+                defaultValue={this.state.valueSet}
+                placeholder="enter amount of IOS"
+                onChange={(e) => this.handleChange(e)}/>   <FormText > of {this.state.units } to owner of address </FormText> <br />
+                    <Input type = "text"
+                      key="creditorAddr"
+                      name="creditorAddr"
+                      placeholder="Paste creditor's Ethereum address (0x...)"
+                      onChange={(e) => this.handleChange(e)}></Input> <br /> 
+          <Button color="primary" onClick={(e) => this.sendIOU(e)}>Send IOUs</Button>
+              <br />
+            <FormText color="muted">Once you press "Send IOUs", the transaction will need to be mined and then the will be updated on the blockchain from secunds to minutes.</FormText>
+          </FormGroup>
+        </Form>
 
-                <FormText color="muted">You location: country, city, area (up to 255 chr)</FormText>
-                  <Input type = "text"
-                    key="location"
-                // initialValues  = {this.state.addrBA1sell}
-                    name="location"
-                    placeholder="45 Wellington Street, Covent Garden, London WC2E 7BN, England"                  
-                    onChange={(e) => this.handleChange(e)}/>                      
-                                 
-                <FormText color="muted">Description for IOU </FormText>
-                  <Input type = "text"
-                      key="description"
-                      // initialValues  = {this.state.addrBA2buy}
-                      name="description"
-                      placeholder="description of your product or service here. "  
-                    onChange={(e) => this.handleChange(e)}/>
-                  
-
-                  <FormText color="muted">Units of measure for your product or service...  </FormText>
-                  <Input type = "text"
-                      key="units"
-                      // initialValues  = {this.state.addrBA2buy}
-                      name="units"
-                      placeholder="units of measure for your product or service... "  
-                    onChange={(e) => this.handleChange(e)}/>
-                  <br />
-
-                <Button color="primary" onClick={(e) => this.deployIOU(e)}>Deploy IOU </Button>
-                </FormGroup>
-          </Form>
 
       </React.Fragment>
     );
   }
 }
 
-export default MakeIOU;
+export default MintIOU;
