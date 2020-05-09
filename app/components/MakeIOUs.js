@@ -29,7 +29,7 @@ class MakeIOU extends React.Component {
       socialProfile: "",
       description: "",
       location: "",
-      units: "",     
+      units: "hours",     
       IOUsList: [],
       curIOU: "",
       curOptstate:"" ,
@@ -145,14 +145,14 @@ class MakeIOU extends React.Component {
                     key="name"
                 // initialValues  = {this.state.addrBA1sell}
                     name="name"
-                    placeholder="My token"                  
+                    placeholder="Sheldon Cooper's token"                  
                     onChange={(e) => this.handleChange(e)}/>
                 <FormText color="muted">ERC20 token symbol (4 char)</FormText>
                   <Input type = "text"
                     key="symbol"
                 // initialValues  = {this.state.addrBA1sell}
                     name="symbol"
-                    placeholder="SYM1"                  
+                    placeholder="SCT1"                  
                     onChange={(e) => this.handleChange(e)}/>                    
                  
                  <FormText color="muted">You name, surname (up to 255 chr)</FormText>
@@ -160,7 +160,7 @@ class MakeIOU extends React.Component {
                     key="myName"
                 // initialValues  = {this.state.addrBA1sell}
                     name="myName"
-                    placeholder="Bond, James"                  
+                    placeholder="Sheldon Cooper"                  
                     onChange={(e) => this.handleChange(e)}/>                    
 
                  
@@ -169,7 +169,7 @@ class MakeIOU extends React.Component {
                     key="socialProfile"
                 // initialValues  = {this.state.addrBA1sell}
                     name="socialProfile"
-                    placeholder="www.bondbook.com/JamesBond007"                  
+                    placeholder="www.sheldonbook.cop/ShellyPie"                  
                     onChange={(e) => this.handleChange(e)}/>   
 
                 <FormText color="muted">You location: country, city, area (up to 255 chr)</FormText>
@@ -177,7 +177,7 @@ class MakeIOU extends React.Component {
                     key="location"
                 // initialValues  = {this.state.addrBA1sell}
                     name="location"
-                    placeholder="45 Wellington Street, Covent Garden, London WC2E 7BN, England"                  
+                    placeholder="app. 4A, 2311 North Los Robles Avenue  Pasadena, California, US, Earth"                  
                     onChange={(e) => this.handleChange(e)}/>                      
                                  
                 <FormText color="muted">Description for IOU </FormText>
@@ -194,7 +194,7 @@ class MakeIOU extends React.Component {
                       key="units"
                       // initialValues  = {this.state.addrBA2buy}
                       name="units"
-                      placeholder="units of measure for your product or service... "  
+                      placeholder="f.e. hours, or units of measure for your product or service... "  
                     onChange={(e) => this.handleChange(e)}/>
                   <br />
 

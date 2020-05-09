@@ -14,7 +14,7 @@ import List from 'react-list-select';
 ReactGA.initialize('UA-161540415-1');
 ReactGA.pageview(window.location.pathname + window.location.search);
 
-class MintIOU extends React.Component {
+class BurnIOU extends React.Component {
 
   constructor(props) {
     super(props);
@@ -33,7 +33,10 @@ class MintIOU extends React.Component {
       IOUsList: [],
       curIOU: "",
       creditorAddr: "",
-      descrDebt:""  
+      descrDebt:"",
+      rate: 5,
+      feedback: ""
+
     };
   }
 
@@ -83,7 +86,7 @@ class MintIOU extends React.Component {
         web3.utils.toWei(this.state.valueSet),
         this.state.descrDebt
                 ).send({from:account});
-    this._addToLog("mintIOUs.methods.mintIOUs: ", this.state.getValue);
+    this._addToLog("MakeIOUs.methods.MakeIOUs: ", this.state.getValue);
 
   }
 
@@ -120,15 +123,7 @@ class MintIOU extends React.Component {
     this._addToLog("IOU address: ", this.state.getValue );
   }
 
-   
-
-  render() {
-    return (<React.Fragment>
-        
-        
-          <h3> Choose IOU token </h3>          
-          <Form>
-          <FormGroup>
+   /*
             <Button color="primary" onClick={(e) => this.getIOUList(e)}>Get my IOUs list</Button>
             <List
                 items={this.state.IOUsList}
@@ -137,8 +132,17 @@ class MintIOU extends React.Component {
                 multiple={false}
           //      onClick={(selected) => {this.state.getValue = _this.props.children }}
                 onChange={(e) => this.handleChangeList(e)}/>
+   */
+
+  render() {
+    return (<React.Fragment>
+        
+        
+          <h3> Enter address of IOU token to burn </h3>          
+          <Form>
+          <FormGroup> 
                 
-            <FormText color="muted">Or paste IOU Smart contract address </FormText>
+            <FormText color="muted">Paste here IOU token  address </FormText>
                   <Input type = "text"
                     key="getValue"
                 // initialValues  = {this.state.getValue}
@@ -167,12 +171,12 @@ class MintIOU extends React.Component {
           </FormGroup>
         </Form>
         
-        <h3> Give new debt receipt and transfer IOU  tokens</h3>
+        <h3> Pay off IOU and burn tokens</h3>
         {this.state.getValue && this.state.getValue !== 0 && this.state.name !== "" &&
         <Form onKeyDown={(e) => this.checkEnter(e, this.setValue)}>
 
           <FormGroup > 
-              <FormText > I want to give my {this.state.name} IOUs in amount </FormText>
+              <FormText > I want to pay off {this.state.name} IOUs in amount </FormText>
               <Input
                 type= "number"
                 step={'.01'}
@@ -181,15 +185,18 @@ class MintIOU extends React.Component {
                 defaultValue={this.state.valueSet}
                 placeholder="enter amount of IOS"
                 onChange={(e) => this.handleChange(e)}/>   <FormText > of {this.state.units } to owner of address </FormText> <br />
+           <br /> 
+                      <FormText > and give the rate (0-ugly, 10-fine): </FormText>
+                <Input     type= "number"
+                step={'.1'}
+                      key="rate"
+                      name="rate"
+                      placeholder="enter reason of debt..."
+                      onChange={(e) => this.handleChange(e)}></Input>
+                  <FormText > with the feedback: </FormText>
                 <Input type = "text"
-                      key="creditorAddr"
-                      name="creditorAddr"
-                      placeholder="Paste creditor's Ethereum address (0x...)"
-                      onChange={(e) => this.handleChange(e)}></Input> <br /> 
-                  <FormText > for reason: </FormText>
-                <Input type = "text"
-                      key="descrDebt"
-                      name="descrDebt"
+                      key="feedback"
+                      name="feedback"
                       placeholder="enter reason of debt..."
                       onChange={(e) => this.handleChange(e)}></Input> <br /> 
           <Button color="primary" onClick={(e) => this.sendIOU(e)}>Send IOUs</Button>
@@ -204,4 +211,4 @@ class MintIOU extends React.Component {
   }
 }
 
-export default MintIOU;
+export default BurnIOU;

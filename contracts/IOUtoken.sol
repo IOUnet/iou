@@ -74,6 +74,7 @@ contract IOUtoken is ERC20Mintable, ERC20Burnable {
                 ) public  {
         _removeMinter(msg.sender);
         _addMinter (_actor);
+        owner = _actor;
         require (bytes(_name).length <16, "Too long name, must be < 12 chr" );
         name = _name;
         require (bytes(_symbol).length < 10, "Too long symbol, must be < 4 chr" );
