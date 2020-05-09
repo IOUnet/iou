@@ -2,6 +2,7 @@ import EmbarkJS from 'Embark/EmbarkJS';
 
 import React from 'react';
 import {Form, FormGroup, Input, HelpBlock, Button, FormText} from 'reactstrap';
+import ReactDOM from 'react-dom';
 
 import ERC20 from '../../embarkArtifacts/contracts/ERC20Detailed';
 import SimpleStorage from '../../embarkArtifacts/contracts/SimpleStorage';
@@ -10,6 +11,9 @@ import IOUs from '../../embarkArtifacts/contracts/IOUtoken';
 //import IOUs from '../../embarkArtifacts/contracts/IOUs';
 //import ERC20 from '../../embarkArtifacts/contracts/ERC20';
 import ReactGA from 'react-ga';
+import Slider from '@material-ui/core/Slider';
+//import Typography from 'material-ui';
+
 import List from 'react-list-select';
 ReactGA.initialize('UA-161540415-1');
 ReactGA.pageview(window.location.pathname + window.location.search);
@@ -80,10 +84,10 @@ class BurnIOU extends React.Component {
         abi: IOUs.options.jsonInterface,
         address: this.state.getValue
         });
-
-      curIOU.methods.mint(
-        this.state.creditorAddr,
+      const rate = this.state.rate * 10;
+      curIOU.methods.burn(
         web3.utils.toWei(this.state.valueSet),
+        rate.toString(),
         this.state.descrDebt
                 ).send({from:account});
     this._addToLog("MakeIOUs.methods.MakeIOUs: ", this.state.getValue);
@@ -132,6 +136,9 @@ class BurnIOU extends React.Component {
                 multiple={false}
           //      onClick={(selected) => {this.state.getValue = _this.props.children }}
                 onChange={(e) => this.handleChangeList(e)}/>
+
+
+                         <Typography id="discrete-slider-always" gutterBottom>Rate:</Typography>
    */
 
   render() {
@@ -186,13 +193,22 @@ class BurnIOU extends React.Component {
                 placeholder="enter amount of IOS"
                 onChange={(e) => this.handleChange(e)}/>   <FormText > of {this.state.units } to owner of address </FormText> <br />
            <br /> 
-                      <FormText > and give the rate (0-ugly, 10-fine): </FormText>
-                <Input     type= "number"
-                step={'.1'}
-                      key="rate"
-                      name="rate"
-                      placeholder="enter reason of debt..."
-                      onChange={(e) => this.handleChange(e)}></Input>
+              <FormText > and give the rate (0-ugly, 10-fine): </FormText>
+     
+                <Slider
+                  defaultValue={8}
+            //      getAriaValueText={"rate"}
+                  aria-labelledby="discrete-slider-always"
+                  min = {0}
+                  max = {10}
+                  step={0.5}                
+             //     marks={[0, 1, 2,3,4,5,6,7,8,9,10]}
+                  valueLabelDisplay="on"
+                  key="rate"
+                  name="rate"
+                  onChange={(e) => this.handleChange(e)}
+                  />                
+
                   <FormText > with the feedback: </FormText>
                 <Input type = "text"
                       key="feedback"
