@@ -33,7 +33,9 @@ class MintIOU extends React.Component {
       IOUsList: [],
       curIOU: "",
       creditorAddr: "",
-      descrDebt:""  
+      descrDebt:"", 
+      totalMinted: 0,
+      totalBurned: 0
     };
   }
 
@@ -116,6 +118,8 @@ class MintIOU extends React.Component {
       this.setState({description: _value.description});
       this.setState({location: _value.location});
       this.setState({units: _value.units});
+      this.setState({totalMinted: _value.totalMinted});
+      this.setState({totalBurned: _value.totalBurned});
       });
     this._addToLog("IOU address: ", this.state.getValue );
   }
@@ -162,7 +166,9 @@ class MintIOU extends React.Component {
             Location: {this.state.location} <br/>
             Description: {this.state.description }  <br/>
             Units: {this.state.units }  <br/>
-            
+            Total minted: {this.state.totalMinted / 10**18} <br/>
+            Total burned: {this.state.totalBurned / 10**18} <br/>
+            Balance: {(this.state.totalMinted - this.state.totalBurned)/10**18}
             </p>}
           </FormGroup>
         </Form>
