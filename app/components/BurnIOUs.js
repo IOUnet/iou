@@ -185,7 +185,7 @@ class BurnIOU extends React.Component {
             Units: {this.state.units }  <br/>
             Total minted: {this.state.totalMinted / 10**18} <br/>
             Total burned: {this.state.totalBurned / 10**18} <br/>
-            Balanse: {(this.state.totalMinted - this.state.totalBurned)/10**18}
+            Balance: {(this.state.totalMinted - this.state.totalBurned)/10**18}
             </p>}
           </FormGroup>
         </Form>
