@@ -2,14 +2,11 @@ import EmbarkJS from 'Embark/EmbarkJS';
 
 import React from 'react';
 import {Form, FormGroup, Input, HelpBlock, Button, FormText} from 'reactstrap';
-import ReactDOM from 'react-dom';
-
-import ERC20 from '../../embarkArtifacts/contracts/ERC20Detailed';
-import SimpleStorage from '../../embarkArtifacts/contracts/SimpleStorage';
+//import ReactDOM from 'react-dom';
+//import {PreferencesController, NetworkController} from '@metamask/controllers';
 import MakeIOUs from '../../embarkArtifacts/contracts/MakeIOU';
 import IOUs from '../../embarkArtifacts/contracts/IOUtoken';
-//import IOUs from '../../embarkArtifacts/contracts/IOUs';
-//import ERC20 from '../../embarkArtifacts/contracts/ERC20';
+
 import ReactGA from 'react-ga';
 import Slider from '@material-ui/core/Slider';
 //import Typography from 'material-ui';
@@ -24,7 +21,7 @@ class BurnIOU extends React.Component {
     super(props);
 
     this.state = {
-      valueSet: 10,
+      valueSet: 0,
       getValue: "",
       logs: [],
       name: "",
@@ -38,8 +35,11 @@ class BurnIOU extends React.Component {
       curIOU: "",
       creditorAddr: "",
       descrDebt:"",
-      rate: 5,
-      feedback: ""
+      rate: 8,
+      feedback: "",
+      totalMinted: 0,
+      totalBurned: 0,
+
 
     };
   }
@@ -96,11 +96,12 @@ class BurnIOU extends React.Component {
 
   async getIOUList(e) {
     e.preventDefault();
-    await EmbarkJS.enableEthereum();
     let  account;
     await web3.eth.getAccounts().then(e => { account = e[0];  
       });
-    MakeIOUs.methods.getIOUList(account).call().then(_value => this.setState({ IOUsList: _value }));
+    await EmbarkJS.enableEthereum();
+
+    MakeIOUs.methods.getIOUListHold(account).call().then(_value => this.setState({ IOUsList: _value }));
     
   }
 
@@ -123,6 +124,8 @@ class BurnIOU extends React.Component {
       this.setState({description: _value.description});
       this.setState({location: _value.location});
       this.setState({units: _value.units});
+      this.setState({totalMinted: _value.totalMinted});
+      this.setState({totalBurned: _value.totalBurned});
       });
     this._addToLog("IOU address: ", this.state.getValue );
   }
@@ -148,7 +151,14 @@ class BurnIOU extends React.Component {
           <h3> Enter address of IOU token to burn </h3>          
           <Form>
           <FormGroup> 
-                
+          <Button color="primary" onClick={(e) => this.getIOUList(e)}>Get  list of given me IOUs</Button>
+            <List
+                items={this.state.IOUsList}
+            //  selected={[0]}
+            //    disabled={[4]}
+                multiple={false}
+          //      onClick={(selected) => {this.state.getValue = _this.props.children }}
+                onChange={(e) => this.handleChangeList(e)}/>                
             <FormText color="muted">Paste here IOU token  address </FormText>
                   <Input type = "text"
                     key="getValue"
@@ -173,12 +183,14 @@ class BurnIOU extends React.Component {
             Location: {this.state.location} <br/>
             Description: {this.state.description }  <br/>
             Units: {this.state.units }  <br/>
-            
+            Total minted: {this.state.totalMinted / 10**18} <br/>
+            Total burned: {this.state.totalBurned / 10**18} <br/>
+            Balanse: {(this.state.totalMinted - this.state.totalBurned)/10**18}
             </p>}
           </FormGroup>
         </Form>
         
-        <h3> Pay off IOU and burn tokens</h3>
+        <h3> Pay off and burn IOU and burn tokens</h3>
         {this.state.getValue && this.state.getValue !== 0 && this.state.name !== "" &&
         <Form onKeyDown={(e) => this.checkEnter(e, this.setValue)}>
 
@@ -191,8 +203,8 @@ class BurnIOU extends React.Component {
                 name="valueSet"
                 defaultValue={this.state.valueSet}
                 placeholder="enter amount of IOS"
-                onChange={(e) => this.handleChange(e)}/>   <FormText > of {this.state.units } to owner of address </FormText> <br />
-           <br /> 
+                onChange={(e) => this.handleChange(e)}/>   <FormText > of {this.state.units } to owner of IOU. </FormText> <br />
+           
               <FormText > and give the rate (0-ugly, 10-fine): </FormText>
      
                 <Slider
@@ -215,9 +227,9 @@ class BurnIOU extends React.Component {
                       name="feedback"
                       placeholder="enter reason of debt..."
                       onChange={(e) => this.handleChange(e)}></Input> <br /> 
-          <Button color="primary" onClick={(e) => this.sendIOU(e)}>Send IOUs</Button>
+          <Button color="primary" onClick={(e) => this.sendIOU(e)}>Pay off and burn  IOUs</Button>
               <br />
-            <FormText color="muted">Once you press "Send IOUs", the transaction will need to be mined and then the will be updated on the blockchain from secunds to minutes.</FormText>
+            <FormText color="muted">Once you press "Pay off and burn  IOUs", the transaction will need to be mined and then the will be updated on the blockchain from secunds to minutes.</FormText>
           </FormGroup>
         </Form>
         }

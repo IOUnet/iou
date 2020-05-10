@@ -33,7 +33,9 @@ class MintIOU extends React.Component {
       IOUsList: [],
       curIOU: "",
       creditorAddr: "",
-      descrDebt:""  
+      descrDebt:"", 
+      totalMinted: 0,
+      totalBurned: 0
     };
   }
 

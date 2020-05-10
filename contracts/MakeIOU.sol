@@ -6,6 +6,9 @@ import "./IOUtoken.sol";
 contract MakeIOU {
     mapping (address => address[]) listIOUs;
     mapping (string => address[]) listIOUsSoc;
+    mapping (address => address[]) listHoldersIOUs;
+    mapping (address => bool) isIOU;
+    mapping (address => mapping (address => bool)) isHolderthisIOU;
     address[] allIOU;
     address private owner;
 
@@ -21,7 +24,10 @@ contract MakeIOU {
         require (owner == msg.sender, "Only owner can do this");
         _;
     }
-
+    modifier isIOUtoken () {
+        require (isIOU[msg.sender], "Not IOU token calls" );
+        _;
+    }
 
     function makeIOU(string memory _name, 
                  string memory _symbol, 
@@ -43,6 +49,7 @@ contract MakeIOU {
                         msg.sender
             );
         allIOU.push(address(newIOU));
+        isIOU[address(newIOU)] = true;
         listIOUs[msg.sender].push(address(newIOU));
         listIOUsSoc[_socialProfile].push(address(newIOU));
         return address (newIOU);
@@ -61,4 +68,15 @@ contract MakeIOU {
             BA.transfer (owner, _amount);
 
     }
+
+    function addHolder(address _holder, address _IOUtoken) public isIOUtoken {
+        if (!isHolderthisIOU[_holder][_IOUtoken] ) {
+            listHoldersIOUs [_holder].push(_IOUtoken);
+            isHolderthisIOU[_holder][_IOUtoken] = true;
+        }
+    }
+
+    function getIOUListHold (address _holder) public view returns (address[] memory) {
+            return listHoldersIOUs [_holder];
+        }
 }
