@@ -1,39 +1,57 @@
 <html>
   <head>
-    <title>Token facrory</title>
-    <link rel="stylesheet" href="css/app.css">
-    <script src="js/app.js"></script>
+    <title>Your IOU token </title>
+    <link rel="apple-touch-icon" sizes="180x180" href="images/app/images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/app/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/app/images/favicon-16x16.png">
+    <link rel="manifest" href="images/app/images/site.webmanifest">
+    <link rel="mask-icon" href="images/app/images/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
   </head>
-  <body>
-    <h3>Welcome to Embark!</h3>
-    <p>See the <a href="https://github.com/iurimatias/embark-framework/wiki">Wiki</a> to see what you can do with Embark!</p>
-    <div id="deployToken">
-      <h3>Deploy new Token</h3>
-      <input placeholder="enter token supply" />
-      <button>Deploy</button>
-      <div class="result"></div>
-    </div>
-    <div id="useToken">
-      <h3>Token Address</h3>
-      <input placeholder="enter token address" />
-      <button>Use this Token</button>
-      <div class="result"></div>
-    </div>
+  <body class="container">
+    <!--button id='onboard'>Loading...</button>
+    <script type="text/javascript" src="./metamask-onboarding.bundle.js"></script>
+    <script type="text/javascript">
+      window.addEventListener('DOMContentLoaded', () => {
+        const onboarding = new MetamaskOnboarding()
+        const onboardButton = document.getElementById('onboard')
+        let accounts
 
-    <div id="queryBalance">
-      <h3>Query Balance</h3>
-      <input placeholder="enter account address: e.g 0x123" />
-      <button>Query</button>
-      <div class="result"></div>
-    </div>
+        const updateButton = () => {
+          if (!MetamaskOnboarding.isMetaMaskInstalled()) {
+            onboardButton.innerText = 'Click here to install MetaMask!'
+            onboardButton.onclick = () => {
+              onboardButton.innerText = 'Onboarding in progress'
+              onboardButton.disabled = true
+              onboarding.startOnboarding()
+            }
+          } else if (accounts && accounts.length > 0) {
+            onboardButton.innerText = 'Connected'
+            onboardButton.disabled = true
+            onboarding.stopOnboarding()
+          } else {
+            onboardButton.innerText = 'Connect'
+            onboardButton.onclick = async () => {
+              await window.ethereum.enable()
+            }
+          }
+        }
 
-    <div id="transfer">
-      <h3>Transfer Tokens</h3>
-      <input class="address" placeholder="enter account address: e.g 0x123" />
-      <input class="num" placeholder="enter amount to transfer" />
-      <button>Transfer</button>
-      <div class="result"></div>
-    </div>
-
+        updateButton()
+        if (MetamaskOnboarding.isMetaMaskInstalled()) {
+          window.ethereum.on('accountsChanged', (newAccounts) => {
+            accounts = newAccounts
+            updateButton()
+          })
+        }
+      })
+    </script -->
+      <div id="app">
+      </div>
+      <script src="js/dapp.js"></script>
   </body>
 </html>
