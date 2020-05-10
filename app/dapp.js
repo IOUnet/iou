@@ -6,11 +6,15 @@ import classnames from 'classnames';
 import EmbarkJS from 'Embark/EmbarkJS';
 import Blockchain from './components/blockchain';
 import Whisper from './components/whisper';
-import Storage from './components/storage';
+import MakeIOUs from './components/MakeIOUs';
+import MintIOUs from './components/MintIOUs';
+import BurnIOUs from './components/BurnIOUs';
 import ENS from './components/ens';
-
+import Storage from './components/storage';
 import 'bootstrap/dist/css/bootstrap.css';
 import './dapp.css';
+
+import MetamaskOnboarding from '@metamask/onboarding'; //  to ./app/  https://github.com/MetaMask/metamask-onboarding.git  
 
 class App extends React.Component {
   constructor(props) {
@@ -76,16 +80,23 @@ class App extends React.Component {
       <Nav tabs>
         <NavItem>
           <NavLink onClick={() => this.handleSelect('1')} className={classnames({ active: this.state.activeKey === '1' })}>
-            {this._renderStatus('Blockchain', this.state.blockchainEnabled)}
+            {this._renderStatus('Make new type of IOU ', this.state.blockchainEnabled)}
           </NavLink>
         </NavItem>
         <NavItem>
           <NavLink onClick={() => this.handleSelect('2')} className={classnames({ active: this.state.activeKey === '2' })}>
-            {this._renderStatus('Decentralized Storage', this.state.storageEnabled)}
+            {this._renderStatus('Mint & Give IOU', this.state.blockchainEnabled)}
           </NavLink>
         </NavItem>
         <NavItem>
-          <NavLink onClick={() => this.handleSelect('3')} className={classnames({ active: this.state.activeKey === '3' })}>
+
+        <NavLink onClick={() => this.handleSelect('3')} className={classnames({ active: this.state.activeKey === '3' })}>
+            {this._renderStatus('Pay off IOU', this.state.blockchainEnabled)}
+          </NavLink>
+        </NavItem>
+        <NavItem>
+
+          <NavLink onClick={() => this.handleSelect('5')} className={classnames({ active: this.state.activeKey === '5' })}>
             {this._renderStatus('P2P communication (Whisper)', this.state.whisperEnabled)}
           </NavLink>
         </NavItem>
@@ -97,12 +108,15 @@ class App extends React.Component {
       </Nav>
       <TabContent activeTab={this.state.activeKey}>
         <TabPane tabId="1">
-          <Blockchain/>
+          <MakeIOUs/>
         </TabPane>
         <TabPane tabId="2">
-          <Storage enabled={this.state.storageEnabled}/>
+          <MintIOUs />
         </TabPane>
         <TabPane tabId="3">
+          <BurnIOUs />
+        </TabPane>
+        <TabPane tabId="5">
           <Whisper enabled={this.state.whisperEnabled}/>
         </TabPane>
         <TabPane tabId="4">
@@ -112,5 +126,6 @@ class App extends React.Component {
     </div>);
   }
 }
-
+//const onboarding = new MetamaskOnboarding()
+//onboarding.startOnboarding()
 ReactDOM.render(<App/>, document.getElementById('app'));

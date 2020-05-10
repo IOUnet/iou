@@ -29,5 +29,12 @@
     "react": "16.12.0",
     "react-dom": "16.12.0",
     "reactstrap": "8.1.1"
+  },
+  "dependencies": {
+    "@material-ui/core": "^4.9.13",
+    "@metamask/controllers": "^2.0.0",
+    "@metamask/onboarding": "file:app/metamask-onboarding",
+    "react-ga": "^2.7.0",
+    "react-list-select": "^0.4.1"
   }
 }
