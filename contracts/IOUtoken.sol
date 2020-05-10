@@ -2,6 +2,7 @@ pragma solidity ^0.5.0;
 pragma experimental ABIEncoderV2;
 import "./token/ERC20/ERC20Burnable.sol";
 import "./token/ERC20/ERC20Mintable.sol";
+import "./MakeIOU.sol";
 
 /*** IOU ecosystem
 *   The aim of IOU ecosystem is to give people proved fiat-free mutual settlements by issuing personal IOU tokens on Ethereum.
@@ -45,13 +46,15 @@ contract IOUtoken is ERC20Mintable, ERC20Burnable {
         string  description ; //description of bond IOU to  work
         string  location; //where is it 
         string units;
+        uint256 totalMinted;
+        uint256 totalBurned;
     }
 
+    MakeIOU IOUfactory;
     string public name;
     string public  symbol;
     uint8 public decimals;
-    uint256 public totalMinted;
-    uint256 public totalBurned;
+
     DescriptionIOU public thisIOU;
 
     FeedBack[] public allFeedbacks;
@@ -75,6 +78,7 @@ contract IOUtoken is ERC20Mintable, ERC20Burnable {
         _removeMinter(msg.sender);
         _addMinter (_actor);
         owner = _actor;
+        IOUfactory = MakeIOU(msg.sender);
         require (bytes(_name).length <16, "Too long name, must be < 12 chr" );
         name = _name;
         require (bytes(_symbol).length < 10, "Too long symbol, must be < 4 chr" );
@@ -93,7 +97,8 @@ contract IOUtoken is ERC20Mintable, ERC20Burnable {
             _socialProfile,
             _description,
             _location,
-            _units
+            _units,
+            0,0
         );
     }
 
@@ -119,7 +124,8 @@ contract IOUtoken is ERC20Mintable, ERC20Burnable {
         allIOUs.push(bond);
         IOUbyReceiver[_who].push(IOUbyReceiver[_who].length-1);
         super.mint(_who, _amount);
-        totalMinted += _amount;
+        thisIOU.totalMinted += _amount;
+        IOUfactory.addHolder(_who, address(this));
     }
 
     function burn (uint256 _amount, uint8 _rating, string memory _feedback) public onlyHolder (_amount) {
@@ -129,8 +135,14 @@ contract IOUtoken is ERC20Mintable, ERC20Burnable {
         allFeedbacks.push(feedback);
         feedBacksbySender[msg.sender].push(allFeedbacks.length-1);
         super.burn(_amount);
-        totalBurned += _amount;
+        thisIOU.totalBurned += _amount;
 
+    }
+
+    function transfer(address _recipient, uint256 _amount) public  returns (bool) {
+        IOUfactory.addHolder(_recipient, address(this));
+        super.transfer(_recipient, _amount);
+        return true;
     }
 /*
     function getTotalDebt() public pure returns (uint256) {
