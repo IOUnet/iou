@@ -13,43 +13,7 @@
     <meta name="theme-color" content="#ffffff">
   </head>
   <body class="container">
-    <!--button id='onboard'>Loading...</button>
-    <script type="text/javascript" src="./metamask-onboarding.bundle.js"></script>
-    <script type="text/javascript">
-      window.addEventListener('DOMContentLoaded', () => {
-        const onboarding = new MetamaskOnboarding()
-        const onboardButton = document.getElementById('onboard')
-        let accounts
-
-        const updateButton = () => {
-          if (!MetamaskOnboarding.isMetaMaskInstalled()) {
-            onboardButton.innerText = 'Click here to install MetaMask!'
-            onboardButton.onclick = () => {
-              onboardButton.innerText = 'Onboarding in progress'
-              onboardButton.disabled = true
-              onboarding.startOnboarding()
-            }
-          } else if (accounts && accounts.length > 0) {
-            onboardButton.innerText = 'Connected'
-            onboardButton.disabled = true
-            onboarding.stopOnboarding()
-          } else {
-            onboardButton.innerText = 'Connect'
-            onboardButton.onclick = async () => {
-              await window.ethereum.enable()
-            }
-          }
-        }
-
-        updateButton()
-        if (MetamaskOnboarding.isMetaMaskInstalled()) {
-          window.ethereum.on('accountsChanged', (newAccounts) => {
-            accounts = newAccounts
-            updateButton()
-          })
-        }
-      })
-    </script -->
+  
       <div id="app">
       </div>
       <script src="js/dapp.js"></script>
