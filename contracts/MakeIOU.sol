@@ -4,14 +4,14 @@ import "./IOUtoken.sol";
 
 
 contract MakeIOU {
-    mapping (address => address[]) public listIOUs;
-    mapping (string => address[])   listIOUsSoc;
-    mapping (address => address[]) public listHoldersIOUs;
-    mapping (address => bool) public isIOU;
-    mapping (address => mapping (address => bool)) isHolderthisIOU;
-    mapping (string => address[]) listbyKeys;
-    string[] public allKeywords; 
-    address[] public allIOU;
+    mapping (address => address[]) public listIOUs; // list of emitted IOUs from emitent
+    mapping (string => address[])   listIOUsSoc; // list of emitted IOUs by social profile
+    mapping (address => address[]) public listHoldersIOUs; //list of tokens by holder
+    mapping (address => bool) public isIOU; //security check is token emitted 
+    mapping (address => mapping (address => bool)) isHolderthisIOU; //  check list of tokens by holder
+    mapping (string => address[]) listbyKeys; //list of IOUs by keyword
+    string[] public allKeywords;  //list all keywords
+    address[] public allIOU; //list all emitted IOus
     
     address private owner;
 

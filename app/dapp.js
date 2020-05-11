@@ -76,7 +76,7 @@ class App extends React.Component {
       </div>);
     }
     return (<div>
-      <h3>Embark - Usage Example</h3>
+      <h3>Emit your IOU tokens - and you don't need money anymore</h3>
       <Nav tabs>
         <NavItem>
           <NavLink onClick={() => this.handleSelect('1')} className={classnames({ active: this.state.activeKey === '1' })}>
