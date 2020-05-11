@@ -35,7 +35,9 @@ class MintIOU extends React.Component {
       creditorAddr: "",
       descrDebt:"", 
       totalMinted: 0,
-      totalBurned: 0
+      totalBurned: 0,
+      keywords: "",
+      avRate: 0,
     };
   }
 
@@ -116,8 +118,10 @@ class MintIOU extends React.Component {
       this.setState({myName: _value.myName});
       this.setState({socialProfile: _value.socialProfile});
       this.setState({description: _value.description});
+      this.setState({keywords: _value.keywords});
       this.setState({location: _value.location});
       this.setState({units: _value.units});
+      this.setState({avRate: _value.avRate});
       this.setState({totalMinted: _value.totalMinted});
       this.setState({totalBurned: _value.totalBurned});
       });
@@ -134,7 +138,8 @@ class MintIOU extends React.Component {
           <Form>
           <FormGroup>
             <Button color="primary" onClick={(e) => this.getIOUList(e)}>Get my IOUs list</Button>
-            <List
+            <br />
+            <List class="pointer"
                 items={this.state.IOUsList}
             //  selected={[0]}
             //    disabled={[4]}
@@ -165,10 +170,13 @@ class MintIOU extends React.Component {
             Social Profile: {this.state.socialProfile} <br/>
             Location: {this.state.location} <br/>
             Description: {this.state.description }  <br/>
+            keywords: {this.state.keywords }  <br/>
             Units: {this.state.units }  <br/>
             Total minted: {this.state.totalMinted / 10**18} <br/>
             Total burned: {this.state.totalBurned / 10**18} <br/>
             Balance: {(this.state.totalMinted - this.state.totalBurned)/10**18}
+            <br />
+            Average Rating: {this.state.avRate}%
             </p>}
           </FormGroup>
         </Form>

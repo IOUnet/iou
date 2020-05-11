@@ -74,4 +74,5 @@ input.form-control {
 .react-list-select--item:hover {
   cursor: pointer;
   background-color: #007bff;
+  color: #fff;
 }
