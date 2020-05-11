@@ -94,7 +94,8 @@ contract IOUtoken is ERC20Mintable, ERC20Burnable {
         require (bytes(_units).length < 16, "Too long units, must be < 10 chr" );
         
         string memory keywords;
-        for (uint8 k=5; k>0; k--){
+        uint l = _keywords.length > 5 ? 5: _keywords.length;
+        for (uint k=0; k < l ; k++){
             if (bytes(_keywords[k]).length  > 0 ){
                 keywords = string( abi.encodePacked (_keywords[k], ",", keywords));
             }
@@ -140,14 +141,15 @@ contract IOUtoken is ERC20Mintable, ERC20Burnable {
     }
 
     function burn (uint256 _amount, uint256 _rating, string memory _feedback) public onlyHolder (_amount) {
-        require (bytes(_feedback).length <256, "Feedback is too long, muust be < 256");
+        require (bytes(_feedback).length <256, "Feedback is too long, must be < 256");
+        require (_rating <= 100 , "Rating overclocked");
 
-        FeedBack memory feedback = FeedBack(msg.sender,now, _rating*100, _feedback);
+        FeedBack memory feedback = FeedBack(msg.sender,now, _rating, _feedback);
         allFeedbacks.push(feedback);
         feedBacksbySender[msg.sender].push(allFeedbacks.length-1);
         super.burn(_amount);
         thisIOU.totalBurned += _amount;
-        thisIOU.avRate = (thisIOU.avRate * (allFeedbacks.length -1) + _rating * 100) / allFeedbacks.length;
+        thisIOU.avRate = (thisIOU.avRate * (allFeedbacks.length -1) + _rating ) / allFeedbacks.length;
 
     }
 

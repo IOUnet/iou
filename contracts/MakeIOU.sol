@@ -4,13 +4,15 @@ import "./IOUtoken.sol";
 
 
 contract MakeIOU {
-    mapping (address => address[]) listIOUs;
-    mapping (string => address[]) listIOUsSoc;
-    mapping (address => address[]) listHoldersIOUs;
-    mapping (address => bool) isIOU;
+    mapping (address => address[]) public listIOUs;
+    mapping (string => address[])   listIOUsSoc;
+    mapping (address => address[]) public listHoldersIOUs;
+    mapping (address => bool) public isIOU;
     mapping (address => mapping (address => bool)) isHolderthisIOU;
     mapping (string => address[]) listbyKeys;
-    address[] allIOU;
+    string[] public allKeywords; 
+    address[] public allIOU;
+    
     address private owner;
 
     function setOwner (address _newOwner) public onlyOwner {
@@ -55,8 +57,13 @@ contract MakeIOU {
         isIOU[address(newIOU)] = true;
         listIOUs[msg.sender].push(address(newIOU));
         listIOUsSoc[_socialProfile].push(address(newIOU));
-        for (uint8 k=0; k<5; k++){
+        uint l= _keywords.length > 5 ? 5: _keywords.length;
+        for (uint k=0 ; k <l ; k++){
+        
             if (bytes(_keywords[k]).length  > 0 ){
+                if  (listbyKeys[_keywords[k]].length == 0 ) {
+                    allKeywords.push(_keywords[k]);
+                }
                 listbyKeys[_keywords[k]].push(address(newIOU));
             }
         } 
@@ -69,6 +76,10 @@ contract MakeIOU {
 
     function getIOUListSoc (string memory _profile) public view returns (address[] memory) {
             return listIOUsSoc[_profile];
+                }
+
+    function getIOUListKey (string memory _key) public view returns (address[] memory) {
+            return listbyKeys[_key];
                 }
 
     function withdraw (address _baseActive, uint256 _amount) public  onlyOwner {
@@ -87,4 +98,6 @@ contract MakeIOU {
     function getIOUListHold (address _holder) public view returns (address[] memory) {
             return listHoldersIOUs [_holder];
         }
+
+  
 }

@@ -138,7 +138,8 @@ class MintIOU extends React.Component {
           <Form>
           <FormGroup>
             <Button color="primary" onClick={(e) => this.getIOUList(e)}>Get my IOUs list</Button>
-            <List
+            <br />
+            <List class="pointer"
                 items={this.state.IOUsList}
             //  selected={[0]}
             //    disabled={[4]}
@@ -175,7 +176,7 @@ class MintIOU extends React.Component {
             Total burned: {this.state.totalBurned / 10**18} <br/>
             Balance: {(this.state.totalMinted - this.state.totalBurned)/10**18}
             <br />
-            Average Rating: {this.state.avRate /100 }  
+            Average Rating: {this.state.avRate}%
             </p>}
           </FormGroup>
         </Form>

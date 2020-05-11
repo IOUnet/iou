@@ -70,3 +70,12 @@ input.form-control {
 .inline-input-btn .btn {
   border-radius: 0 0.25rem 0.25rem 0;
 }
+.react-list-select--item {
+    cursor: pointer;
+    
+}
+
+.react-list-select--item:hover {
+  background-color: #007bff;
+  opacity: 0.5;
+}

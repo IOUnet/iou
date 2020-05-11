@@ -35,7 +35,7 @@ class BurnIOU extends React.Component {
       curIOU: "",
       creditorAddr: "",
       descrDebt:"",
-      rate: 8,
+      rate: 75,
       feedback: "",
       totalMinted: 0,
       totalBurned: 0,
@@ -58,6 +58,12 @@ class BurnIOU extends React.Component {
                  
   }
 
+  handleChangeSlider(e) {
+    let keyVal = {}
+    keyVal["rate"] = e.target.textContent;
+    this.setState( keyVal );
+                 
+  }
 
   checkEnter(e, func) {
     if (e.key !== 'Enter') {
@@ -84,7 +90,7 @@ class BurnIOU extends React.Component {
         abi: IOUs.options.jsonInterface,
         address: this.state.getValue
         });
-      const rate = this.state.rate * 10;
+      const rate = this.state.rate * 1;
       curIOU.methods.burn(
         web3.utils.toWei(this.state.valueSet),
         rate.toString(),
@@ -155,9 +161,10 @@ class BurnIOU extends React.Component {
           <Form>
           <FormGroup> 
           <Button color="primary" onClick={(e) => this.getIOUList(e)}>Get  list of given me IOUs</Button>
+          <br />
             <List
                 items={this.state.IOUsList}
-            //  selected={[0]}
+                // selected={[0]}
             //    disabled={[4]}
                 multiple={false}
           //      onClick={(selected) => {this.state.getValue = _this.props.children }}
@@ -189,8 +196,8 @@ class BurnIOU extends React.Component {
             Units: {this.state.units }  <br/>
             Total minted: {this.state.totalMinted / 10**18} <br/>
             Total burned: {this.state.totalBurned / 10**18} <br/>
-            Balance: {(this.state.totalMinted - this.state.totalBurned)/10**18}
-            Average Rating: {this.state.avRate /100 }  
+            Balance: {(this.state.totalMinted - this.state.totalBurned)/10**18} <br/>
+            Average Rating: {this.state.avRate}%
 
             </p>}
           </FormGroup>
@@ -214,24 +221,24 @@ class BurnIOU extends React.Component {
               <FormText > and give the rate (0-ugly, 10-fine): </FormText>
      
                 <Slider
-                  defaultValue={8}
+                  defaultValue={80}
             //      getAriaValueText={"rate"}
                   aria-labelledby="discrete-slider-always"
                   min = {0}
-                  max = {10}
-                  step={0.5}                
+                  max = {100}
+                  step={5}                
              //     marks={[0, 1, 2,3,4,5,6,7,8,9,10]}
                   valueLabelDisplay="on"
                   key="rate"
                   name="rate"
-                  onChange={(e) => this.handleChange(e)}
+                  onChange={(e) => this.handleChangeSlider(e)}
                   />                
 
                   <FormText > with the feedback: </FormText>
                 <Input type = "text"
                       key="feedback"
                       name="feedback"
-                      placeholder="enter reason of debt..."
+                      placeholder="enter feedback..."
                       onChange={(e) => this.handleChange(e)}></Input> <br /> 
           <Button color="primary" onClick={(e) => this.sendIOU(e)}>Pay off and burn  IOUs</Button>
               <br />
