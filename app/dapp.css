@@ -77,5 +77,5 @@ input.form-control {
 
 .react-list-select--item:hover {
   background-color: #007bff;
-  opacity: 0.5;
+  color: #fff;
 }
