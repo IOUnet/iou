@@ -9,6 +9,7 @@ contract MakeIOU {
     mapping (address => address[]) listHoldersIOUs;
     mapping (address => bool) isIOU;
     mapping (address => mapping (address => bool)) isHolderthisIOU;
+    mapping (string => address[]) listbyKeys;
     address[] allIOU;
     address private owner;
 
@@ -34,8 +35,9 @@ contract MakeIOU {
                  string memory _myName, //name of emitter
                  string memory _socialProfile, //profile  of emitter in social nets
                  string memory _description, //description of bond IOU to  work
-                 string memory _location, //where is 
-                 string memory _units //units of deal
+                 string memory _location, //where is                  
+                 string memory _units, //units of deal
+                 string[] memory _keywords
                         ) public returns (address) {
 
         IOUtoken newIOU = new IOUtoken(
@@ -46,12 +48,18 @@ contract MakeIOU {
                         _description,
                         _location,
                         _units, 
+                        _keywords,
                         msg.sender
             );
         allIOU.push(address(newIOU));
         isIOU[address(newIOU)] = true;
         listIOUs[msg.sender].push(address(newIOU));
         listIOUsSoc[_socialProfile].push(address(newIOU));
+        for (uint8 k=0; k<5; k++){
+            if (bytes(_keywords[k]).length  > 0 ){
+                listbyKeys[_keywords[k]].push(address(newIOU));
+            }
+        } 
         return address (newIOU);
         }
 
