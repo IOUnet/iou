@@ -76,8 +76,9 @@ class MakeIOU extends React.Component {
     await web3.eth.getAccounts().then(e => { account = e[0];  
       });
       
-    
-   /* let gasAmount;
+      const keys = this.state.keywords.split(',', 5);
+
+   let gasAmount;
     await MakeIOUs.methods.makeIOU(
       this.state.name,
       this.state.symbol,
@@ -86,10 +87,9 @@ class MakeIOU extends React.Component {
       this.state.description,
       this.state.location,
       this.state.units,
-      this.state.keywords.split(',', 5)
+      keys
      ).estimateGas({from: account}).then(e => { gasAmount = e;  
-     }); ; */
-    const keys = this.state.keywords.split(',', 5);
+     }); 
     MakeIOUs.methods.makeIOU(
         this.state.name,
         this.state.symbol,
@@ -99,7 +99,7 @@ class MakeIOU extends React.Component {
         this.state.location,
         this.state.units,
         keys
-                ).send({from:account}); //gas: gasAmount}
+                ).send({from:account, gas: gasAmount}); //}
     this._addToLog("MakeIOUs.methods.MakeIOUs: ", this.state.getValue);
 
   }
