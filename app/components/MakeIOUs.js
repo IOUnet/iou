@@ -3,12 +3,9 @@ import EmbarkJS from 'Embark/EmbarkJS';
 import React from 'react';
 import {Form, FormGroup, Input, HelpBlock, Button, FormText} from 'reactstrap';
 
-//import ERC20 from '../../embarkArtifacts/contracts/ERC20Detailed';
-//import SimpleStorage from '../../embarkArtifacts/contracts/SimpleStorage';
 import MakeIOUs from '../../embarkArtifacts/contracts/MakeIOU';
 import IOUs from '../../embarkArtifacts/contracts/IOUtoken';
-//import IOUs from '../../embarkArtifacts/contracts/IOUs';
-//import ERC20 from '../../embarkArtifacts/contracts/ERC20';
+
 import ReactGA from 'react-ga';
 //import List from 'react-list-select';
 ReactGA.initialize('UA-161540415-1');
