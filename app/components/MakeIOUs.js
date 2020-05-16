@@ -3,14 +3,11 @@ import EmbarkJS from 'Embark/EmbarkJS';
 import React from 'react';
 import {Form, FormGroup, Input, HelpBlock, Button, FormText} from 'reactstrap';
 
-import ERC20 from '../../embarkArtifacts/contracts/ERC20Detailed';
-import SimpleStorage from '../../embarkArtifacts/contracts/SimpleStorage';
 import MakeIOUs from '../../embarkArtifacts/contracts/MakeIOU';
 import IOUs from '../../embarkArtifacts/contracts/IOUtoken';
-//import IOUs from '../../embarkArtifacts/contracts/IOUs';
-//import ERC20 from '../../embarkArtifacts/contracts/ERC20';
+
 import ReactGA from 'react-ga';
-import List from 'react-list-select';
+//import List from 'react-list-select';
 ReactGA.initialize('UA-161540415-1');
 ReactGA.pageview(window.location.pathname + window.location.search);
 
@@ -34,6 +31,7 @@ class MakeIOU extends React.Component {
       curIOU: "",
       curOptstate:"" ,
       ERC20: "" ,
+      keywords:""
 
     };
   }
@@ -74,7 +72,10 @@ class MakeIOU extends React.Component {
     let  account;
     await web3.eth.getAccounts().then(e => { account = e[0];  
       });
-    let gasAmount;
+      
+      const keys = this.state.keywords.split(',', 5);
+
+   let gasAmount;
     await MakeIOUs.methods.makeIOU(
       this.state.name,
       this.state.symbol,
@@ -83,8 +84,9 @@ class MakeIOU extends React.Component {
       this.state.description,
       this.state.location,
       this.state.units,
+      keys
      ).estimateGas({from: account}).then(e => { gasAmount = e;  
-     }); ;
+     }); 
     MakeIOUs.methods.makeIOU(
         this.state.name,
         this.state.symbol,
@@ -93,7 +95,8 @@ class MakeIOU extends React.Component {
         this.state.description,
         this.state.location,
         this.state.units,
-                ).send({from:account, gas: gasAmount});
+        keys
+                ).send({from:account, gas: gasAmount}); //}
     this._addToLog("MakeIOUs.methods.MakeIOUs: ", this.state.getValue);
 
   }
@@ -185,9 +188,17 @@ class MakeIOU extends React.Component {
                       key="description"
                       // initialValues  = {this.state.addrBA2buy}
                       name="description"
-                      placeholder="description of your product or service here. "  
+                      placeholder="description of your product or service here.  "  
                     onChange={(e) => this.handleChange(e)}/>
-                  
+
+              <FormText color="muted">Keywords for IOU (max is 5 keys, separated by comma) </FormText>
+                  <Input type = "text"
+                      key="keywords"
+                      // initialValues  = {this.state.addrBA2buy}
+                      name="keywords"
+                      placeholder="keywords of your product or service  here. "  
+                    onChange={(e) => this.handleChange(e)}/>
+                                    
 
                   <FormText color="muted">Units of measure for your product or service...  </FormText>
                   <Input type = "text"
