@@ -2,6 +2,7 @@ pragma solidity ^0.5.0;
 pragma experimental ABIEncoderV2;
 import "./token/ERC20/ERC20Burnable.sol";
 import "./token/ERC20/ERC20Mintable.sol";
+import "./MakeIOU.sol";
 
 /*** IOU ecosystem
 *   The aim of IOU ecosystem is to give people proved fiat-free mutual settlements by issuing personal IOU tokens on Ethereum.
@@ -34,24 +35,28 @@ contract IOUtoken is ERC20Mintable, ERC20Burnable {
     struct FeedBack {
         address sender;
         uint time;
-        uint8 rating; // estimation of skills in 255 grades
+        uint256 rating; // estimation of skills in 255 grades
         string text; //comment
     }
     struct DescriptionIOU {
         string name;
-        string  symbol;
-        string  myName ; //name of emitter
+        string symbol;
+        string myName ; //name of emitter
         string socialProfile ; //profile  of emitter in social nets
-        string  description ; //description of bond IOU to  work
-        string  location; //where is it 
+        string description ; //description of bond IOU to  work
+        string location; //where is it         
         string units;
+        string keywords;
+        uint256 totalMinted;
+        uint256 totalBurned;
+        uint256 avRate;
     }
 
+    MakeIOU IOUfactory;
     string public name;
     string public  symbol;
     uint8 public decimals;
-    uint256 public totalMinted;
-    uint256 public totalBurned;
+
     DescriptionIOU public thisIOU;
 
     FeedBack[] public allFeedbacks;
@@ -70,11 +75,13 @@ contract IOUtoken is ERC20Mintable, ERC20Burnable {
                  string memory _description, //description of bond IOU to  work
                  string memory _location, //where is 
                  string memory _units, //units of deal
+                 string[] memory _keywords,
                  address _actor
                 ) public  {
         _removeMinter(msg.sender);
         _addMinter (_actor);
         owner = _actor;
+        IOUfactory = MakeIOU(msg.sender);
         require (bytes(_name).length <16, "Too long name, must be < 12 chr" );
         name = _name;
         require (bytes(_symbol).length < 10, "Too long symbol, must be < 4 chr" );
@@ -86,6 +93,14 @@ contract IOUtoken is ERC20Mintable, ERC20Burnable {
         require (bytes(_location).length < 257, "Too long location, must be < 256 chr" );
         require (bytes(_units).length < 16, "Too long units, must be < 10 chr" );
         
+        string memory keywords;
+        uint l = _keywords.length > 5 ? 5: _keywords.length;
+        for (uint k=0; k < l ; k++){
+            if (bytes(_keywords[k]).length  > 0 ){
+                keywords = string( abi.encodePacked (_keywords[k], ",", keywords));
+            }
+        } 
+
         thisIOU = DescriptionIOU (
             _name,
             _symbol,
@@ -93,7 +108,9 @@ contract IOUtoken is ERC20Mintable, ERC20Burnable {
             _socialProfile,
             _description,
             _location,
-            _units
+            _units,
+            keywords,
+            0,0,0
         );
     }
 
@@ -114,23 +131,58 @@ contract IOUtoken is ERC20Mintable, ERC20Burnable {
     }
 
     function mint (address _who, uint256 _amount, string memory _descr) public onlyOwner { 
-        require (bytes(_descr).length <256, "Description of IOU is too long, muust be < 256");
+        require (bytes(_descr).length <256, "Description of IOU is too long, must be < 256");
         IOU memory bond = IOU (_who, now, _descr);
         allIOUs.push(bond);
         IOUbyReceiver[_who].push(IOUbyReceiver[_who].length-1);
         super.mint(_who, _amount);
-        totalMinted += _amount;
+        thisIOU.totalMinted += _amount;
+        IOUfactory.addHolder(_who, address(this));
     }
 
-    function burn (uint256 _amount, uint8 _rating, string memory _feedback) public onlyHolder (_amount) {
-        require (bytes(_feedback).length <256, "Feedback is too long, muust be < 256");
+    function burn (uint256 _amount, uint256 _rating, string memory _feedback) public onlyHolder (_amount) {
+        require (bytes(_feedback).length <256, "Feedback is too long, must be < 256");
+        require (_rating <= 100 , "Rating overclocked");
 
         FeedBack memory feedback = FeedBack(msg.sender,now, _rating, _feedback);
         allFeedbacks.push(feedback);
         feedBacksbySender[msg.sender].push(allFeedbacks.length-1);
         super.burn(_amount);
-        totalBurned += _amount;
+        thisIOU.totalBurned += _amount;
+        thisIOU.avRate = (thisIOU.avRate * (allFeedbacks.length -1) + _rating ) / allFeedbacks.length;
 
+    }
+/*
+    function getTotalDebt() public pure returns (uint256) {
+        return (_totalMinted - _totalBurned);
+    }
+
+    function getTotalMinted() public pure returns (uint256) {
+        return _totalMinted;
+    }
+
+    function getTotalBurned() public pure returns (uint256) {
+        return _totalBurned;
+    }
+
+    function getIOUslen ()  public pure returns (uint256) {
+        return allIOUs.length;
+
+    
+    function getIOUid (uint256 _id)  public pure returns (address, uint256, string) {
+        return (allIOUs[_id].receiver,
+                allIOUs[_id].time,
+                allIOUs[_id].IOUDescr
+            );
+
+    
+    function getFeedbackslen ()  public pure returns (uint256) {
+        return allFeedbacks.length;
+
+    function transfer(address _recipient, uint256 _amount) public  returns (bool) {
+        IOUfactory.addHolder(_recipient, address(this));
+        super.transfer(_recipient, _amount);
+        return true;
     }
 /*
     function getTotalDebt() public pure returns (uint256) {

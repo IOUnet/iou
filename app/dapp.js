@@ -4,17 +4,13 @@ import {TabContent, TabPane, Nav, NavItem, NavLink} from 'reactstrap';
 import classnames from 'classnames';
 
 import EmbarkJS from 'Embark/EmbarkJS';
-import Blockchain from './components/blockchain';
-import Whisper from './components/whisper';
 import MakeIOUs from './components/MakeIOUs';
 import MintIOUs from './components/MintIOUs';
 import BurnIOUs from './components/BurnIOUs';
-import ENS from './components/ens';
-import Storage from './components/storage';
+
 import 'bootstrap/dist/css/bootstrap.css';
 import './dapp.css';
 
-import MetamaskOnboarding from '@metamask/onboarding'; //  to ./app/  https://github.com/MetaMask/metamask-onboarding.git  
 
 class App extends React.Component {
   constructor(props) {
@@ -73,10 +69,15 @@ class App extends React.Component {
           to connect to the ethereum network:
         </div>
         <div>{this.state.error}</div>
+        <div> 
+        <a href = "https://metamask.io/" target="_blank">
+        <img src = "https://raw.githubusercontent.com/MetaMask/faq/master/images/download-metamask-dark.png">Install Metamask </img>
+        </a>
+        </div>
       </div>);
     }
     return (<div>
-      <h3>Embark - Usage Example</h3>
+      <h3>Emit your IOU tokens - and you don't need money anymore</h3>
       <Nav tabs>
         <NavItem>
           <NavLink onClick={() => this.handleSelect('1')} className={classnames({ active: this.state.activeKey === '1' })}>
@@ -94,17 +95,6 @@ class App extends React.Component {
             {this._renderStatus('Pay off IOU', this.state.blockchainEnabled)}
           </NavLink>
         </NavItem>
-        <NavItem>
-
-          <NavLink onClick={() => this.handleSelect('5')} className={classnames({ active: this.state.activeKey === '5' })}>
-            {this._renderStatus('P2P communication (Whisper)', this.state.whisperEnabled)}
-          </NavLink>
-        </NavItem>
-        <NavItem>
-          <NavLink onClick={() => this.handleSelect('4')} className={classnames({ active: this.state.activeKey === '4' })}>
-            {this._renderStatus('Naming (ENS)', ensEnabled)}
-          </NavLink>
-        </NavItem>
       </Nav>
       <TabContent activeTab={this.state.activeKey}>
         <TabPane tabId="1">
@@ -116,12 +106,7 @@ class App extends React.Component {
         <TabPane tabId="3">
           <BurnIOUs />
         </TabPane>
-        <TabPane tabId="5">
-          <Whisper enabled={this.state.whisperEnabled}/>
-        </TabPane>
-        <TabPane tabId="4">
-          <ENS enabled={ensEnabled}/>
-        </TabPane>
+     
       </TabContent>
     </div>);
   }
