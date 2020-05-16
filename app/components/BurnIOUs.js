@@ -157,7 +157,7 @@ class BurnIOU extends React.Component {
     return (<React.Fragment>
         
         
-          <h3> Enter address of IOU token to burn </h3>          
+          <h3> Enter address of IOU token to pay off and burn </h3>          
           <Form>
           <FormGroup> 
           <Button color="primary" onClick={(e) => this.getIOUList(e)}>Get  list of given me IOUs</Button>
