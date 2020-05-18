@@ -161,7 +161,7 @@ class MakeIOU extends React.Component {
                     placeholder="SCT1"                  
                     onChange={(e) => this.handleChange(e)}/>                    
                  
-                 <FormText color="muted">You name, surname (up to 255 chr)</FormText>
+                 <FormText color="muted">Your name, surname (up to 255 chr)</FormText>
                   <Input type = "text"
                     key="myName"
                 // initialValues  = {this.state.addrBA1sell}
@@ -170,7 +170,7 @@ class MakeIOU extends React.Component {
                     onChange={(e) => this.handleChange(e)}/>                    
 
                  
-              <FormText color="muted">You name, surname (up to 255 chr)</FormText>
+              <FormText color="muted">Your public profile in social network (up to 255 chr)</FormText>
                   <Input type = "text"
                     key="socialProfile"
                 // initialValues  = {this.state.addrBA1sell}
@@ -178,7 +178,7 @@ class MakeIOU extends React.Component {
                     placeholder="www.sheldonbook.cop/ShellyPie"                  
                     onChange={(e) => this.handleChange(e)}/>   
 
-                <FormText color="muted">You location: country, city, area (up to 255 chr)</FormText>
+                <FormText color="muted">Your location: country, city, area (up to 255 chr)</FormText>
                   <Input type = "text"
                     key="location"
                 // initialValues  = {this.state.addrBA1sell}
@@ -203,7 +203,7 @@ class MakeIOU extends React.Component {
                     onChange={(e) => this.handleChange(e)}/>
                                     
 
-                  <FormText color="muted">Units of measure for your product or service...  </FormText>
+                  <FormText color="muted">Unit of measure for your product or service (f.e. hours)...  </FormText>
                   <Input type = "text"
                       key="units"
                       // initialValues  = {this.state.addrBA2buy}

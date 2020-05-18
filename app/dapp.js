@@ -7,6 +7,7 @@ import EmbarkJS from 'Embark/EmbarkJS';
 import MakeIOUs from './components/MakeIOUs';
 import MintIOUs from './components/MintIOUs';
 import BurnIOUs from './components/BurnIOUs';
+import './i18n';
 
 import 'bootstrap/dist/css/bootstrap.css';
 import './dapp.css';
@@ -63,36 +64,37 @@ class App extends React.Component {
 
   render() {
     const ensEnabled = EmbarkJS.Names.currentNameSystems && EmbarkJS.Names.isAvailable();
+    const { t } = this.props;
+
     if (this.state.error) {
       return (<div>
-        <div>Something went wrong connecting to ethereum. Please make sure you have a node running or are using metamask
-          to connect to the ethereum network:
+        <div>{t("Something went wrong connecting to ethereum. Please make sure you have a node running or are using metamask  to connect to the ethereum network:")}
         </div>
         <div>{this.state.error}</div>
         <div> 
         <a href = "https://metamask.io/" target="_blank">
-        <img src = "https://raw.githubusercontent.com/MetaMask/faq/master/images/download-metamask-dark.png">Install Metamask </img>
+        <img src = "https://raw.githubusercontent.com/MetaMask/faq/master/images/download-metamask-dark.png">{t("Install Metamask")} </img>
         </a>
         </div>
       </div>);
     }
     return (<div>
-      <h3>Emit your IOU tokens - and you don't need money anymore</h3>
+      <h2>{t("Emit your IOU tokens - and you don't need fiat money anymore!")}</h2>
       <Nav tabs>
         <NavItem>
           <NavLink onClick={() => this.handleSelect('1')} className={classnames({ active: this.state.activeKey === '1' })}>
-            {this._renderStatus('Make new type of IOU ', this.state.blockchainEnabled)}
+            {this._renderStatus({t('Make new IOU')}, this.state.blockchainEnabled)}
           </NavLink>
         </NavItem>
         <NavItem>
           <NavLink onClick={() => this.handleSelect('2')} className={classnames({ active: this.state.activeKey === '2' })}>
-            {this._renderStatus('Mint & Give IOU', this.state.blockchainEnabled)}
+            {this._renderStatus({t("Mint & Give IOU")}, this.state.blockchainEnabled)}
           </NavLink>
         </NavItem>
         <NavItem>
 
         <NavLink onClick={() => this.handleSelect('3')} className={classnames({ active: this.state.activeKey === '3' })}>
-            {this._renderStatus('Pay off IOU', this.state.blockchainEnabled)}
+            {this._renderStatus({t("Pay off & burn IOU")}, this.state.blockchainEnabled)}
           </NavLink>
         </NavItem>
       </Nav>
