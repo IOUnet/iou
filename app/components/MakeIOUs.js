@@ -170,7 +170,7 @@ class MakeIOU extends React.Component {
                     onChange={(e) => this.handleChange(e)}/>                    
 
                  
-              <FormText color="muted">Address of you Profile in social networks </FormText>
+              <FormText color="muted">Your profile in social networks </FormText>
                   <Input type = "text"
                     key="socialProfile"
                 // initialValues  = {this.state.addrBA1sell}

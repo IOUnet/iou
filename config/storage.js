@@ -55,4 +55,7 @@ module.exports = {
   // "embark run custom_name"
   //custom_name: {
   //}
+  externalnode: {
+
+  }
 };
