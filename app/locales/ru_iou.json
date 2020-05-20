@@ -1,0 +1,8 @@
+{
+  "Something went wrong connecting to ethereum. Please make sure you have a node running or are using metamask  to connect to the ethereum network:": "Что-то пошло не так при подключении к ethereum. Убедитесь, что у вас установлен Метамаск для подключения к сети ethereum:",
+  "Install Metamask": "Установите Метамаск",
+  "Pay with IOUs instead of money": "",
+  "Make new IOU": "Создать новую расписку",
+  "Mint & Give IOU": "Дать расписку",
+  "Pay off & burn IOU": "Подтвердить выполнение расписки"
+}
