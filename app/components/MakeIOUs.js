@@ -170,7 +170,7 @@ class MakeIOU extends React.Component {
                     onChange={(e) => this.handleChange(e)}/>                    
 
                  
-              <FormText color="muted">You name, surname (up to 255 chr)</FormText>
+              <FormText color="muted">Address of you Profile in social networks </FormText>
                   <Input type = "text"
                     key="socialProfile"
                 // initialValues  = {this.state.addrBA1sell}
@@ -203,7 +203,7 @@ class MakeIOU extends React.Component {
                     onChange={(e) => this.handleChange(e)}/>
                                     
 
-                  <FormText color="muted">Units of measure for your product or service...  </FormText>
+                  <FormText color="muted">Unit of measure for your product or service (f.e. hours) </FormText>
                   <Input type = "text"
                       key="units"
                       // initialValues  = {this.state.addrBA2buy}
