@@ -32,18 +32,18 @@ class App extends React.Component {
     };
   }
 
-  t_(_tstr) {
-    return (
-      <Translation i18n={i18n}> 
+  tt(_tstr) {
+    return ( //i18n={i18n}
+      <Translation > 
         {
-          (t, { i18n }) => {t(_tstr)}
+          (t, { i18n }) => <div>{t(_tstr)}</div>
         }
       </Translation>
     )
   }
 
   /*
-  t_(_tstr) {
+  tt(_tstr) {
     const { t } = useTranslation('translation');
 
     return <Trans t={t}>{_tstr}</Trans>;
@@ -94,33 +94,33 @@ class App extends React.Component {
 
     if (this.state.error) {
       return (<div>
-        <div>{this.t_("Something went wrong connecting to ethereum. Please make sure you have a node running or are using metamask  to connect to the ethereum network:")}
+        <div>{this.tt("Something went wrong connecting to ethereum. Please make sure you have a node running or are using metamask  to connect to the ethereum network:")}
         </div>
         <div>{this.state.error}</div>
         <div> 
         <a href = "https://metamask.io/" target="_blank">
-        <img src = "https://raw.githubusercontent.com/MetaMask/faq/master/images/download-metamask-dark.png">{this.t_("Install Metamask")} </img>
+        <img src = "https://raw.githubusercontent.com/MetaMask/faq/master/images/download-metamask-dark.png">{this.tt("Install Metamask")} </img>
         </a>
         </div>
       </div>);
     }
     return (<div>
-      <h2>{this.t_("Pay with IOUs instead of money")}</h2>
+      <h2>{this.tt("Pay with IOUs instead of money")}</h2>
       <Nav tabs>
         <NavItem>
           <NavLink onClick={() => this.handleSelect('1')} className={classnames({ active: this.state.activeKey === '1' })}>
-            {this._renderStatus(this.t_("Make new IOU"), this.state.blockchainEnabled)}
+            {this._renderStatus(this.tt("Make new IOU"), this.state.blockchainEnabled)}
           </NavLink>
         </NavItem>
         <NavItem>
           <NavLink onClick={() => this.handleSelect('2')} className={classnames({ active: this.state.activeKey === '2' })}>
-            {this._renderStatus(this.t_("Mint & Give IOU"), this.state.blockchainEnabled)}
+            {this._renderStatus(this.tt("Mint & Give IOU"), this.state.blockchainEnabled)}
           </NavLink>
         </NavItem>
         <NavItem>
 
         <NavLink onClick={() => this.handleSelect('3')} className={classnames({ active: this.state.activeKey === '3' })}>
-            {this._renderStatus(this.t_("Pay off & burn IOU"), this.state.blockchainEnabled)}
+            {this._renderStatus(this.tt("Pay off & burn IOU"), this.state.blockchainEnabled)}
           </NavLink>
         </NavItem>
       </Nav>

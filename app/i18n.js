@@ -30,15 +30,16 @@ i18n
   // for all options read: https://www.i18next.com/overview/configuration-options
   .init({
     resources,
-  //  lng: "en", 
-    fallbackLng: 'en',
+    lng: "ru", 
+    fallbackLng: 'ru',
     debug: true,
     keySeparator: false, // we do not use keys in form messages.welcome
     interpolation: {
       escapeValue: false // react already safes from xss
     },
     react: {
-        useSuspense: false
+        useSuspense: false,
+        wait: false,
     }
   });
 
