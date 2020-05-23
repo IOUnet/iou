@@ -3,14 +3,12 @@ import EmbarkJS from 'Embark/EmbarkJS';
 import React from 'react';
 import {Form, FormGroup, Input, HelpBlock, Button, FormText} from 'reactstrap';
 
-//import ERC20 from '../../embarkArtifacts/contracts/ERC20Detailed';
-//import SimpleStorage from '../../embarkArtifacts/contracts/SimpleStorage';
 import MakeIOUs from '../../embarkArtifacts/contracts/MakeIOU';
 import IOUs from '../../embarkArtifacts/contracts/IOUtoken';
-//import IOUs from '../../embarkArtifacts/contracts/IOUs';
-//import ERC20 from '../../embarkArtifacts/contracts/ERC20';
 import ReactGA from 'react-ga';
-//import List from 'react-list-select';
+import { Translation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
+
 ReactGA.initialize('UA-161540415-1');
 ReactGA.pageview(window.location.pathname + window.location.search);
 
@@ -38,6 +36,33 @@ class MakeIOU extends React.Component {
 
     };
   }
+/*
+tt(_tstr)
+ {
+  const { t, i18n } = useTranslation();
+  // or const [t, i18n] = useTranslation();
+
+  return t(_tstr)
+}
+*/
+
+/*
+  tt(_tstr) {
+    return ( //i18n={i18n}
+      <Translation > 
+        {
+          (t, { i18n }) => <span>{this.tt(_tstr)}</span>
+        }
+      </Translation>
+    )
+  }
+*/
+tt(_tstr) {
+  const { t } = useTranslation();
+
+  return <Trans t={t}>{_tstr}</Trans>;
+}
+
 
   handleChange(e) {
     let keyVal = {}
@@ -143,17 +168,17 @@ class MakeIOU extends React.Component {
     return (<React.Fragment>
         
         
-        <h3> 1. Deploy IOU    </h3>
+        <h3> 1. {this.tt("Deploy IOU")}    </h3>
           <Form>
                 <FormGroup>
-                <FormText color="muted">ERC20 token name (12 char)</FormText>
+                <FormText color="muted">{this.tt("ERC20 token name (12 char)")}</FormText>
                   <Input type = "text"
                     key="name"
                 // initialValues  = {this.state.addrBA1sell}
                     name="name"
-                    placeholder="Sheldon Cooper's token"                  
+                    placeholder={this.tt("Sheldon Cooper's token")}
                     onChange={(e) => this.handleChange(e)}/>
-                <FormText color="muted">ERC20 token symbol (4 char)</FormText>
+                <FormText color="muted">{this.tt("ERC20 token symbol (4 char)")}</FormText>
                   <Input type = "text"
                     key="symbol"
                 // initialValues  = {this.state.addrBA1sell}
@@ -161,16 +186,16 @@ class MakeIOU extends React.Component {
                     placeholder="SCT1"                  
                     onChange={(e) => this.handleChange(e)}/>                    
                  
-                 <FormText color="muted">Your name, surname (up to 255 chr)</FormText>
+                 <FormText color="muted">{this.tt("Your name, surname (up to 100 chr)")}</FormText>
                   <Input type = "text"
                     key="myName"
                 // initialValues  = {this.state.addrBA1sell}
                     name="myName"
-                    placeholder="Sheldon Cooper"                  
+                    placeholder={this.tt("Sheldon Cooper")}
                     onChange={(e) => this.handleChange(e)}/>                    
 
                  
-              <FormText color="muted">Your public profile in social network (up to 255 chr)</FormText>
+              <FormText color="muted">{this.tt("Your public profile in social network (up to 100 chr)")}</FormText>
                   <Input type = "text"
                     key="socialProfile"
                 // initialValues  = {this.state.addrBA1sell}
@@ -178,41 +203,41 @@ class MakeIOU extends React.Component {
                     placeholder="www.sheldonbook.cop/ShellyPie"                  
                     onChange={(e) => this.handleChange(e)}/>   
 
-                <FormText color="muted">Your location: country, city, area (up to 255 chr)</FormText>
+                <FormText color="muted">{this.tt("Your location country, city, area (up to 100 chr)")}</FormText>
                   <Input type = "text"
                     key="location"
                 // initialValues  = {this.state.addrBA1sell}
                     name="location"
-                    placeholder="app. 4A, 2311 North Los Robles Avenue  Pasadena, California, US, Earth"                  
+                    placeholder={this.tt("Pasadena, California, US, Earth")}
                     onChange={(e) => this.handleChange(e)}/>                      
                                  
-                <FormText color="muted">Description for IOU </FormText>
+                <FormText color="muted">{this.tt("Description for IOU")} </FormText>
                   <Input type = "text"
                       key="description"
                       // initialValues  = {this.state.addrBA2buy}
                       name="description"
-                      placeholder="description of your product or service here.  "  
+                      placeholder={this.tt("description of your product or service here")}
                     onChange={(e) => this.handleChange(e)}/>
 
-              <FormText color="muted">Keywords for IOU (max is 5 keys, separated by comma) </FormText>
+              <FormText color="muted">{this.tt("Keywords for IOU (max is 5 keys, separated by comma)")} </FormText>
                   <Input type = "text"
                       key="keywords"
                       // initialValues  = {this.state.addrBA2buy}
                       name="keywords"
-                      placeholder="keywords of your product or service  here. "  
+                      placeholder={this.tt("keywords of your product or service  here.")}
                     onChange={(e) => this.handleChange(e)}/>
                                     
 
-                  <FormText color="muted">Unit of measure for your product or service (f.e. hours)...  </FormText>
+                  <FormText color="muted">{this.tt("Unit of measure for your product or service (for example, hours)")}  </FormText>
                   <Input type = "text"
                       key="units"
                       // initialValues  = {this.state.addrBA2buy}
                       name="units"
-                      placeholder="f.e. hours, or units of measure for your product or service... "  
+                      placeholder={this.tt("hours, or other units of measure for your product or service")}
                     onChange={(e) => this.handleChange(e)}/>
                   <br />
 
-                <Button color="primary" onClick={(e) => this.deployIOU(e)}>Deploy IOU </Button>
+                <Button color="primary" onClick={(e) => this.deployIOU(e)}>{this.tt("Deploy IOU")} </Button>
                 </FormGroup>
           </Form>
 

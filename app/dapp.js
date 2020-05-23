@@ -8,8 +8,8 @@ import MakeIOUs from './components/MakeIOUs';
 import MintIOUs from './components/MintIOUs';
 import BurnIOUs from './components/BurnIOUs';
 import i18n from './i18n';
-//import { useTranslation } from 'react-i18next';
-import { Trans, useTranslation } from 'react-i18next'
+import { useTranslation } from 'react-i18next';
+
 import { Translation } from 'react-i18next';
 
 import 'bootstrap/dist/css/bootstrap.css';
@@ -31,24 +31,33 @@ class App extends React.Component {
       blockchainEnabled: false
     };
   }
+/*
+tt(_tstr)
+ {
+  const { t, i18n } = useTranslation();
+  // or const [t, i18n] = useTranslation();
 
+  return t(_tstr)
+}
+*/
+/*
   tt(_tstr) {
     return ( //i18n={i18n}
       <Translation > 
         {
-          (t, { i18n }) => <div>{t(_tstr)}</div>
+          (t, { i18n }) => {<span>{t(_tstr)}</span>}
         }
       </Translation>
     )
-  }
-
-  /*
+  }я  
+*/
+  
   tt(_tstr) {
-    const { t } = useTranslation('translation');
+    const { t } = useTranslation();
 
     return <Trans t={t}>{_tstr}</Trans>;
   }
-*/
+
   
 
   componentDidMount() {

@@ -1,10 +1,14 @@
 {
+"ru":
+{
   "Something went wrong connecting to ethereum. Please make sure you have a node running or are using metamask  to connect to the ethereum network:": "Что-то пошло не так при подключении к ethereum. Убедитесь, что у вас установлен Метамаск для подключения к сети ethereum:",
     "Install Metamask": "Установите Метамаск",
     "Pay with IOUs instead of money": "Платите своими расписками вместо денег",
     "Make new IOU": "Создать новую расписку",
     "Mint & Give IOU": "Дать свою расписку",
     "Pay off & burn IOU": "Погасить чужую расписку",
+
+  "ERC20 token name (12 char)": "Название токена расписки ERC20, 12 симв.", 
   "Sheldon Cooper's token": "Купон Ш.Купера",
   "ERC20 token symbol (4 char)": "Обозначение для токена erc20 (4 симв) ",
   "Your name, surname (up to 100 chr)": "Ваше имя, фамилиия (до 100 симв)",
@@ -19,4 +23,5 @@
   "Unit of measure for your product or service (for example, hours)": "Единица измерения для вашего продукта или услуги (например, часы)",
   "hours, or other units of measure for your product or service": "часы или другие единицы измерения для вашего продукта или услуги",
   "Deploy IOU": "Выпустить долговую расписку"
+}
 }

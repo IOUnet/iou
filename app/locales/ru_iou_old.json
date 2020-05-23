@@ -42,5 +42,32 @@
   "blueBG": "\u001b[44m\u001b[49m",
   "magentaBG": "\u001b[45m\u001b[49m",
   "cyanBG": "\u001b[46m\u001b[49m",
-  "whiteBG": "\u001b[47m\u001b[49m"
+  "whiteBG": "\u001b[47m\u001b[49m",
+  "Something went wrong connecting to ethereum. Please make sure you have a node running or are using metamask  to connect to the ethereum network:": "Что-то пошло не так при подключении к ethereum. Убедитесь, что у вас установлен Метамаск для подключения к сети ethereum:",
+  "Install Metamask": "Установите Метамаск",
+  "Pay with IOUs instead of money": "Платите своими расписками вместо денег",
+  "Make new IOU": "Создать новую расписку",
+  "Mint & Give IOU": "Дать свою расписку",
+  "Pay off & burn IOU": "Погасить чужую расписку",
+  " country, city, area (up to 255 chr)": "",
+  "f": {
+    "e": {
+      " hours, or other units of measure for your product or service": {
+        "": ""
+      }
+    }
+  },
+  "Unit of measure for your product or service (f": {
+    "e": {
+      " hours)": {
+        "": ""
+      }
+    }
+  },
+  "Unit of measure for your product or service (for example, hours)": {
+    "": ""
+  },
+  "hours, or other units of measure for your product or service": {
+    "": ""
+  }
 }
