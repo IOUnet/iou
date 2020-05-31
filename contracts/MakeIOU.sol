@@ -1,16 +1,22 @@
 pragma solidity >=  0.5.0;
 pragma experimental ABIEncoderV2;
 import "./IOUtoken.sol";
-import "./StoreIOUs.sol"
+import "./StoreIOUs.sol";
 
 contract MakeIOU {
 
     
     address private owner;
+    StoreIOUs store;
 
     function setOwner (address _newOwner) public onlyOwner {
         owner = _newOwner;
     }
+
+    function setStore (address _newOwner) public onlyOwner {
+        store = StoreIOUs(_newOwner);
+        
+    }   
 
     constructor () public {
         owner = msg.sender;
@@ -20,23 +26,20 @@ contract MakeIOU {
         require (owner == msg.sender, "Only owner can do this");
         _;
     }
-    modifier isIOUtoken () {
-        require (isIOU[msg.sender], "Not IOU token calls" );
-        _;
-    }
 
-    function makeIOU(bytes16 memory _name, 
-                 bytes4 memory _symbol, 
+
+    function makeIOU(string memory _name, 
+                 string memory _symbol, 
                  bytes[64] memory _myName, //name of emitter
-                 bytes memory _socialProfile, //profile  of emitter in social nets
+                 string memory _socialProfile, //profile  of emitter in social nets
                  bytes[128] memory _description, //description of bond IOU to  work
-                 bytes[64]  memory _location, //where is                  
-                 bytes32 memory _units, //units of deal
+                 bytes[128]  memory _location, //where is                  
+                 bytes32  _units, //units of deal
                  bytes32[] memory _keywords
                         ) public returns (address) {
 
-        IOUtoken newIOU = new IOUtoken(
-                        _name, 
+        IOUtoken newIOU = new IOUtoken();
+        newIOU.setIOU(  _name, 
                         _symbol,                          
                         _myName, 
                         _socialProfile,  
@@ -44,11 +47,12 @@ contract MakeIOU {
                         _location,
                         _units, 
                         _keywords,
+                        address(store),
                         msg.sender
             );
-        store.addIOU(address(newIOU), _socialProfile, msg.sender, _keywords);
+        //store.addIOU2(address(newIOU), _socialProfile, msg.sender, _keywords);
         
-        
+        store.addIOU1(address(newIOU));//, _socialProfile, msg.sender, _keywords);
 
         return address (newIOU);
         }

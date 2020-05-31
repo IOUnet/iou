@@ -26,18 +26,19 @@ module.exports = {
 
     // minimalContractSize, when set to true, tells Embark to generate contract files without the heavy bytecodes
     // Using filteredFields lets you customize which field you want to filter out of the contract file (requires minimalContractSize: true)
-    // minimalContractSize: false,
+     minimalContractSize: true,
     // filteredFields: [],
 
     deploy: {
-      /* IOUtoken: {
-        fromIndex: 0,
-        args: []
-      }, */
       MakeIOU: {
         fromIndex: 0,
         args: []
       },
+      StoreIOUs: {
+        fromIndex: 1,
+        args: [] //addr of MakeIOU
+      }
+      
     }
   },
 
