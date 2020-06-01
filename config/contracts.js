@@ -36,7 +36,11 @@ module.exports = {
       },
       StoreIOUs: {
         fromIndex: 1,
-        args: [] //addr of MakeIOU
+        args: [], //addr of MakeIOU
+        onDeploy: async ({contracts, web3, logger}) => {
+          await contracts.StoreIOUs.methods.setFactory(contracts.MakeIOU.options.address).send({from: web3.eth.defaultAccount});
+          await contracts.MakeIOU.methods.setStore(contracts.StoreIOUs.options.address).send({from: web3.eth.defaultAccount});
+        }
       }
       
     }

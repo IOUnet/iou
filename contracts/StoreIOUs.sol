@@ -27,6 +27,7 @@ contract StoreIOUs {
     }
 
     modifier onlyMake() {
+        require (makeFactory != address(0x0), "No makeFactory address");
         require (makeFactory == msg.sender, "Only makeFactory can do this");
         _;
     }
@@ -44,20 +45,22 @@ contract StoreIOUs {
         makeFactory = _newFact;
     }
 
-    function addIOU1 (address _newIOU) public onlyMake {
+    function addIOU1 (address _newIOU, address _emitent) public onlyMake {
+        listIOUs[_emitent].push(_newIOU);
         isIOU[_newIOU] = true;
     }
 
 
     function addIOU2 (address _newIOU, 
-                    string memory _socialProfile, 
-                    address _emitent, 
+                    string memory _socialProfile,                     
                     bytes32[] memory _keywords) 
                     public  isIOUtoken
         {
         
+        
+        
         allIOU.push(_newIOU);
-        listIOUs[_emitent].push(_newIOU);
+
         listIOUsSoc[_socialProfile].push(_newIOU);
 
         uint lenArr = _keywords.length > 5 ? 5: _keywords.length;

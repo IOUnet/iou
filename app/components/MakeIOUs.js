@@ -14,6 +14,9 @@ import ReactGA from 'react-ga';
 ReactGA.initialize('UA-161540415-1');
 ReactGA.pageview(window.location.pathname + window.location.search);
 
+const h2a = web3.utils.hexToAscii;
+const a2h = web3.utils.asciiToHex;
+
 class MakeIOU extends React.Component {
 
   constructor(props) {
@@ -34,7 +37,7 @@ class MakeIOU extends React.Component {
       curIOU: "",
       curOptstate:"" ,
       ERC20: "" ,
-      keywords:""
+      keywords: ""
 
     };
   }
@@ -76,7 +79,10 @@ class MakeIOU extends React.Component {
     await web3.eth.getAccounts().then(e => { account = e[0];  
       });
       
-      const keys = this.state.keywords.split(',', 5);
+      let keys = this.state.keywords.split(',', 5)
+      keys = keys.map((e)=>{
+        return a2h(e);
+      });
 
    let gasAmount;
     await MakeIOUs.methods.makeIOU(
@@ -86,7 +92,7 @@ class MakeIOU extends React.Component {
       this.state.socialProfile,
       this.state.description,
       this.state.location,
-      this.state.units,
+      a2h(this.state.units),
       keys
      ).estimateGas({from: account}).then(e => { gasAmount = e;  
      }); 
@@ -97,9 +103,8 @@ class MakeIOU extends React.Component {
         this.state.socialProfile,
         this.state.description,
         this.state.location,
-        this.state.units,
-        keys
-                ).send({from:account, gas: gasAmount}); //}
+       a2h(this.state.units),
+        keys).send({from:account, gas: gasAmount}); //}
     this._addToLog("MakeIOUs.methods.MakeIOUs: ", this.state.getValue);
 
   }

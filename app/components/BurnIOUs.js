@@ -4,7 +4,7 @@ import React from 'react';
 import {Form, FormGroup, Input, HelpBlock, Button, FormText} from 'reactstrap';
 //import ReactDOM from 'react-dom';
 //import {PreferencesController, NetworkController} from '@metamask/controllers';
-import MakeIOUs from '../../embarkArtifacts/contracts/MakeIOU';
+import StoreIOUs from '../../embarkArtifacts/contracts/StoreIOUs';
 import IOUs from '../../embarkArtifacts/contracts/IOUtoken';
 
 import ReactGA from 'react-ga';
@@ -14,6 +14,9 @@ import Slider from '@material-ui/core/Slider';
 import List from 'react-list-select';
 ReactGA.initialize('UA-161540415-1');
 ReactGA.pageview(window.location.pathname + window.location.search);
+
+const h2a = web3.utils.hexToAscii;
+const a2h = web3.utils.asciiToHex;
 
 class BurnIOU extends React.Component {
 
@@ -39,7 +42,7 @@ class BurnIOU extends React.Component {
       feedback: "",
       totalMinted: 0,
       totalBurned: 0,
-      keywords:"",
+      keywords:[],
       avRate:0
     };
   }
@@ -96,7 +99,7 @@ class BurnIOU extends React.Component {
         rate.toString(),
         this.state.descrDebt
                 ).send({from:account});
-    this._addToLog("MakeIOUs.methods.MakeIOUs: ", this.state.getValue);
+    this._addToLog("StoreIOUs.methods.StoreIOUs: ", this.state.getValue);
 
   }
 
@@ -107,7 +110,7 @@ class BurnIOU extends React.Component {
       });
     await EmbarkJS.enableEthereum();
 
-    MakeIOUs.methods.getIOUListHold(account).call().then(_value => this.setState({ IOUsList: _value }));
+    StoreIOUs.methods.getIOUListHold(account).call().then(_value => this.setState({ IOUsList: _value }));
     
   }
 
@@ -130,7 +133,7 @@ class BurnIOU extends React.Component {
       this.setState({description: _value.description});
       this.setState({keywords: _value.keywords});
       this.setState({location: _value.location});
-      this.setState({units: _value.units});
+      this.setState({units: h2a(_value.units)});
       this.setState({totalMinted: _value.totalMinted});
       this.setState({totalBurned: _value.totalBurned});
       this.setState({avRate: _value.avRate});

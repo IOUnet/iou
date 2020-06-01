@@ -41,10 +41,10 @@ contract IOUtoken is ERC20Mintable, ERC20Burnable {
     struct DescriptionIOU {
         string name;
         string symbol;
-        bytes[64] myName ; //name of emitter
+        string myName ; //name of emitter
         string socialProfile ; //profile  of emitter in social nets
-        bytes[128] description ; //description of bond IOU to  work
-        bytes[128] location; //where is it         
+        string description ; //description of bond IOU to  work
+        string location; //where is it         
         bytes32 units;
         bytes32[] keywords;
         uint256 totalMinted;
@@ -85,10 +85,10 @@ contract IOUtoken is ERC20Mintable, ERC20Burnable {
 
     function setIOU (string memory _name, 
                  string memory _symbol, 
-                 bytes[64] memory _myName, //name of emitter
+                 string memory _myName, //name of emitter
                  string memory _socialProfile, //profile  of emitter in social nets
-                 bytes[128] memory _description, //description of bond IOU to  work
-                 bytes[128] memory _location, //where is 
+                 string memory _description, //description of bond IOU to  work
+                 string memory _location, //where is 
                  bytes32  _units, //units of deal
                  bytes32[] memory _keywords,
                  address _storeAddr,
@@ -104,18 +104,16 @@ contract IOUtoken is ERC20Mintable, ERC20Burnable {
         require (bytes(_symbol).length < 10, "Too long symbol, must be < 4 chr" );
         symbol = _symbol;
         decimals = 18;
-      //  require (bytes(_myName).length < 257, "Too long Name, must be < 256 chr" );
-        require (bytes(_socialProfile).length < 257, "Too long  Social Profile, must be < 256 chr" );
-      //  require (bytes(_description).length < 257, "Too long description, must be < 256 chr" );
-     //   require (bytes(_location).length < 257, "Too long location, must be < 256 chr" );
-       // require (bytes(_units).length < 16, "Too long units, must be < 10 chr" );
+        require (bytes(_myName).length < 64, "Too long Name, must be < 128 chr" );
+        require (bytes(_socialProfile).length < 128, "Too long  Social Profile, must be < 128 chr" );
+        require (bytes(_description).length < 128, "Too long description, must be < 128 chr" );
+        require (bytes(_location).length < 128, "Too long location, must be < 256 chr" );
+        require (_keywords.length <=5 , "Too many keywords, must be < 5 keys" );
   /*      
-        string memory keywords;
         uint l = _keywords.length > 5 ? 5: _keywords.length;
+        bytes32[] memory keywords;
         for (uint k=0; k < l ; k++){
-            if (bytes(_keywords[k]).length  > 0 ){
-                keywords = string( abi.encodePacked (_keywords[k], ",", keywords));
-            }
+                keywords [k]= _keywords [k];
         } 
 */
         thisIOU = DescriptionIOU (
@@ -150,7 +148,7 @@ contract IOUtoken is ERC20Mintable, ERC20Burnable {
 
     function mint (address _who, uint256 _amount, string memory _descr) public onlyOwner { 
         if (!registered) {
-            StoreIOU.addIOU2(address(this), thisIOU.socialProfile, msg.sender, thisIOU.keywords);
+            StoreIOU.addIOU2(address(this), thisIOU.socialProfile, thisIOU.keywords);
             registered =  true;
         require (bytes(_descr).length <256, "Description of IOU is too long, must be < 256");
         IOU memory bond = IOU (_who, now, _descr);

@@ -5,7 +5,7 @@ import {Form, FormGroup, Input, HelpBlock, Button, FormText} from 'reactstrap';
 
 import ERC20 from '../../embarkArtifacts/contracts/ERC20Detailed';
 import SimpleStorage from '../../embarkArtifacts/contracts/SimpleStorage';
-import MakeIOUs from '../../embarkArtifacts/contracts/MakeIOU';
+import StoreIOUs from '../../embarkArtifacts/contracts/StoreIOUs';
 import IOUs from '../../embarkArtifacts/contracts/IOUtoken';
 //import IOUs from '../../embarkArtifacts/contracts/IOUs';
 //import ERC20 from '../../embarkArtifacts/contracts/ERC20';
@@ -13,6 +13,8 @@ import ReactGA from 'react-ga';
 import List from 'react-list-select';
 ReactGA.initialize('UA-161540415-1');
 ReactGA.pageview(window.location.pathname + window.location.search);
+const h2a = web3.utils.hexToAscii;
+const a2h = web3.utils.asciiToHex;
 
 class MintIOU extends React.Component {
 
@@ -20,7 +22,7 @@ class MintIOU extends React.Component {
     super(props);
 
     this.state = {
-      valueSet: 10,
+      valueSet: 0,
       getValue: "",
       logs: [],
       name: "",
@@ -36,7 +38,7 @@ class MintIOU extends React.Component {
       descrDebt:"", 
       totalMinted: 0,
       totalBurned: 0,
-      keywords: "",
+      keywords: [],
       avRate: 0,
     };
   }
@@ -97,7 +99,7 @@ class MintIOU extends React.Component {
     let  account;
     await web3.eth.getAccounts().then(e => { account = e[0];  
       });
-    MakeIOUs.methods.getIOUList(account).call().then(_value => this.setState({ IOUsList: _value }));
+    StoreIOUs.methods.getIOUList(account).call().then(_value => this.setState({ IOUsList: _value }));
     
   }
 
@@ -120,7 +122,7 @@ class MintIOU extends React.Component {
       this.setState({description: _value.description});
       this.setState({keywords: _value.keywords});
       this.setState({location: _value.location});
-      this.setState({units: _value.units});
+      this.setState({units: h2a( _value.units)});
       this.setState({avRate: _value.avRate});
       this.setState({totalMinted: _value.totalMinted});
       this.setState({totalBurned: _value.totalBurned});

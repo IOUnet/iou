@@ -30,10 +30,10 @@ contract MakeIOU {
 
     function makeIOU(string memory _name, 
                  string memory _symbol, 
-                 bytes[64] memory _myName, //name of emitter
+                 string memory _myName, //name of emitter
                  string memory _socialProfile, //profile  of emitter in social nets
-                 bytes[128] memory _description, //description of bond IOU to  work
-                 bytes[128]  memory _location, //where is                  
+                 string memory _description, //description of bond IOU to  work
+                 string  memory _location, //where is                  
                  bytes32  _units, //units of deal
                  bytes32[] memory _keywords
                         ) public returns (address) {
@@ -51,8 +51,8 @@ contract MakeIOU {
                         msg.sender
             );
         //store.addIOU2(address(newIOU), _socialProfile, msg.sender, _keywords);
-        
-        store.addIOU1(address(newIOU));//, _socialProfile, msg.sender, _keywords);
+        require (address(store) != address(0x0), "No store address");
+        store.addIOU1(address(newIOU), msg.sender);//, _socialProfile, msg.sender, _keywords);
 
         return address (newIOU);
         }
