@@ -53,8 +53,8 @@ contract IOUtoken is ERC20Mintable, ERC20Burnable {
     }
 
     StoreIOUs StoreIOU;
-    string public name;
-    string public  symbol;
+ //   string public name;
+ //   string public  symbol;
     uint8 public decimals;
     bool registered;
 
@@ -85,7 +85,7 @@ contract IOUtoken is ERC20Mintable, ERC20Burnable {
 
     function setIOU (string memory _name, 
                  string memory _symbol, 
-                 string memory _myName, //name of emitter
+                 string memory _myName, // of emitter
                  string memory _socialProfile, //profile  of emitter in social nets
                  string memory _description, //description of bond IOU to  work
                  string memory _location, //where is 
@@ -99,17 +99,24 @@ contract IOUtoken is ERC20Mintable, ERC20Burnable {
         
         owner = _owner;
         StoreIOU = StoreIOUs(_storeAddr);
-        require (bytes(_name).length <16, "Too long name, must be < 12 chr" );
-        name = _name;
-        require (bytes(_symbol).length < 10, "Too long symbol, must be < 4 chr" );
-        symbol = _symbol;
         decimals = 18;
+        require (bytes(_name).length <16 || 
+                bytes(_symbol).length < 10 ||
+                bytes(_myName).length < 64 ||
+                bytes(_socialProfile).length < 128 ||
+                bytes(_description).length < 128 ||
+                bytes(_location).length < 128 ||
+                _keywords.length <=5 , 
+                "Too many symbs in parameter" );
+
+  /*      require (bytes(_name).length <16, "Too long name, must be < 12 chr" );
+        require (bytes(_symbol).length < 10, "Too long symbol, must be < 4 chr" );
         require (bytes(_myName).length < 64, "Too long Name, must be < 128 chr" );
         require (bytes(_socialProfile).length < 128, "Too long  Social Profile, must be < 128 chr" );
         require (bytes(_description).length < 128, "Too long description, must be < 128 chr" );
         require (bytes(_location).length < 128, "Too long location, must be < 256 chr" );
         require (_keywords.length <=5 , "Too many keywords, must be < 5 keys" );
-  /*      
+        
         uint l = _keywords.length > 5 ? 5: _keywords.length;
         bytes32[] memory keywords;
         for (uint k=0; k < l ; k++){
@@ -177,6 +184,19 @@ contract IOUtoken is ERC20Mintable, ERC20Burnable {
         StoreIOU.addHolder(_recipient, address(this));
         super.transfer(_recipient, _amount);
         return true;
+    }
+
+    function thisIOUkeywords() public returns (bytes32[] memory)
+    {
+        return thisIOU.keywords;
+    }
+
+    function name () public returns (string memory) {
+        return thisIOU.name;
+    }
+
+    function symbol () public returns (string memory) {
+        return thisIOU.symbol;
     }
 /*
     function getTotalDebt() public pure returns (uint256) {

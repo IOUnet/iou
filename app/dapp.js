@@ -7,6 +7,7 @@ import EmbarkJS from 'Embark/EmbarkJS';
 import MakeIOUs from './components/MakeIOUs';
 import MintIOUs from './components/MintIOUs';
 import BurnIOUs from './components/BurnIOUs';
+import StoreIOUs from '../embarkArtifacts/contracts/StoreIOUs';
 
 import 'bootstrap/dist/css/bootstrap.css';
 import './dapp.css';
@@ -21,7 +22,9 @@ class App extends React.Component {
       activeKey: '1',
       whisperEnabled: false,
       storageEnabled: false,
-      blockchainEnabled: false
+      blockchainEnabled: false,
+      allIOUs:0,
+      allKeys:0
     };
   }
 
@@ -32,7 +35,7 @@ class App extends React.Component {
         // you can use this to ask the user to enable metamask for e.g
         return this.setState({error: err.message || err});
       }
-
+      this.getStat();
       EmbarkJS.Blockchain.isAvailable().then(result => {
         this.setState({blockchainEnabled: result});
       });
@@ -61,6 +64,26 @@ class App extends React.Component {
     this.setState({activeKey: key});
   }
 
+   async getStat() {
+    //e.preventDefault();
+    await EmbarkJS.enableEthereum();
+    
+    await StoreIOUs.methods.getIOUstotal().call().then ((_value) =>
+      {
+        this.setState({allIOUs: _value});
+      });
+     
+    await StoreIOUs.methods.getKeystotal().call().then ((_value) =>
+        {
+          this.setState({allKeys: _value});
+        });
+       
+  //    this.state.allIOUs = await StoreIOUs.methods.getIOUstotal().call();
+    //  this.state.allKeys = await StoreIOUs.methods.getKeystotal().call();
+  }
+
+ 
+
   render() {
     const ensEnabled = EmbarkJS.Names.currentNameSystems && EmbarkJS.Names.isAvailable();
     if (this.state.error) {
@@ -78,6 +101,8 @@ class App extends React.Component {
     }
     return (<div>
       <h3>Emit your IOU tokens - and you don't need money anymore</h3>
+      <div>
+          IOUs already: {this.state.allIOUs},  keywords: {this.state.allKeys} </div>
       <Nav tabs>
         <NavItem>
           <NavLink onClick={() => this.handleSelect('1')} className={classnames({ active: this.state.activeKey === '1' })}>

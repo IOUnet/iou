@@ -30,11 +30,14 @@ module.exports = {
     // filteredFields: [],
 
     deploy: {
-      MakeIOU: {
-        fromIndex: 0,
-        args: []
-      },
       StoreIOUs: {
+        fromIndex: 0,
+        args: [],
+        onDeploy: async ({contracts, web3, logger}) => {
+          await contracts.MakeIOU.methods.setStore(contracts.StoreIOUs.options.address).send({from: web3.eth.defaultAccount});
+        }
+      },
+      MakeIOU : {
         fromIndex: 1,
         args: [], //addr of MakeIOU
         onDeploy: async ({contracts, web3, logger}) => {

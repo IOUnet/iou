@@ -7,7 +7,7 @@ import {Form, FormGroup, Input, HelpBlock, Button, FormText} from 'reactstrap';
 //import SimpleStorage from '../../embarkArtifacts/contracts/SimpleStorage';
 import MakeIOUs from '../../embarkArtifacts/contracts/MakeIOU';
 import IOUs from '../../embarkArtifacts/contracts/IOUtoken';
-//import IOUs from '../../embarkArtifacts/contracts/IOUs';
+import StoreIOUs from '../../embarkArtifacts/contracts/StoreIOUs';
 //import ERC20 from '../../embarkArtifacts/contracts/ERC20';
 import ReactGA from 'react-ga';
 //import List from 'react-list-select';
@@ -37,8 +37,8 @@ class MakeIOU extends React.Component {
       curIOU: "",
       curOptstate:"" ,
       ERC20: "" ,
-      keywords: ""
-
+      keywords: "",
+      
     };
   }
 
@@ -142,11 +142,12 @@ class MakeIOU extends React.Component {
     this._addToLog("IOU address: ", this.state.getValue );
   }
 
-   
+
 
   render() {
     return (<React.Fragment>
         
+
         
         <h3> 1. Deploy IOU    </h3>
           <Form>

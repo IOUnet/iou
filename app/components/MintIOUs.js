@@ -120,13 +120,20 @@ class MintIOU extends React.Component {
       this.setState({myName: _value.myName});
       this.setState({socialProfile: _value.socialProfile});
       this.setState({description: _value.description});
-      this.setState({keywords: _value.keywords});
+      
       this.setState({location: _value.location});
       this.setState({units: h2a( _value.units)});
       this.setState({avRate: _value.avRate});
       this.setState({totalMinted: _value.totalMinted});
       this.setState({totalBurned: _value.totalBurned});
       });
+      await this.state.curIOU.methods.thisIOUkeywords().call().then(_value =>
+        {
+          let value = _value.map((e) => {
+            return h2a(e)
+          })
+        this.setState({keywords: value});
+        });
     this._addToLog("IOU address: ", this.state.getValue );
   }
 

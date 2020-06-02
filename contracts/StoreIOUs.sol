@@ -106,6 +106,14 @@ contract StoreIOUs {
             return listHoldersIOUs [_holder];
         }
 
+    function getIOUstotal () public view  returns (uint256)
+    {
+        return allIOU.length;
+    }    
 
+    function getKeystotal () public view returns (uint256)
+    {
+        return allKeywords.length;
+    }    
 
 }
