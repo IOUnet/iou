@@ -13,6 +13,8 @@ contract StoreIOUs {
     mapping (bytes32 => address[]) listbyKeys; //list of IOUs by keyword
     bytes32[] public allKeywords;  //list all keywords
     address[] public allIOU; //list all emitted IOus
+    address[] public allIssuers; //list all issuers of  IOus
+
 
     address owner;
     address makeFactory;
@@ -48,21 +50,17 @@ contract StoreIOUs {
     function addIOU1 (address _newIOU, address _emitent) public onlyMake {
         listIOUs[_emitent].push(_newIOU);
         isIOU[_newIOU] = true;
+        allIOU.push(_newIOU);
+        allIssuers.push(_emitent);
     }
 
 
     function addIOU2 (address _newIOU, 
                     string memory _socialProfile,                     
                     bytes32[] memory _keywords) 
-                    public  isIOUtoken
-        {
-        
-        
-        
-        allIOU.push(_newIOU);
+                    public  isIOUtoken   {        
 
         listIOUsSoc[_socialProfile].push(_newIOU);
-
         uint lenArr = _keywords.length > 5 ? 5: _keywords.length;
         uint lenkey;
         for (uint8 k=0 ; k < lenArr ; k++){
@@ -115,5 +113,10 @@ contract StoreIOUs {
     {
         return allKeywords.length;
     }    
+
+    function getIssuerstotal () public view returns (uint256)
+    {
+        return allIssuers.length;
+    }
 
 }

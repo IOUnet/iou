@@ -24,7 +24,8 @@ class App extends React.Component {
       storageEnabled: false,
       blockchainEnabled: false,
       allIOUs:0,
-      allKeys:0
+      allKeys:0, 
+      allIssuers:0
     };
   }
 
@@ -78,8 +79,11 @@ class App extends React.Component {
           this.setState({allKeys: _value});
         });
        
-  //    this.state.allIOUs = await StoreIOUs.methods.getIOUstotal().call();
-    //  this.state.allKeys = await StoreIOUs.methods.getKeystotal().call();
+    await StoreIOUs.methods.getIssuerstotal().call().then ((_value) =>
+        {
+          this.setState({allIssuers: _value});
+        });
+       
   }
 
  
@@ -102,7 +106,7 @@ class App extends React.Component {
     return (<div>
       <h3>Emit your IOU tokens - and you don't need money anymore</h3>
       <div>
-          IOUs already: {this.state.allIOUs},  keywords: {this.state.allKeys} </div>
+          IOUs already: {this.state.allIOUs}, from  {this.state.allIssuers} issuers, with {this.state.allKeys} keywords.</div>
       <Nav tabs>
         <NavItem>
           <NavLink onClick={() => this.handleSelect('1')} className={classnames({ active: this.state.activeKey === '1' })}>
