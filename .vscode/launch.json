@@ -11,6 +11,17 @@
             "skipFiles": [
                 "<node_internals>/**"
             ],
+            "program": "/home/st/Desktop/dfd/test/demo1/iou/upnloadIOS.js",
+
+        },
+
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch Embark",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
             "program": "${workspaceFolder}/config/pipeline.js",
            // "args": ["embark run --nodashboard"],
             "outFiles": [
