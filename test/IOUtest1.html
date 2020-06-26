@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+	<title>IOUtest</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">deploy</td></tr>
+</thead>
+<tbody>
+<tr><td>open</td><td>http://localhost:8000/<datalist><option>http://localhost:8000/</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>name=name<datalist><option>name=name</option><option>//input[@name='name']</option><option>//div[@id='app']/div/div/div/form/div/input</option><option>//input</option><option>css=input[name="name"]</option></datalist></td><td></td>
+</tr>
+<tr><td>type</td><td>name=name<datalist><option>name=name</option><option>//input[@name='name']</option><option>//div[@id='app']/div/div/div/form/div/input</option><option>//input</option><option>css=input[name="name"]</option></datalist></td><td>Sheldon Cooper's token</td>
+</tr>
+<tr><td>type</td><td>name=symbol<datalist><option>name=symbol</option><option>//input[@name='symbol']</option><option>//div[@id='app']/div/div/div/form/div/input[2]</option><option>//input[2]</option><option>css=input[name="symbol"]</option></datalist></td><td>SCT1</td>
+</tr>
+<tr><td>click</td><td>name=myName<datalist><option>name=myName</option><option>//input[@name='myName']</option><option>//div[@id='app']/div/div/div/form/div/input[3]</option><option>//input[3]</option><option>css=input[name="myName"]</option></datalist></td><td></td>
+</tr>
+<tr><td>type</td><td>name=myName<datalist><option>name=myName</option><option>//input[@name='myName']</option><option>//div[@id='app']/div/div/div/form/div/input[3]</option><option>//input[3]</option><option>css=input[name="myName"]</option></datalist></td><td>Sheldon Cooper </td>
+</tr>
+<tr><td>type</td><td>name=socialProfile<datalist><option>name=socialProfile</option><option>//input[@name='socialProfile']</option><option>//div[@id='app']/div/div/div/form/div/input[4]</option><option>//input[4]</option><option>css=input[name="socialProfile"]</option></datalist></td><td>www.sheldonbook.cop/ShellythePie</td>
+</tr>
+<tr><td>type</td><td>name=location<datalist><option>name=location</option><option>//input[@name='location']</option><option>//div[@id='app']/div/div/div/form/div/input[5]</option><option>//input[5]</option><option>css=input[name="location"]</option></datalist></td><td>app. 4A, 2311 North Los Robles Avenue  Pasadena, California, US, Earth</td>
+</tr>
+<tr><td>click</td><td>name=description<datalist><option>name=description</option><option>//input[@name='description']</option><option>//div[@id='app']/div/div/div/form/div/input[6]</option><option>//input[6]</option><option>css=input[name="description"]</option></datalist></td><td></td>
+</tr>
+<tr><td>type</td><td>name=description<datalist><option>name=description</option><option>//input[@name='description']</option><option>//div[@id='app']/div/div/div/form/div/input[6]</option><option>//input[6]</option><option>css=input[name="description"]</option></datalist></td><td>test IOU to testing service and abiliti to work</td>
+</tr>
+<tr><td>click</td><td>name=keywords<datalist><option>name=keywords</option><option>//input[@name='keywords']</option><option>//div[@id='app']/div/div/div/form/div/input[7]</option><option>//input[7]</option><option>css=input[name="keywords"]</option></datalist></td><td></td>
+</tr>
+<tr><td>type</td><td>name=keywords<datalist><option>name=keywords</option><option>//input[@name='keywords']</option><option>//div[@id='app']/div/div/div/form/div/input[7]</option><option>//input[7]</option><option>css=input[name="keywords"]</option></datalist></td><td>test, service, ability</td>
+</tr>
+<tr><td>click</td><td>name=units<datalist><option>name=units</option><option>//input[@name='units']</option><option>//div[@id='app']/div/div/div/form/div/input[8]</option><option>//input[8]</option><option>css=input[name="units"]</option></datalist></td><td></td>
+</tr>
+<tr><td>type</td><td>name=units<datalist><option>name=units</option><option>//input[@name='units']</option><option>//div[@id='app']/div/div/div/form/div/input[8]</option><option>//input[8]</option><option>css=input[name="units"]</option></datalist></td><td>hours</td>
+</tr>
+<tr><td>click</td><td>//button[@type='button']<datalist><option>//button[@type='button']</option><option>//div[@id='app']/div/div/div/form/div/button</option><option>//button</option><option>css=button.btn.btn-primary</option></datalist></td><td></td>
+</tr>
+</tbody></table>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">mint</td></tr>
+</thead>
+<tbody>
+<tr><td>open</td><td>http://localhost:8000/<datalist><option>http://localhost:8000/</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>link=Mint &amp; Give IOU<datalist><option>link=Mint &amp; Give IOU</option><option>//a[contains(text(),'Mint &amp; Give IOU')]</option><option>//div[@id='app']/div/ul/li[2]/a</option><option>//li[2]/a</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>xpath=(//button[@type='button'])[2]<datalist><option>xpath=(//button[@type='button'])[2]</option><option>//div[@id='app']/div/div[2]/div[2]/form/div/button</option><option>//div[2]/form/div/button</option><option>css=div.tab-pane.active &gt; form &gt; div.form-group &gt; button.btn.btn-primary</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>//div[@id='app']/div/div[2]/div[2]/form/div/ul/li<datalist><option>//div[@id='app']/div/div[2]/div[2]/form/div/ul/li</option><option>//form/div/ul/li</option><option>css=li.react-list-select--item.is-focused</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>xpath=(//button[@type='button'])[3]<datalist><option>xpath=(//button[@type='button'])[3]</option><option>//div[@id='app']/div/div[2]/div[2]/form/div/button[2]</option><option>//button[2]</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>name=valueSet<datalist><option>name=valueSet</option><option>//input[@name='valueSet']</option><option>//div[@id='app']/div/div[2]/div[2]/form[2]/div/input</option><option>//form[2]/div/input</option><option>css=input[name="valueSet"]</option></datalist></td><td></td>
+</tr>
+<tr><td>type</td><td>name=valueSet<datalist><option>name=valueSet</option><option>//input[@name='valueSet']</option><option>//div[@id='app']/div/div[2]/div[2]/form[2]/div/input</option><option>//form[2]/div/input</option><option>css=input[name="valueSet"]</option></datalist></td><td>10</td>
+</tr>
+<tr><td>click</td><td>name=creditorAddr<datalist><option>name=creditorAddr</option><option>//input[@name='creditorAddr']</option><option>//div[@id='app']/div/div[2]/div[2]/form[2]/div/input[2]</option><option>//form[2]/div/input[2]</option><option>css=input[name="creditorAddr"]</option></datalist></td><td></td>
+</tr>
+<tr><td>type</td><td>name=creditorAddr<datalist><option>name=creditorAddr</option><option>//input[@name='creditorAddr']</option><option>//div[@id='app']/div/div[2]/div[2]/form[2]/div/input[2]</option><option>//form[2]/div/input[2]</option><option>css=input[name="creditorAddr"]</option></datalist></td><td>0xdCA55C3Ef897776B9bbF4852a32FbB97c26dAd03</td>
+</tr>
+<tr><td>click</td><td>name=descrDebt<datalist><option>name=descrDebt</option><option>//input[@name='descrDebt']</option><option>//div[@id='app']/div/div[2]/div[2]/form[2]/div/input[3]</option><option>//form[2]/div/input[3]</option><option>css=input[name="descrDebt"]</option></datalist></td><td></td>
+</tr>
+<tr><td>type</td><td>name=descrDebt<datalist><option>name=descrDebt</option><option>//input[@name='descrDebt']</option><option>//div[@id='app']/div/div[2]/div[2]/form[2]/div/input[3]</option><option>//form[2]/div/input[3]</option><option>css=input[name="descrDebt"]</option></datalist></td><td>test 1</td>
+</tr>
+<tr><td>click</td><td>xpath=(//button[@type='button'])[4]<datalist><option>xpath=(//button[@type='button'])[4]</option><option>//div[@id='app']/div/div[2]/div[2]/form[2]/div/button</option><option>//form[2]/div/button</option></datalist></td><td></td>
+</tr>
+</tbody></table>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">burn</td></tr>
+</thead>
+<tbody>
+<tr><td>open</td><td>http://localhost:8000/<datalist><option>http://localhost:8000/</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>link=Pay off IOU<datalist><option>link=Pay off IOU</option><option>//a[contains(text(),'Pay off IOU')]</option><option>//div[@id='app']/div/ul/li[3]/a</option><option>//li[3]/a</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>xpath=(//button[@type='button'])[3]<datalist><option>xpath=(//button[@type='button'])[3]</option><option>//div[@id='app']/div/div[2]/div[3]/form/div/button</option><option>//div[3]/form/div/button</option><option>css=div.tab-pane.active &gt; form &gt; div.form-group &gt; button.btn.btn-primary</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>xpath=(//button[@type='button'])[3]<datalist><option>xpath=(//button[@type='button'])[3]</option><option>//div[@id='app']/div/div[2]/div[3]/form/div/button</option><option>//div[3]/form/div/button</option><option>css=div.tab-pane.active &gt; form &gt; div.form-group &gt; button.btn.btn-primary</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>link=Pay off IOU<datalist><option>link=Pay off IOU</option><option>//a[contains(text(),'Pay off IOU')]</option><option>//div[@id='app']/div/ul/li[3]/a</option><option>//li[3]/a</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>xpath=(//button[@type='button'])[3]<datalist><option>xpath=(//button[@type='button'])[3]</option><option>//div[@id='app']/div/div[2]/div[3]/form/div/button</option><option>//div[3]/form/div/button</option><option>css=div.tab-pane.active &gt; form &gt; div.form-group &gt; button.btn.btn-primary</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>//div[@id='app']/div/div[2]/div[3]/form/div/ul/li<datalist><option>//div[@id='app']/div/div[2]/div[3]/form/div/ul/li</option><option>//form/div/ul/li</option><option>css=li.react-list-select--item.is-focused</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>xpath=(//button[@type='button'])[4]<datalist><option>xpath=(//button[@type='button'])[4]</option><option>//div[@id='app']/div/div[2]/div[3]/form/div/button[2]</option><option>//button[2]</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>name=valueSet<datalist><option>name=valueSet</option><option>//input[@name='valueSet']</option><option>//div[@id='app']/div/div[2]/div[3]/form[2]/div/input</option><option>//form[2]/div/input</option><option>css=input[name="valueSet"]</option></datalist></td><td></td>
+</tr>
+<tr><td>type</td><td>name=valueSet<datalist><option>name=valueSet</option><option>//input[@name='valueSet']</option><option>//div[@id='app']/div/div[2]/div[3]/form[2]/div/input</option><option>//form[2]/div/input</option><option>css=input[name="valueSet"]</option></datalist></td><td>4</td>
+</tr>
+<tr><td>click</td><td>//div[@id='app']/div/div[2]/div[3]/form[2]/div/span/span[3]/span/span<datalist><option>//div[@id='app']/div/div[2]/div[3]/form[2]/div/span/span[3]/span/span</option><option>//span[3]/span/span</option><option>css=span.PrivateValueLabel-circle-24</option></datalist></td><td></td>
+</tr>
+<tr><td>click</td><td>name=feedback<datalist><option>name=feedback</option><option>//input[@name='feedback']</option><option>//div[@id='app']/div/div[2]/div[3]/form[2]/div/input[2]</option><option>//form[2]/div/input[2]</option><option>css=input[name="feedback"]</option></datalist></td><td></td>
+</tr>
+<tr><td>type</td><td>name=feedback<datalist><option>name=feedback</option><option>//input[@name='feedback']</option><option>//div[@id='app']/div/div[2]/div[3]/form[2]/div/input[2]</option><option>//form[2]/div/input[2]</option><option>css=input[name="feedback"]</option></datalist></td><td>test1</td>
+</tr>
+<tr><td>click</td><td>xpath=(//button[@type='button'])[5]<datalist><option>xpath=(//button[@type='button'])[5]</option><option>//div[@id='app']/div/div[2]/div[3]/form[2]/div/button</option><option>//form[2]/div/button</option></datalist></td><td></td>
+</tr>
+</tbody></table>
+</body>
+</html>

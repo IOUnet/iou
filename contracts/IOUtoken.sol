@@ -49,9 +49,9 @@ contract IOUtoken is ERC20Mintable, ERC20Burnable {
         bytes32[] keywords;
         uint256 totalMinted;
         uint256 totalBurned;
-        uint256 avRate;
+     
     }
-
+    uint256[] public avRate;
     StoreIOUs StoreIOU;
  //   string public name;
  //   string public  symbol;
@@ -131,8 +131,7 @@ contract IOUtoken is ERC20Mintable, ERC20Burnable {
             _description,
             _location,
             _units,
-            _keywords,
-            0,0,0
+            _keywords,0,0
         );
     }
 
@@ -149,7 +148,7 @@ contract IOUtoken is ERC20Mintable, ERC20Burnable {
     }   
     
     modifier onlyHolder (uint256 _amount) {
-        require (balanceOf(msg.sender) > _amount, "Not enougth amount for token holder" );
+        require (balanceOf(msg.sender) > _amount, "No amount token holder has" );
     _;
     }
 
@@ -157,27 +156,33 @@ contract IOUtoken is ERC20Mintable, ERC20Burnable {
         if (!registered) {
             StoreIOU.addIOU2(address(this), thisIOU.socialProfile, thisIOU.keywords);
             registered =  true;
-        require (bytes(_descr).length <256, "Description of IOU is too long, must be < 256");
+            }
+        require (bytes(_descr).length <256, "IOU text is long, need < 256");
         IOU memory bond = IOU (_who, now, _descr);
         allIOUs.push(bond);
         IOUbyReceiver[_who].push(IOUbyReceiver[_who].length-1);
         super.mint(_who, _amount);
         thisIOU.totalMinted += _amount;
         StoreIOU.addHolder(_who, address(this));
-        }
+        
     }
 
     function burn (uint256 _amount, uint256 _rating, string memory _feedback) public onlyHolder (_amount) {
-        require (bytes(_feedback).length <256, "Feedback is too long, must be < 256");
+        require (bytes(_feedback).length <256, "Feedback is long, must be < 256");
         require (_rating <= 100 , "Rating overclocked");
 
         FeedBack memory feedback = FeedBack(msg.sender,now, _rating, _feedback);
         allFeedbacks.push(feedback);
         feedBacksbySender[msg.sender].push(allFeedbacks.length-1);
-        super.burn(_amount);
-        thisIOU.totalBurned += _amount;
-        thisIOU.avRate = (thisIOU.avRate * (allFeedbacks.length -1) + _rating ) / allFeedbacks.length;
+        /*
+        thisIOU.avRate = (thisIOU.avRate * (allFeedbacks.length -1) + 
+                        _rating * _amount/balanceOf(msg.sender) ) / 
+                        allFeedbacks.length;
+                        */
+        avRate.push(_rating * _amount/balanceOf(msg.sender) );
 
+        thisIOU.totalBurned += _amount;
+        super.burn(_amount);
     }
 
     function transfer(address _recipient, uint256 _amount) public  returns (bool) {
@@ -198,12 +203,16 @@ contract IOUtoken is ERC20Mintable, ERC20Burnable {
     function symbol () public view returns (string memory) {
         return thisIOU.symbol;
     }
-    function getIOUslen ()  public view returns (uint256) {
-        return allIOUs.length;
+    function getlen ()  public view returns (uint256, uint256, uint256) {
+        return (allIOUs.length, allFeedbacks.length,  avRate.length);
     }     
-    function getFeedbackslen ()  public view returns (uint256) {
+  /*  function getFeedbackslen ()  public view returns (uint256) {
         return allFeedbacks.length;
     }
+    function getAvRatelen ()  public view returns (uint256) {
+        return avRate.length;
+    }
+*/
 
 /*
     function getTotalDebt() public pure returns (uint256) {
