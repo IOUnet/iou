@@ -35,7 +35,7 @@ contract StoreIOUs {
     }
 
     modifier isIOUtoken () {
-        require (isIOU[msg.sender], "Not IOU token calls" );
+        require (makeFactory == msg.sender || isIOU[msg.sender], "Not IOU token calls" );
         _;
     }
 

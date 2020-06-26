@@ -186,18 +186,25 @@ contract IOUtoken is ERC20Mintable, ERC20Burnable {
         return true;
     }
 
-    function thisIOUkeywords() public returns (bytes32[] memory)
+    function thisIOUkeywords() public view returns (bytes32[] memory)
     {
         return thisIOU.keywords;
     }
 
-    function name () public returns (string memory) {
+    function name () public view  returns (string memory) {
         return thisIOU.name;
     }
 
-    function symbol () public returns (string memory) {
+    function symbol () public view returns (string memory) {
         return thisIOU.symbol;
     }
+    function getIOUslen ()  public view returns (uint256) {
+        return allIOUs.length;
+    }     
+    function getFeedbackslen ()  public view returns (uint256) {
+        return allFeedbacks.length;
+    }
+
 /*
     function getTotalDebt() public pure returns (uint256) {
         return (_totalMinted - _totalBurned);
