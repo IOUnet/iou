@@ -28,29 +28,29 @@ contract IOUtoken is ERC20Mintable, ERC20Burnable {
 
     struct IOU {
         address receiver;
-        uint time;
+        uint256 time;
         string IOUDescr; //what IOU is
     }
 
     struct FeedBack {
         address sender;
-        uint time;
+        uint256 time;
         uint256 rating; // estimation of skills in 255 grades
         string text; //comment
     }
     struct DescriptionIOU {
-        string name;
-        string symbol;
+        uint256 totalMinted;
+        uint256 totalBurned;
+        bytes32 units;
+
         string myName ; //name of emitter
         string socialProfile ; //profile  of emitter in social nets
         string description ; //description of bond IOU to  work
-        string location; //where is it         
-        bytes32 units;
+        string location; //where is it             
         bytes32[] keywords;
-        uint256 totalMinted;
-        uint256 totalBurned;
-     
     }
+    string public name;
+    string public symbol;
     uint256[] public avRate;
     StoreIOUs StoreIOU;
  //   string public name;
@@ -117,24 +117,25 @@ contract IOUtoken is ERC20Mintable, ERC20Burnable {
         require (bytes(_location).length < 128, "Too long location, must be < 256 chr" );
         require (_keywords.length <=5 , "Too many keywords, must be < 5 keys" );
         
-        uint l = _keywords.length > 5 ? 5: _keywords.length;
+        uint256 l = _keywords.length > 5 ? 5: _keywords.length;
         bytes32[] memory keywords;
-        for (uint k=0; k < l ; k++){
+        for (uint256 k=0; k < l ; k++){
                 keywords [k]= _keywords [k];
         } 
 */
-        thisIOU = DescriptionIOU (
-            _name,
-            _symbol,
+        thisIOU = DescriptionIOU (0,0,
+            _units,
+        
             _myName,
             _socialProfile,
             _description,
             _location,
-            _units,
-            _keywords,0,0
+            _keywords
         );
+    name = _name;
+    symbol = _symbol;
     }
-
+    
 
     function setOwner (address _newOwner) public onlyOwner {
         _removeMinter(owner);
@@ -196,6 +197,10 @@ contract IOUtoken is ERC20Mintable, ERC20Burnable {
         return thisIOU.keywords;
     }
 
+    function getlen ()  public view returns (uint256, uint256, uint256) {
+        return (allIOUs.length, allFeedbacks.length,  avRate.length);
+    } 
+/*
     function name () public view  returns (string memory) {
         return thisIOU.name;
     }
@@ -203,9 +208,7 @@ contract IOUtoken is ERC20Mintable, ERC20Burnable {
     function symbol () public view returns (string memory) {
         return thisIOU.symbol;
     }
-    function getlen ()  public view returns (uint256, uint256, uint256) {
-        return (allIOUs.length, allFeedbacks.length,  avRate.length);
-    }     
+    
   /*  function getFeedbackslen ()  public view returns (uint256) {
         return allFeedbacks.length;
     }
