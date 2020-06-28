@@ -60,7 +60,6 @@ class BurnIOU extends React.Component {
     let keyVal = {}
     keyVal["getValue"] = this.state.IOUsList[e];
     this.setState( keyVal );
-    this.getValue(e);
                  
   }
 
@@ -185,7 +184,7 @@ class BurnIOU extends React.Component {
           <h3> Enter address of IOU token to pay off and burn </h3>          
           <Form>
           <FormGroup> 
-          <Button color="primary" onClick={(e) => this.getIOUList(e)}>Get  list of given me IOUs</Button>
+          <Button color="primary" onClick={(e) => this.getIOUList(e)}>Get list of given me IOUs</Button>
           <br />
             <List
                 items={this.state.IOUsList}
