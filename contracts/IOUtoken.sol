@@ -35,14 +35,14 @@ contract IOUtoken is ERC20Mintable, ERC20Burnable {
     struct FeedBack {
         address sender;
         uint256 time;
-        uint256 rating; // estimation of skills in 255 grades
+        int256 rating; // estimation of skills in 255 grades
         string text; //comment
     }
     struct DescriptionIOU {
         uint256 totalMinted;
         uint256 totalBurned;
-        bytes32 units;
-
+        int256 avRate;
+        bytes32 units;        
         string myName ; //name of emitter
         string socialProfile ; //profile  of emitter in social nets
         string description ; //description of bond IOU to  work
@@ -51,7 +51,7 @@ contract IOUtoken is ERC20Mintable, ERC20Burnable {
     }
     string public name;
     string public symbol;
-    uint256[] public avRate;
+
     StoreIOUs StoreIOU;
  //   string public name;
  //   string public  symbol;
@@ -109,21 +109,7 @@ contract IOUtoken is ERC20Mintable, ERC20Burnable {
                 _keywords.length <=5 , 
                 "Too many symbs in parameter" );
 
-  /*      require (bytes(_name).length <16, "Too long name, must be < 12 chr" );
-        require (bytes(_symbol).length < 10, "Too long symbol, must be < 4 chr" );
-        require (bytes(_myName).length < 64, "Too long Name, must be < 128 chr" );
-        require (bytes(_socialProfile).length < 128, "Too long  Social Profile, must be < 128 chr" );
-        require (bytes(_description).length < 128, "Too long description, must be < 128 chr" );
-        require (bytes(_location).length < 128, "Too long location, must be < 256 chr" );
-        require (_keywords.length <=5 , "Too many keywords, must be < 5 keys" );
-        
-        uint256 l = _keywords.length > 5 ? 5: _keywords.length;
-        bytes32[] memory keywords;
-        for (uint256 k=0; k < l ; k++){
-                keywords [k]= _keywords [k];
-        } 
-*/
-        thisIOU = DescriptionIOU (0,0,
+        thisIOU = DescriptionIOU (0,0,0,
             _units,
         
             _myName,
@@ -168,19 +154,19 @@ contract IOUtoken is ERC20Mintable, ERC20Burnable {
         
     }
 
-    function burn (uint256 _amount, uint256 _rating, string memory _feedback) public onlyHolder (_amount) {
+    function burn (uint256 _amount, int256 _rating, string memory _feedback) public onlyHolder (_amount) {
         require (bytes(_feedback).length <256, "Feedback is long, must be < 256");
-        require (_rating <= 100 , "Rating overclocked");
+      //  require (_rating <= 100 &&  , "Rating overclocked");
 
         FeedBack memory feedback = FeedBack(msg.sender,now, _rating, _feedback);
         allFeedbacks.push(feedback);
         feedBacksbySender[msg.sender].push(allFeedbacks.length-1);
-        /*
-        thisIOU.avRate = (thisIOU.avRate * (allFeedbacks.length -1) + 
-                        _rating * _amount/balanceOf(msg.sender) ) / 
-                        allFeedbacks.length;
-                        */
-        avRate.push(_rating * _amount/balanceOf(msg.sender) );
+        
+        int256 deltaRate = _rating * int256(_amount) / int256 (balanceOf(msg.sender));
+
+        thisIOU.avRate = (thisIOU.avRate * (int256(allFeedbacks.length) -1) + 
+                        deltaRate  * int256(allFeedbacks.length)) / int256(allFeedbacks.length);
+                        
 
         thisIOU.totalBurned += _amount;
         super.burn(_amount);
@@ -197,58 +183,8 @@ contract IOUtoken is ERC20Mintable, ERC20Burnable {
         return thisIOU.keywords;
     }
 
-    function getlen ()  public view returns (uint256, uint256, uint256) {
-        return (allIOUs.length, allFeedbacks.length,  avRate.length);
+    function getlen ()  public view returns (uint256, uint256) {
+        return (allIOUs.length, allFeedbacks.length);
     } 
-/*
-    function name () public view  returns (string memory) {
-        return thisIOU.name;
-    }
 
-    function symbol () public view returns (string memory) {
-        return thisIOU.symbol;
-    }
-    
-  /*  function getFeedbackslen ()  public view returns (uint256) {
-        return allFeedbacks.length;
-    }
-    function getAvRatelen ()  public view returns (uint256) {
-        return avRate.length;
-    }
-*/
-
-/*
-    function getTotalDebt() public pure returns (uint256) {
-        return (_totalMinted - _totalBurned);
-    }
-
-    function getTotalMinted() public pure returns (uint256) {
-        return _totalMinted;
-    }
-
-    function getTotalBurned() public pure returns (uint256) {
-        return _totalBurned;
-    }
-
-    function getIOUslen ()  public pure returns (uint256) {
-        return allIOUs.length;
-
-    
-    function getIOUid (uint256 _id)  public pure returns (address, uint256, string) {
-        return (allIOUs[_id].receiver,
-                allIOUs[_id].time,
-                allIOUs[_id].IOUDescr
-            );
-
-    
-    function getFeedbackslen ()  public pure returns (uint256) {
-        return allFeedbacks.length;
-
-    
-    function getFeedbackid (uint256 _id)  public pure returns (address, uint256, string) {
-        return (allFeedbacks[_id].receivsenderer,
-                allFeedbacks[_id].time,
-                allFeedbacks[_id].FeedbackDescr
-            );
-            */
 }

@@ -112,11 +112,18 @@ class MintIOU extends React.Component {
     this.state.curIOU =  EmbarkJS.Blockchain.Contract({
         abi: IOUs.options.jsonInterface,
         address: this.state.getValue});
-    
+  await this.state.curIOU.methods.name().call().then(_value =>
+    {
+      this.setState({name: _value});
+    });
+  
+  await this.state.curIOU.methods.symbol().call().then(_value =>
+      {
+        this.setState({symbol: _value});
+      });
     await this.state.curIOU.methods.thisIOU().call().then(_value =>
       {
-      this.setState({name: _value.name});
-      this.setState({symbol: _value.symbol});
+
       this.setState({myName: _value.myName});
       this.setState({socialProfile: _value.socialProfile});
       this.setState({description: _value.description});
@@ -133,6 +140,13 @@ class MintIOU extends React.Component {
             return h2a(e)
           })
         this.setState({keywords: value});
+        });
+
+      
+      await this.state.curIOU.methods.getlen().call().then((_value ) =>
+        {
+         this.setState({IOULen: _value [0]});
+         this.setState({feedBackLen: _value [1]});
         });
     this._addToLog("IOU address: ", this.state.getValue );
   }
@@ -181,11 +195,12 @@ class MintIOU extends React.Component {
             Description: {this.state.description }  <br/>
             keywords: {this.state.keywords }  <br/>
             Units: {this.state.units }  <br/>
-            Total minted: {this.state.totalMinted / 10**18} <br/>
-            Total burned: {this.state.totalBurned / 10**18} <br/>
+            Total minted: {this.state.totalMinted / 10**18}, by {this.state.IOULen} IOUs <br/>
+            Total burned: {this.state.totalBurned / 10**18}, by {this.state.feedBackLen} feedbacks <br/>
             Balance: {(this.state.totalMinted - this.state.totalBurned)/10**18}
             <br />
-            Average Rating: {this.state.avRate}%
+            Average Rating: {this.state.avRate} "from -100 to 100". <br/>
+            
             </p>}
           </FormGroup>
         </Form>

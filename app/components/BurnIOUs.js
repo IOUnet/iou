@@ -38,12 +38,14 @@ class BurnIOU extends React.Component {
       curIOU: "",
       creditorAddr: "",
       descrDebt:"",
-      rate: 75,
+      rate: 0,
       feedback: "",
       totalMinted: 0,
       totalBurned: 0,
       keywords:[],
-      avRate:0
+      avRate:0,
+      IOULen:0, 
+      feedBackLen:0, 
     };
   }
 
@@ -58,6 +60,7 @@ class BurnIOU extends React.Component {
     let keyVal = {}
     keyVal["getValue"] = this.state.IOUsList[e];
     this.setState( keyVal );
+    this.getValue(e);
                  
   }
 
@@ -93,7 +96,7 @@ class BurnIOU extends React.Component {
         abi: IOUs.options.jsonInterface,
         address: this.state.getValue
         });
-      const rate = this.state.rate * 1;
+      const rate = parseInt(this.state.rate) ;
       curIOU.methods.burn(
         web3.utils.toWei(this.state.valueSet),
         rate.toString(),
@@ -124,21 +127,40 @@ class BurnIOU extends React.Component {
         abi: IOUs.options.jsonInterface,
         address: this.state.getValue});
     
+    await this.state.curIOU.methods.name().call().then(_value =>
+    {
+      this.setState({name: _value});
+    });
+    await this.state.curIOU.methods.symbol().call().then(_value =>
+      {
+        this.setState({symbol: _value});
+      });
     await this.state.curIOU.methods.thisIOU().call().then(_value =>
       {
-      this.setState({name: _value.name});
-      this.setState({symbol: _value.symbol});
       this.setState({myName: _value.myName});
       this.setState({socialProfile: _value.socialProfile});
       this.setState({description: _value.description});
-      this.setState({keywords: _value.keywords});
       this.setState({location: _value.location});
       this.setState({units: h2a(_value.units)});
       this.setState({totalMinted: _value.totalMinted});
       this.setState({totalBurned: _value.totalBurned});
       this.setState({avRate: _value.avRate});
-
       });
+
+      await this.state.curIOU.methods.getlen().call().then((_value ) =>
+     {
+      this.setState({IOULen: _value [0]});
+      this.setState({feedBackLen: _value [1]});
+     }); 
+
+     await this.state.curIOU.methods.thisIOUkeywords().call().then(_value =>
+      {
+        let value = _value.map((e) => {
+          return h2a(e)
+        })
+      this.setState({keywords: value});
+      });
+
     this._addToLog("IOU address: ", this.state.getValue );
   }
 
@@ -197,11 +219,10 @@ class BurnIOU extends React.Component {
             Description: {this.state.description }  <br/>
             Keywords: {this.state.keywords }  <br/>
             Units: {this.state.units }  <br/>
-            Total minted: {this.state.totalMinted / 10**18} <br/>
-            Total burned: {this.state.totalBurned / 10**18} <br/>
+            Total minted: {this.state.totalMinted / 10**18}, by {this.state.IOULen} IOUs <br/>
+            Total burned: {this.state.totalBurned / 10**18}, by {this.state.feedBackLen} feedbacks <br/>
             Balance: {(this.state.totalMinted - this.state.totalBurned)/10**18} <br/>
-            Average Rating: {this.state.avRate}%
-
+            Average Rating: {this.state.avRate} "from -100 to 100". <br/>
             </p>}
           </FormGroup>
         </Form>
@@ -221,15 +242,15 @@ class BurnIOU extends React.Component {
                 placeholder="enter amount of IOS"
                 onChange={(e) => this.handleChange(e)}/>   <FormText > of {this.state.units } to owner of IOU. </FormText> <br />
            
-              <FormText > and give the rate (0-ugly, 10-fine): </FormText>
+              <FormText > and give the rate (-100-superugly, +100-superfine): </FormText>
      
                 <Slider
-                  defaultValue={80}
+                  defaultValue={0}
             //      getAriaValueText={"rate"}
                   aria-labelledby="discrete-slider-always"
-                  min = {0}
+                  min = {-100}
                   max = {100}
-                  step={5}                
+                  step={10}                
              //     marks={[0, 1, 2,3,4,5,6,7,8,9,10]}
                   valueLabelDisplay="on"
                   key="rate"
