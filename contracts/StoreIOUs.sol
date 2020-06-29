@@ -48,10 +48,13 @@ contract StoreIOUs {
     }
 
     function addIOU1 (address _newIOU, address _emitent) public onlyMake {
-        listIOUs[_emitent].push(_newIOU);
+        
         isIOU[_newIOU] = true;
         allIOU.push(_newIOU);
-        allIssuers.push(_emitent);
+        if (listIOUs[_emitent].length == 0) {
+            allIssuers.push(_emitent); 
+        }
+        listIOUs[_emitent].push(_newIOU);
     }
 
 
@@ -86,13 +89,7 @@ contract StoreIOUs {
     function getIOUListKey (bytes32 _key) public view returns (address[] memory) {
             return listbyKeys[_key];
                 }
-/*
-    function withdraw (address _baseActive, uint256 _amount) public  onlyOwner {
-            IOUtoken  BA = IOUtoken (_baseActive);
-            BA.transfer (owner, _amount);
 
-    }
-*/
     function addHolder(address _holder, address _IOUtoken) public isIOUtoken {
         if (!isHolderthisIOU[_holder][_IOUtoken] ) {
             listHoldersIOUs [_holder].push(_IOUtoken);

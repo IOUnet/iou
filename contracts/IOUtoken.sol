@@ -142,7 +142,7 @@ contract IOUtoken is ERC20Mintable, ERC20Burnable {
     function mint (address _who, uint256 _amount, string memory _descr) public onlyOwner { 
         if (!registered) {
             StoreIOU.addIOU2(address(this), thisIOU.socialProfile, thisIOU.keywords);
-            registered =  true;
+            registered = true; 
             }
         require (bytes(_descr).length <256, "IOU text is long, need < 256");
         IOU memory bond = IOU (_who, now, _descr);
@@ -156,7 +156,6 @@ contract IOUtoken is ERC20Mintable, ERC20Burnable {
 
     function burn (uint256 _amount, int256 _rating, string memory _feedback) public onlyHolder (_amount) {
         require (bytes(_feedback).length <256, "Feedback is long, must be < 256");
-      //  require (_rating <= 100 &&  , "Rating overclocked");
 
         FeedBack memory feedback = FeedBack(msg.sender,now, _rating, _feedback);
         allFeedbacks.push(feedback);
