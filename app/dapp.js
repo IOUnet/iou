@@ -140,5 +140,6 @@ class App extends React.Component {
     </div>);
   }
 }
-
+//const onboarding = new MetamaskOnboarding()
+//onboarding.startOnboarding()
 ReactDOM.render(<App/>, document.getElementById('app'));

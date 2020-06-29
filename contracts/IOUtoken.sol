@@ -170,6 +170,32 @@ contract IOUtoken is ERC20Mintable, ERC20Burnable {
         thisIOU.totalBurned += _amount;
         super.burn(_amount);
     }
+/*
+    function getTotalDebt() public pure returns (uint256) {
+        return (_totalMinted - _totalBurned);
+    }
+
+    function getTotalMinted() public pure returns (uint256) {
+        return _totalMinted;
+    }
+
+    function getTotalBurned() public pure returns (uint256) {
+        return _totalBurned;
+    }
+
+    function getIOUslen ()  public pure returns (uint256) {
+        return allIOUs.length;
+
+    
+    function getIOUid (uint256 _id)  public pure returns (address, uint256, string) {
+        return (allIOUs[_id].receiver,
+                allIOUs[_id].time,
+                allIOUs[_id].IOUDescr
+            );
+
+    
+    function getFeedbackslen ()  public pure returns (uint256) {
+        return allFeedbacks.length;
 
     function transfer(address _recipient, uint256 _amount) public  returns (bool) {
         StoreIOU.addHolder(_recipient, address(this));
