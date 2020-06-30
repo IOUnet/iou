@@ -36,4 +36,6 @@ module.exports = {
   // "embark run custom_name" or "embark blockchain custom_name"
   //custom_name: {
   //}
+  externalnode: {
+  }
 };

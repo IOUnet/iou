@@ -3,13 +3,19 @@ import EmbarkJS from 'Embark/EmbarkJS';
 import React from 'react';
 import {Form, FormGroup, Input, HelpBlock, Button, FormText} from 'reactstrap';
 
+//import ERC20 from '../../embarkArtifacts/contracts/ERC20Detailed';
+//import SimpleStorage from '../../embarkArtifacts/contracts/SimpleStorage';
 import MakeIOUs from '../../embarkArtifacts/contracts/MakeIOU';
 import IOUs from '../../embarkArtifacts/contracts/IOUtoken';
-
+import StoreIOUs from '../../embarkArtifacts/contracts/StoreIOUs';
+//import ERC20 from '../../embarkArtifacts/contracts/ERC20';
 import ReactGA from 'react-ga';
 //import List from 'react-list-select';
 ReactGA.initialize('UA-161540415-1');
 ReactGA.pageview(window.location.pathname + window.location.search);
+
+const h2a = web3.utils.hexToAscii;
+const a2h = web3.utils.asciiToHex;
 
 class MakeIOU extends React.Component {
 
@@ -31,8 +37,8 @@ class MakeIOU extends React.Component {
       curIOU: "",
       curOptstate:"" ,
       ERC20: "" ,
-      keywords:""
-
+      keywords: "",
+      
     };
   }
 
@@ -73,7 +79,10 @@ class MakeIOU extends React.Component {
     await web3.eth.getAccounts().then(e => { account = e[0];  
       });
       
-      const keys = this.state.keywords.split(',', 5);
+      let keys = this.state.keywords.split(',', 5)
+      keys = keys.map((e)=>{
+        return a2h(e);
+      });
 
    let gasAmount;
     await MakeIOUs.methods.makeIOU(
@@ -83,7 +92,7 @@ class MakeIOU extends React.Component {
       this.state.socialProfile,
       this.state.description,
       this.state.location,
-      this.state.units,
+      a2h(this.state.units),
       keys
      ).estimateGas({from: account}).then(e => { gasAmount = e;  
      }); 
@@ -94,9 +103,8 @@ class MakeIOU extends React.Component {
         this.state.socialProfile,
         this.state.description,
         this.state.location,
-        this.state.units,
-        keys
-                ).send({from:account, gas: gasAmount}); //}
+       a2h(this.state.units),
+        keys).send({from:account, gas: gasAmount}); //}
     this._addToLog("MakeIOUs.methods.MakeIOUs: ", this.state.getValue);
 
   }
@@ -134,11 +142,12 @@ class MakeIOU extends React.Component {
     this._addToLog("IOU address: ", this.state.getValue );
   }
 
-   
+
 
   render() {
     return (<React.Fragment>
         
+
         
         <h3> 1. Deploy IOU    </h3>
           <Form>
@@ -167,7 +176,7 @@ class MakeIOU extends React.Component {
                     onChange={(e) => this.handleChange(e)}/>                    
 
                  
-              <FormText color="muted">You name, surname (up to 255 chr)</FormText>
+              <FormText color="muted">Your profile in social networks </FormText>
                   <Input type = "text"
                     key="socialProfile"
                 // initialValues  = {this.state.addrBA1sell}
@@ -200,7 +209,7 @@ class MakeIOU extends React.Component {
                     onChange={(e) => this.handleChange(e)}/>
                                     
 
-                  <FormText color="muted">Units of measure for your product or service...  </FormText>
+                  <FormText color="muted">Unit of measure for your product or service (f.e. hours) </FormText>
                   <Input type = "text"
                       key="units"
                       // initialValues  = {this.state.addrBA2buy}

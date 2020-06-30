@@ -26,18 +26,32 @@ module.exports = {
 
     // minimalContractSize, when set to true, tells Embark to generate contract files without the heavy bytecodes
     // Using filteredFields lets you customize which field you want to filter out of the contract file (requires minimalContractSize: true)
-    // minimalContractSize: false,
+     minimalContractSize: true,
     // filteredFields: [],
 
     deploy: {
-      /* IOUtoken: {
+      StoreIOUs: {
         fromIndex: 0,
-        args: []
-      }, */
-      MakeIOU: {
-        fromIndex: 0,
-        args: []
+        args: [],
+      //  onDeploy: async ({contracts, web3, logger}) => {
+        //  await contracts.MakeIOU.methods.setStore(contracts.StoreIOUs.options.address).send({from: web3.eth.defaultAccount});
+       // }
       },
+      MakeIOU : {
+        fromIndex: 0,
+        args: [], //addr of MakeIOU
+        onDeploy: async ({contracts, web3, logger}) => {
+          await contracts.StoreIOUs.methods.setFactory(contracts.MakeIOU.options.address).send({from: web3.eth.defaultAccount});
+          await contracts.MakeIOU.methods.setStore(contracts.StoreIOUs.options.address).send({from: web3.eth.defaultAccount});
+          let fs = require('fs');
+          fs.writeFile("contr.json", JSON.stringify({"addrStore":contracts.StoreIOUs.options.address, "addrMakeIOU":contracts.MakeIOU.options.address}), function(err) {
+              if (err) {
+                  console.log(err);
+              }
+          });
+        }
+      }
+      
     }
   },
 
