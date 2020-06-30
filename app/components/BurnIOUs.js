@@ -9,6 +9,7 @@ import IOUs from '../../embarkArtifacts/contracts/IOUtoken';
 
 import ReactGA from 'react-ga';
 import Slider from '@material-ui/core/Slider';
+//import Typography from 'material-ui';
 
 import List from 'react-list-select';
 ReactGA.initialize('UA-161540415-1');
