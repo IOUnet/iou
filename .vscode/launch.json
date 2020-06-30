@@ -1,0 +1,32 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch Program",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "program": "${workspaceFolder}/config/pipeline.js",
+           // "args": ["embark run --nodashboard"],
+            "outFiles": [
+                "embark run --nodashboard"
+            ],
+        },
+        {
+            "name": "run IOU",
+            "type": "node",
+            "request": "launch",
+            "program": "${workspaceRoot}/app/dapp.js",
+            "args": ["embark run --nodashboard"],
+            "cwd": "${workspaceRoot}",
+            "outFiles": [
+                ""
+            ],
+          },
+    ]
+}

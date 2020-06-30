@@ -2,7 +2,7 @@ pragma solidity ^0.5.0;
 pragma experimental ABIEncoderV2;
 import "./token/ERC20/ERC20Burnable.sol";
 import "./token/ERC20/ERC20Mintable.sol";
-import "./MakeIOU.sol";
+import "./StoreIOUs.sol";
 
 /*** IOU ecosystem
 *   The aim of IOU ecosystem is to give people proved fiat-free mutual settlements by issuing personal IOU tokens on Ethereum.
@@ -28,34 +28,35 @@ contract IOUtoken is ERC20Mintable, ERC20Burnable {
 
     struct IOU {
         address receiver;
-        uint time;
+        uint256 time;
         string IOUDescr; //what IOU is
     }
 
     struct FeedBack {
         address sender;
-        uint time;
-        uint256 rating; // estimation of skills in 255 grades
+        uint256 time;
+        int256 rating; // estimation of skills in 255 grades
         string text; //comment
     }
     struct DescriptionIOU {
-        string name;
-        string symbol;
+        uint256 totalMinted;
+        uint256 totalBurned;
+        int256 avRate;
+        bytes32 units;        
         string myName ; //name of emitter
         string socialProfile ; //profile  of emitter in social nets
         string description ; //description of bond IOU to  work
-        string location; //where is it         
-        string units;
-        string keywords;
-        uint256 totalMinted;
-        uint256 totalBurned;
-        uint256 avRate;
+        string location; //where is it             
+        bytes32[] keywords;
     }
-
-    MakeIOU IOUfactory;
     string public name;
-    string public  symbol;
+    string public symbol;
+
+    StoreIOUs StoreIOU;
+ //   string public name;
+ //   string public  symbol;
     uint8 public decimals;
+    bool registered;
 
     DescriptionIOU public thisIOU;
 
@@ -65,53 +66,16 @@ contract IOUtoken is ERC20Mintable, ERC20Burnable {
     IOU[] public allIOUs;
     mapping (address => uint256[]) public IOUbyReceiver; // feedback from tokenholders
 
+    address factory;
     address owner;
     //mapping (address => uint) Tokenholders;
 
-    constructor (string memory _name, 
-                 string memory _symbol, 
-                 string memory _myName, //name of emitter
-                 string memory _socialProfile, //profile  of emitter in social nets
-                 string memory _description, //description of bond IOU to  work
-                 string memory _location, //where is 
-                 string memory _units, //units of deal
-                 string[] memory _keywords,
-                 address _actor
-                ) public  {
-        _removeMinter(msg.sender);
-        _addMinter (_actor);
-        owner = _actor;
-        IOUfactory = MakeIOU(msg.sender);
-        require (bytes(_name).length <16, "Too long name, must be < 12 chr" );
-        name = _name;
-        require (bytes(_symbol).length < 10, "Too long symbol, must be < 4 chr" );
-        symbol = _symbol;
-        decimals = 18;
-        require (bytes(_myName).length < 257, "Too long Name, must be < 256 chr" );
-        require (bytes(_socialProfile).length < 257, "Too long  Social Profile, must be < 256 chr" );
-        require (bytes(_description).length < 257, "Too long description, must be < 256 chr" );
-        require (bytes(_location).length < 257, "Too long location, must be < 256 chr" );
-        require (bytes(_units).length < 16, "Too long units, must be < 10 chr" );
-        
-        string memory keywords;
-        uint l = _keywords.length > 5 ? 5: _keywords.length;
-        for (uint k=0; k < l ; k++){
-            if (bytes(_keywords[k]).length  > 0 ){
-                keywords = string( abi.encodePacked (_keywords[k], ",", keywords));
-            }
-        } 
-
-        thisIOU = DescriptionIOU (
-            _name,
-            _symbol,
-            _myName,
-            _socialProfile,
-            _description,
-            _location,
-            _units,
-            keywords,
-            0,0,0
-        );
+    constructor () public {
+        factory = msg.sender;
+    }
+    modifier onlyfactory() {
+        require (factory == msg.sender, "Only factory can do this");
+        _;
     }
 
     modifier onlyOwner() {
@@ -119,103 +83,107 @@ contract IOUtoken is ERC20Mintable, ERC20Burnable {
         _;
     }
 
+    function setIOU (string memory _name, 
+                 string memory _symbol, 
+                 string memory _myName, // of emitter
+                 string memory _socialProfile, //profile  of emitter in social nets
+                 string memory _description, //description of bond IOU to  work
+                 string memory _location, //where is 
+                 bytes32  _units, //units of deal
+                 bytes32[] memory _keywords,
+                 address _storeAddr,
+                 address _owner
+                ) public onlyfactory {
+        _removeMinter(msg.sender);
+        _addMinter (_owner);
+        
+        owner = _owner;
+        StoreIOU = StoreIOUs(_storeAddr);
+        decimals = 18;
+        require (bytes(_name).length <16 || 
+                bytes(_symbol).length < 10 ||
+                bytes(_myName).length < 64 ||
+                bytes(_socialProfile).length < 128 ||
+                bytes(_description).length < 128 ||
+                bytes(_location).length < 128 ||
+                _keywords.length <=5 , 
+                "Too many symbs in parameter" );
+
+        thisIOU = DescriptionIOU (0,0,0,
+            _units,
+        
+            _myName,
+            _socialProfile,
+            _description,
+            _location,
+            _keywords
+        );
+    name = _name;
+    symbol = _symbol;
+    }
+    
+
     function setOwner (address _newOwner) public onlyOwner {
         _removeMinter(owner);
         owner = _newOwner;
         _addMinter(_newOwner);
     }
+
+    function setStore (address _newfactor) public onlyfactory {
+        StoreIOU = StoreIOUs(_newfactor);
+        
+    }   
     
     modifier onlyHolder (uint256 _amount) {
-        require (balanceOf(msg.sender) > _amount, "Not enougth amount for token holder" );
+        require (balanceOf(msg.sender) > _amount, "No amount token holder has" );
     _;
     }
 
     function mint (address _who, uint256 _amount, string memory _descr) public onlyOwner { 
-        require (bytes(_descr).length <256, "Description of IOU is too long, must be < 256");
+        if (!registered) {
+            StoreIOU.addIOU2(address(this), thisIOU.socialProfile, thisIOU.keywords);
+            registered = true; 
+            }
+        require (bytes(_descr).length <256, "IOU text is long, need < 256");
         IOU memory bond = IOU (_who, now, _descr);
         allIOUs.push(bond);
         IOUbyReceiver[_who].push(IOUbyReceiver[_who].length-1);
         super.mint(_who, _amount);
         thisIOU.totalMinted += _amount;
-        IOUfactory.addHolder(_who, address(this));
+        StoreIOU.addHolder(_who, address(this));
+        
     }
 
-    function burn (uint256 _amount, uint256 _rating, string memory _feedback) public onlyHolder (_amount) {
-        require (bytes(_feedback).length <256, "Feedback is too long, must be < 256");
-        require (_rating <= 100 , "Rating overclocked");
+    function burn (uint256 _amount, int256 _rating, string memory _feedback) public onlyHolder (_amount) {
+        require (bytes(_feedback).length <256, "Feedback is long, must be < 256");
 
         FeedBack memory feedback = FeedBack(msg.sender,now, _rating, _feedback);
         allFeedbacks.push(feedback);
         feedBacksbySender[msg.sender].push(allFeedbacks.length-1);
-        super.burn(_amount);
+        
+        int256 deltaRate = _rating * int256(_amount) / int256 (balanceOf(msg.sender));
+
+        thisIOU.avRate = (thisIOU.avRate * (int256(allFeedbacks.length) -1) + 
+                        deltaRate  * int256(allFeedbacks.length)) / int256(allFeedbacks.length);
+                        
+
         thisIOU.totalBurned += _amount;
-        thisIOU.avRate = (thisIOU.avRate * (allFeedbacks.length -1) + _rating ) / allFeedbacks.length;
-
+        super.burn(_amount);
     }
-/*
-    function getTotalDebt() public pure returns (uint256) {
-        return (_totalMinted - _totalBurned);
-    }
-
-    function getTotalMinted() public pure returns (uint256) {
-        return _totalMinted;
-    }
-
-    function getTotalBurned() public pure returns (uint256) {
-        return _totalBurned;
-    }
-
-    function getIOUslen ()  public pure returns (uint256) {
-        return allIOUs.length;
-
-    
-    function getIOUid (uint256 _id)  public pure returns (address, uint256, string) {
-        return (allIOUs[_id].receiver,
-                allIOUs[_id].time,
-                allIOUs[_id].IOUDescr
-            );
-
-    
-    function getFeedbackslen ()  public pure returns (uint256) {
-        return allFeedbacks.length;
 
     function transfer(address _recipient, uint256 _amount) public  returns (bool) {
-        IOUfactory.addHolder(_recipient, address(this));
+        StoreIOU.addHolder(_recipient, address(this));
         super.transfer(_recipient, _amount);
         return true;
     }
-/*
-    function getTotalDebt() public pure returns (uint256) {
-        return (_totalMinted - _totalBurned);
+
+    function thisIOUkeywords() public view returns (bytes32[] memory)
+    {
+        return thisIOU.keywords;
     }
 
-    function getTotalMinted() public pure returns (uint256) {
-        return _totalMinted;
-    }
+    function getlen ()  public view returns (uint256, uint256) {
+        return (allIOUs.length, allFeedbacks.length);
+    } 
 
-    function getTotalBurned() public pure returns (uint256) {
-        return _totalBurned;
-    }
-
-    function getIOUslen ()  public pure returns (uint256) {
-        return allIOUs.length;
-
-    
-    function getIOUid (uint256 _id)  public pure returns (address, uint256, string) {
-        return (allIOUs[_id].receiver,
-                allIOUs[_id].time,
-                allIOUs[_id].IOUDescr
-            );
-
-    
-    function getFeedbackslen ()  public pure returns (uint256) {
-        return allFeedbacks.length;
-
-    
-    function getFeedbackid (uint256 _id)  public pure returns (address, uint256, string) {
-        return (allFeedbacks[_id].receivsenderer,
-                allFeedbacks[_id].time,
-                allFeedbacks[_id].FeedbackDescr
-            );
-            */
 }

@@ -3,12 +3,16 @@ import EmbarkJS from 'Embark/EmbarkJS';
 import React from 'react';
 import {Form, FormGroup, Input, HelpBlock, Button, FormText} from 'reactstrap';
 
-import MakeIOUs from '../../embarkArtifacts/contracts/MakeIOU';
+import ERC20 from '../../embarkArtifacts/contracts/ERC20Detailed';
+import SimpleStorage from '../../embarkArtifacts/contracts/SimpleStorage';
+import StoreIOUs from '../../embarkArtifacts/contracts/StoreIOUs';
 import IOUs from '../../embarkArtifacts/contracts/IOUtoken';
 import ReactGA from 'react-ga';
 import List from 'react-list-select';
 ReactGA.initialize('UA-161540415-1');
 ReactGA.pageview(window.location.pathname + window.location.search);
+const h2a = web3.utils.hexToAscii;
+const a2h = web3.utils.asciiToHex;
 
 class MintIOU extends React.Component {
 
@@ -16,7 +20,7 @@ class MintIOU extends React.Component {
     super(props);
 
     this.state = {
-      valueSet: 10,
+      valueSet: 0,
       getValue: "",
       logs: [],
       name: "",
@@ -32,7 +36,7 @@ class MintIOU extends React.Component {
       descrDebt:"", 
       totalMinted: 0,
       totalBurned: 0,
-      keywords: "",
+      keywords: [],
       avRate: 0,
     };
   }
@@ -93,7 +97,7 @@ class MintIOU extends React.Component {
     let  account;
     await web3.eth.getAccounts().then(e => { account = e[0];  
       });
-    MakeIOUs.methods.getIOUList(account).call().then(_value => this.setState({ IOUsList: _value }));
+    StoreIOUs.methods.getIOUList(account).call().then(_value => this.setState({ IOUsList: _value }));
     
   }
 
@@ -106,21 +110,42 @@ class MintIOU extends React.Component {
     this.state.curIOU =  EmbarkJS.Blockchain.Contract({
         abi: IOUs.options.jsonInterface,
         address: this.state.getValue});
-    
+  await this.state.curIOU.methods.name().call().then(_value =>
+    {
+      this.setState({name: _value});
+    });
+  
+  await this.state.curIOU.methods.symbol().call().then(_value =>
+      {
+        this.setState({symbol: _value});
+      });
     await this.state.curIOU.methods.thisIOU().call().then(_value =>
       {
-      this.setState({name: _value.name});
-      this.setState({symbol: _value.symbol});
+
       this.setState({myName: _value.myName});
       this.setState({socialProfile: _value.socialProfile});
       this.setState({description: _value.description});
-      this.setState({keywords: _value.keywords});
+      
       this.setState({location: _value.location});
-      this.setState({units: _value.units});
+      this.setState({units: h2a( _value.units)});
       this.setState({avRate: _value.avRate});
       this.setState({totalMinted: _value.totalMinted});
       this.setState({totalBurned: _value.totalBurned});
       });
+      await this.state.curIOU.methods.thisIOUkeywords().call().then(_value =>
+        {
+          let value = _value.map((e) => {
+            return h2a(e)
+          })
+        this.setState({keywords: value});
+        });
+
+      
+      await this.state.curIOU.methods.getlen().call().then((_value ) =>
+        {
+         this.setState({IOULen: _value [0]});
+         this.setState({feedBackLen: _value [1]});
+        });
     this._addToLog("IOU address: ", this.state.getValue );
   }
 
@@ -168,11 +193,12 @@ class MintIOU extends React.Component {
             Description: {this.state.description }  <br/>
             keywords: {this.state.keywords }  <br/>
             Units: {this.state.units }  <br/>
-            Total minted: {this.state.totalMinted / 10**18} <br/>
-            Total burned: {this.state.totalBurned / 10**18} <br/>
+            Total minted: {this.state.totalMinted / 10**18}, by {this.state.IOULen} IOUs <br/>
+            Total burned: {this.state.totalBurned / 10**18}, by {this.state.feedBackLen} feedbacks <br/>
             Balance: {(this.state.totalMinted - this.state.totalBurned)/10**18}
             <br />
-            Average Rating: {this.state.avRate}%
+            Average Rating: {this.state.avRate} "from -100 to 100". <br/>
+            
             </p>}
           </FormGroup>
         </Form>
