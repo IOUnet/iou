@@ -7,8 +7,6 @@ import ERC20 from '../../embarkArtifacts/contracts/ERC20Detailed';
 import SimpleStorage from '../../embarkArtifacts/contracts/SimpleStorage';
 import StoreIOUs from '../../embarkArtifacts/contracts/StoreIOUs';
 import IOUs from '../../embarkArtifacts/contracts/IOUtoken';
-//import IOUs from '../../embarkArtifacts/contracts/IOUs';
-//import ERC20 from '../../embarkArtifacts/contracts/ERC20';
 import ReactGA from 'react-ga';
 import List from 'react-list-select';
 ReactGA.initialize('UA-161540415-1');

@@ -9,7 +9,6 @@ import IOUs from '../../embarkArtifacts/contracts/IOUtoken';
 
 import ReactGA from 'react-ga';
 import Slider from '@material-ui/core/Slider';
-//import Typography from 'material-ui';
 
 import List from 'react-list-select';
 ReactGA.initialize('UA-161540415-1');
@@ -139,6 +138,7 @@ class BurnIOU extends React.Component {
       this.setState({myName: _value.myName});
       this.setState({socialProfile: _value.socialProfile});
       this.setState({description: _value.description});
+      this.setState({keywords: _value.keywords});
       this.setState({location: _value.location});
       this.setState({units: h2a(_value.units)});
       this.setState({totalMinted: _value.totalMinted});
