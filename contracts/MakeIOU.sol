@@ -25,10 +25,6 @@ contract MakeIOU {
         require (owner == msg.sender, "Only owner can do this");
         _;
     }
-    modifier isIOUtoken () {
-        require (isIOU[msg.sender], "Not IOU token calls" );
-        _;
-    }
 
     function makeIOU(string memory _name, 
                  string memory _symbol, 
