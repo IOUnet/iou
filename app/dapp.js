@@ -7,6 +7,8 @@ import EmbarkJS from 'Embark/EmbarkJS';
 import MakeIOUs from './components/MakeIOUs';
 import MintIOUs from './components/MintIOUs';
 import BurnIOUs from './components/BurnIOUs';
+import ListIssuers from './components/ListIssuers';
+import StoreIOUs from '../embarkArtifacts/contracts/StoreIOUs';
 import StoreIOUs from '../embarkArtifacts/contracts/StoreIOUs';
 
 import 'bootstrap/dist/css/bootstrap.css';
@@ -118,12 +120,19 @@ class App extends React.Component {
             {this._renderStatus('Mint & Give IOU', this.state.blockchainEnabled)}
           </NavLink>
         </NavItem>
-        <NavItem>
 
+        <NavItem>
         <NavLink onClick={() => this.handleSelect('3')} className={classnames({ active: this.state.activeKey === '3' })}>
             {this._renderStatus('Pay off IOU', this.state.blockchainEnabled)}
           </NavLink>
         </NavItem>
+
+        <NavItem>
+        <NavLink onClick={() => this.handleSelect('4')} className={classnames({ active: this.state.activeKey === '3' })}>
+            {this._renderStatus('List of Issuers', this.state.blockchainEnabled)}
+          </NavLink>
+        </NavItem>
+
       </Nav>
       <TabContent activeTab={this.state.activeKey}>
         <TabPane tabId="1">
@@ -135,7 +144,9 @@ class App extends React.Component {
         <TabPane tabId="3">
           <BurnIOUs />
         </TabPane>
-     
+        <TabPane tabId="4">
+          <ListIssuers />
+        </TabPane>
       </TabContent>
     </div>);
   }
