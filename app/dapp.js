@@ -9,7 +9,6 @@ import MintIOUs from './components/MintIOUs';
 import BurnIOUs from './components/BurnIOUs';
 import ListIssuers from './components/ListIssuers';
 import StoreIOUs from '../embarkArtifacts/contracts/StoreIOUs';
-import StoreIOUs from '../embarkArtifacts/contracts/StoreIOUs';
 
 import 'bootstrap/dist/css/bootstrap.css';
 import './dapp.css';

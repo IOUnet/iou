@@ -22,6 +22,7 @@ class MintIOU extends React.Component {
     this.state = {
       valueSet: 0,
       getValue: "",
+      currIss: 0,
       logs: [],
       name: "",
       symbol: "",
@@ -58,7 +59,7 @@ class MintIOU extends React.Component {
 
   handleChangeIssList(e) {
     let keyVal = {}
-    keyVal["getValue"] = this.state.allIssuers[e];
+    keyVal["currIss"] = this.state.allIssuers[e];
     this.setState( keyVal );
                  
   }
@@ -102,10 +103,8 @@ class MintIOU extends React.Component {
   async getIOUList(e) {
     e.preventDefault();
     await EmbarkJS.enableEthereum();
-    let  account;
-    await web3.eth.getAccounts().then(e => { account = e[0];  
-      });
-    StoreIOUs.methods.getIOUList(account).call().then(_value => this.setState({ IOUsList: _value }));
+
+    StoreIOUs.methods.getIOUList(this.state.currIss).call().then(_value => this.setState({ IOUsList: _value }));
     
   }
 
@@ -187,7 +186,7 @@ class MintIOU extends React.Component {
                 multiple={false}
           //      onClick={(selected) => {this.state.getValue = _this.props.children }}
                 onChange={(e) => this.handleChangeIssList(e)}/>
-            <p>Current address value is <span className="value font-weight-bold">{this.state.getValue}</span></p>
+            <p>Current Issuer's address value is <span className="value font-weight-bold">{this.state.currIss}</span></p>
               <Button color="primary" onClick={(e) => this.getIOUList(e)}>Get this issuers IOUs list</Button>
             <br />
             <List class="pointer"
@@ -233,37 +232,7 @@ class MintIOU extends React.Component {
           </FormGroup>
         </Form>
         
-        <h3> Give new debt receipt and transfer IOU  tokens</h3>
-        {this.state.getValue && this.state.getValue !== 0 && this.state.name !== "" &&
-        <Form onKeyDown={(e) => this.checkEnter(e, this.setValue)}>
-
-          <FormGroup > 
-              <FormText > I want to give my {this.state.name} IOUs in amount </FormText>
-              <Input
-                type= "number"
-                step={'.01'}
-                key="valueSet"
-                name="valueSet"
-                defaultValue={this.state.valueSet}
-                placeholder="enter amount of IOS"
-                onChange={(e) => this.handleChange(e)}/>   <FormText > of {this.state.units } to owner of address </FormText> <br />
-                <Input type = "text"
-                      key="creditorAddr"
-                      name="creditorAddr"
-                      placeholder="Paste creditor's Ethereum address (0x...)"
-                      onChange={(e) => this.handleChange(e)}></Input> <br /> 
-                  <FormText > for reason: </FormText>
-                <Input type = "text"
-                      key="descrDebt"
-                      name="descrDebt"
-                      placeholder="enter reason of debt..."
-                      onChange={(e) => this.handleChange(e)}></Input> <br /> 
-          <Button color="primary" onClick={(e) => this.sendIOU(e)}>Send IOUs</Button>
-              <br />
-            <FormText color="muted">Once you press "Send IOUs", the transaction will need to be mined and then the will be updated on the blockchain from secunds to minutes.</FormText>
-          </FormGroup>
-        </Form>
-        }
+    
 
       </React.Fragment>
     );
