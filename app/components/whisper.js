@@ -1,6 +1,14 @@
 import EmbarkJS from 'Embark/EmbarkJS';
 import React from 'react';
 import {Alert, Form, FormGroup, Input, Button, FormText} from 'reactstrap';
+import ReactGA from 'react-ga';
+import List from 'react-list-select';
+import StoreIOUs from '../../embarkArtifacts/contracts/StoreIOUs';
+
+ReactGA.initialize('UA-161540415-1');
+ReactGA.pageview(window.location.pathname + window.location.search);
+const h2a = web3.utils.hexToAscii;
+const a2h = web3.utils.asciiToHex;
 
 class Whisper extends React.Component {
 
@@ -10,6 +18,7 @@ class Whisper extends React.Component {
     this.state = {
       listenTo: '',
       channel: '',
+      channels: [],
       message: '',
       subscribedChannels: [],
       channelIsValid: false,
@@ -41,6 +50,26 @@ class Whisper extends React.Component {
     e.preventDefault();
     EmbarkJS.Messages.sendMessage({topic: this.state.channel, data: this.state.message});
     this.addToLog("EmbarkJS.Messages.sendMessage({topic: '" + this.state.channel + "', data: '" + this.state.message + "'})");
+  }
+
+  async getKeysList(e) {
+    e.preventDefault();
+    await EmbarkJS.enableEthereum();
+    let  account;
+    let numberKeys = await StoreIOUs.methods.getKeystotal().call();
+    let keyW = [numberKeys];
+    for (let n=0; n<numberKeys; n++) {
+      keyW.push(h2a(await StoreIOUs.methods.allKeywords(n).call())) ;
+    }
+    this.setState({ channels: keyW });
+    
+  }
+
+  handleChangeList(e) {
+    let keyVal = {}
+    keyVal["listenTo"] = this.state.channels[e];
+    this.setState( keyVal );
+                 
   }
 
   listenToChannel (e) {
@@ -88,6 +117,16 @@ class Whisper extends React.Component {
         <h3>Listen To channel</h3>
         <Form onKeyDown={(e) => this.checkEnter(e, this.listenToChannel)}>
           <FormGroup className="inline-input-btn">
+          <Button color="primary" onClick={(e) => this.getKeysList(e)}>Get IOUs issuers list</Button>
+            <br />
+            <List class="pointer"
+                items={this.state.channels}
+            //  selected={[0]}
+            //    disabled={[4]}
+                multiple={false}
+          //      onClick={(selected) => {this.state.getValue = _this.props.children }}
+                onChange={(e) => this.handleChangeList(e)}/>
+            <p>Current channel is <span className="value font-weight-bold">{this.state.currIss}</span></p>
             <Input
               type="text"
               defaultValue={this.state.listenTo}

@@ -30,6 +30,7 @@ class MintIOU extends React.Component {
       description: "",
       location: "",
       units: "",     
+      issuer: "",
       IOUsList: [],
       curIOU: "",
       creditorAddr: "",
@@ -125,7 +126,7 @@ class MintIOU extends React.Component {
       this.setState({myName: _value.myName});
       this.setState({socialProfile: _value.socialProfile});
       this.setState({description: _value.description});
-      
+      this.setState({issuer: _value.issuer});
       this.setState({location: _value.location});
       this.setState({units: h2a( _value.units)});
       this.setState({avRate: _value.avRate});
@@ -188,6 +189,7 @@ class MintIOU extends React.Component {
            <br /> 
             Symbol: {this.state.symbol } <br/>
             Issuer name: {this.state.myName } <br/>
+            Issuer Eth address: {this.state.issuer } <br/>
             Social Profile: {this.state.socialProfile} <br/>
             Location: {this.state.location} <br/>
             Description: {this.state.description }  <br/>

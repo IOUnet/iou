@@ -12,6 +12,7 @@ import StoreIOUs from '../embarkArtifacts/contracts/StoreIOUs';
 
 import 'bootstrap/dist/css/bootstrap.css';
 import './dapp.css';
+import Whisper from './components/whisper';
 
 
 class App extends React.Component {
@@ -132,6 +133,11 @@ class App extends React.Component {
           </NavLink>
         </NavItem>
 
+        <NavItem>
+        <NavLink onClick={() => this.handleSelect('5')} className={classnames({ active: this.state.activeKey === '3' })}>
+            {this._renderStatus('Send Whisper Them', this.state.whisperEnabled)}
+          </NavLink>
+        </NavItem>
       </Nav>
       <TabContent activeTab={this.state.activeKey}>
         <TabPane tabId="1">
@@ -145,6 +151,9 @@ class App extends React.Component {
         </TabPane>
         <TabPane tabId="4">
           <ListIssuers />
+        </TabPane>
+        <TabPane tabId="5">
+          <Whisper />
         </TabPane>
       </TabContent>
     </div>);

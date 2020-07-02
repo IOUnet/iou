@@ -43,6 +43,7 @@ contract IOUtoken is ERC20Mintable, ERC20Burnable {
         uint256 totalBurned;
         int256 avRate;
         bytes32 units;        
+        address issuer;
         string myName ; //name of emitter
         string socialProfile ; //profile  of emitter in social nets
         string description ; //description of bond IOU to  work
@@ -92,12 +93,12 @@ contract IOUtoken is ERC20Mintable, ERC20Burnable {
                  bytes32  _units, //units of deal
                  bytes32[] memory _keywords,
                  address _storeAddr,
-                 address _owner
+                 address _issuer
                 ) public onlyfactory {
         _removeMinter(msg.sender);
-        _addMinter (_owner);
+        _addMinter (_issuer);
         
-        owner = _owner;
+        owner = _issuer;
         StoreIOU = StoreIOUs(_storeAddr);
         decimals = 18;
         require (bytes(_name).length <16 || 
@@ -111,7 +112,7 @@ contract IOUtoken is ERC20Mintable, ERC20Burnable {
 
         thisIOU = DescriptionIOU (0,0,0,
             _units,
-        
+            _issuer,
             _myName,
             _socialProfile,
             _description,

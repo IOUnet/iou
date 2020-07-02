@@ -33,6 +33,7 @@ class BurnIOU extends React.Component {
       description: "",
       location: "",
       units: "",     
+      issuer: "",
       IOUsList: [],
       curIOU: "",
       creditorAddr: "",
@@ -140,6 +141,7 @@ class BurnIOU extends React.Component {
       this.setState({description: _value.description});
       this.setState({keywords: _value.keywords});
       this.setState({location: _value.location});
+      this.setState({issuer: _value.issuer});
       this.setState({units: h2a(_value.units)});
       this.setState({totalMinted: _value.totalMinted});
       this.setState({totalBurned: _value.totalBurned});
@@ -213,6 +215,7 @@ class BurnIOU extends React.Component {
            <br /> 
             Symbol: {this.state.symbol } <br/>
             Issuer name: {this.state.myName } <br/>
+            Issuer Eth address: {this.state.issuer } <br/>
             Social Profile: {this.state.socialProfile} <br/>
             Location: {this.state.location} <br/>
             Description: {this.state.description }  <br/>
