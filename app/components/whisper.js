@@ -149,7 +149,7 @@ class Whisper extends React.Component {
           <FormGroup>
             <Input
               type="text"
-              defaultValue={this.state.channel}
+              defaultValue={this.state.listenTo}
               placeholder="channel"
               onChange={e => this.handleChange(e, 'channel')}/>
             <div className="inline-input-btn m-0">

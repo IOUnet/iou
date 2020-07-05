@@ -8,6 +8,7 @@ import MakeIOUs from './components/MakeIOUs';
 import MintIOUs from './components/MintIOUs';
 import BurnIOUs from './components/BurnIOUs';
 import ListIssuers from './components/ListIssuers';
+import ListKeys from './components/ListKeys';
 import StoreIOUs from '../embarkArtifacts/contracts/StoreIOUs';
 
 import 'bootstrap/dist/css/bootstrap.css';
@@ -135,7 +136,13 @@ class App extends React.Component {
 
         <NavItem>
         <NavLink onClick={() => this.handleSelect('5')} className={classnames({ active: this.state.activeKey === '3' })}>
-            {this._renderStatus('Send Whisper Them', this.state.whisperEnabled)}
+            {this._renderStatus('List IOUs by Keys', this.state.blockchainEnabled)}
+          </NavLink>
+        </NavItem>
+
+        <NavItem>
+        <NavLink onClick={() => this.handleSelect('6')} className={classnames({ active: this.state.activeKey === '3' })}>
+            {this._renderStatus('Whisper Them', this.state.whisperEnabled)}
           </NavLink>
         </NavItem>
       </Nav>
@@ -153,6 +160,9 @@ class App extends React.Component {
           <ListIssuers />
         </TabPane>
         <TabPane tabId="5">
+          <ListKeys />
+        </TabPane>
+        <TabPane tabId="6">
           <Whisper />
         </TabPane>
       </TabContent>
