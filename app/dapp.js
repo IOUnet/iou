@@ -13,7 +13,7 @@ import StoreIOUs from '../embarkArtifacts/contracts/StoreIOUs';
 
 import 'bootstrap/dist/css/bootstrap.css';
 import './dapp.css';
-import Whisper from './components/whisper';
+//import Whisper from './components/whisper';
 
 
 class App extends React.Component {
@@ -140,11 +140,7 @@ class App extends React.Component {
           </NavLink>
         </NavItem>
 
-        <NavItem>
-        <NavLink onClick={() => this.handleSelect('6')} className={classnames({ active: this.state.activeKey === '3' })}>
-            {this._renderStatus('Whisper Them', this.state.whisperEnabled)}
-          </NavLink>
-        </NavItem>
+
       </Nav>
       <TabContent activeTab={this.state.activeKey}>
         <TabPane tabId="1">
@@ -162,12 +158,25 @@ class App extends React.Component {
         <TabPane tabId="5">
           <ListKeys />
         </TabPane>
-        <TabPane tabId="6">
-          <Whisper />
-        </TabPane>
+
       </TabContent>
     </div>);
   }
 }
+
+/*
+import Whisper from './components/whisper';
+
+        <NavItem>
+        <NavLink onClick={() => this.handleSelect('6')} className={classnames({ active: this.state.activeKey === '3' })}>
+            {this._renderStatus('Whisper Them', this.state.whisperEnabled)}
+          </NavLink>
+        </NavItem>
+
+        <TabPane tabId="6">
+          <Whisper />
+        </TabPane>
+
+*/ 
 
 ReactDOM.render(<App/>, document.getElementById('app'));

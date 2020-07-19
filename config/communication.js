@@ -1,7 +1,7 @@
 module.exports = {
   // default applies to all environments
   default: {
-    enabled: true,
+    enabled: false,
     provider: "whisper", // Communication provider. Currently, Embark only supports whisper
     available_providers: ["whisper"], // Array of available providers
     client: "geth"
@@ -43,7 +43,7 @@ module.exports = {
     symmetricKey: "your_symmetric_key",// Symmetric key for message decryption
     privateKey: "your_private_key" // Private Key to be used as a signing key and for message decryption
   }
-  */
+  
  externalnode: {
    
   endpoint: "https://ropsten.infura.io/v3/3362483b5eab409ea69e99f99aefd67a", // Endpoint of an node to connect to. Can be on localhost or on the internet
@@ -80,4 +80,5 @@ module.exports = {
   client: "geth"
  },
 
+ */
 };

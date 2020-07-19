@@ -8,6 +8,7 @@ module.exports = {
   },
 
   development: {
+    client: 'ganache-cli',
     clientConfig: {
       miningMode: 'dev' // Mode in which the node mines. Options: dev, auto, always, off
     }
@@ -72,6 +73,8 @@ module.exports = {
     ]
   },
   localnode: {
+    enabled: true,
+    client: "geth", // Can be geth or parity (default:geth)
     networkType: "testnet", // Can be: testnet(ropsten), rinkeby, livenet or custom, in which case, it will use the specified networkId
     syncMode: "light",
     endpoint: "http://127.0.0.1:8545/", // Endpoint of an node to connect to. Can be on localhost or on the internet
