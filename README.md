@@ -8,7 +8,8 @@ Based on our IOU token technology, we starting to build IOU.loans - ecosystem fo
 
 We discussing implementation of technology in Africa, Asia, Ukraine and Russia. We got feedback that more friendly interface is needed. To decide this, we working on integration intro StatusIM cryptowallet. 
 
-We looking for impact investors, partners to start this project and  make worldwide adoption of a new type of money - "peoples private money".
+We looking for impact investors, developers and partners to start this project and  make worldwide adoption of a new type of money - "peoples private money".
+We need React devs, Solidity devs, SMMs and community managers.
 
 You can look more: https://www.iou.loans/
 and emit your IOU token  on Ropsten testnet: https://iou.bz/
