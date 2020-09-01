@@ -12,6 +12,14 @@
     "solc": "0.5.0"
   },
   "plugins": {
+    "embark-ipfs": {},
+    "embark-swarm": {},
+    "embark-whisper-geth": {},
+    "embark-geth": {},
+    "embark-parity": {},
+    "embark-profiler": {},
+    "embark-graph": {},
+    "embark-basic-pipeline": {}
   },
   "options": {
     "solc": {

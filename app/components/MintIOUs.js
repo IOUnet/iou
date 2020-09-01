@@ -3,8 +3,7 @@ import EmbarkJS from 'Embark/EmbarkJS';
 import React from 'react';
 import {Form, FormGroup, Input, HelpBlock, Button, FormText} from 'reactstrap';
 
-import ERC20 from '../../embarkArtifacts/contracts/ERC20Detailed';
-import SimpleStorage from '../../embarkArtifacts/contracts/SimpleStorage';
+
 import StoreIOUs from '../../embarkArtifacts/contracts/StoreIOUs';
 import IOUs from '../../embarkArtifacts/contracts/IOUtoken';
 import ReactGA from 'react-ga';
