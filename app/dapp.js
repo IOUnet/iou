@@ -95,13 +95,13 @@ class App extends React.Component {
     const ensEnabled = EmbarkJS.Names.currentNameSystems && EmbarkJS.Names.isAvailable();
     if (this.state.error) {
       return (<div>
-        <div>Something went wrong connecting to ethereum. Please make sure you have a node running or are using metamask
+        <div>Something went wrong connecting to ethereum. Please make sure you have a node running or are using StatusIM
           to connect to the ethereum network:
         </div>
         <div>{this.state.error}</div>
         <div> 
-        <a href = "https://metamask.io/" target="_blank">
-        <img src = "https://raw.githubusercontent.com/MetaMask/faq/master/images/download-metamask-dark.png">Install Metamask </img>
+        <a href = "https://Status.im/" target="_blank">
+        <img src = "https://status.im/developer_tools/img/lp-status-logo.svg">Install Status </img>
         </a>
         </div>
       </div>);
@@ -140,11 +140,7 @@ class App extends React.Component {
           </NavLink>
         </NavItem>
 
-        <NavItem>
-        <NavLink onClick={() => this.handleSelect('6')} className={classnames({ active: this.state.activeKey === '3' })}>
-            {this._renderStatus('Whisper Them', this.state.whisperEnabled)}
-          </NavLink>
-        </NavItem>
+
       </Nav>
       <TabContent activeTab={this.state.activeKey}>
         <TabPane tabId="1">
@@ -162,12 +158,20 @@ class App extends React.Component {
         <TabPane tabId="5">
           <ListKeys />
         </TabPane>
-        <TabPane tabId="6">
-          <Whisper />
-        </TabPane>
+
       </TabContent>
     </div>);
   }
 }
+/**
+ *         <NavItem>
+        <NavLink onClick={() => this.handleSelect('6')} className={classnames({ active: this.state.activeKey === '3' })}>
+            {this._renderStatus('Whisper Them', this.state.whisperEnabled)}
+          </NavLink>
+        </NavItem>
+        <TabPane tabId="6">
+          <Whisper />
+        </TabPane>
+ */
 
 ReactDOM.render(<App/>, document.getElementById('app'));
