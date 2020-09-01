@@ -43,7 +43,7 @@ module.exports = {
     accounts: [
       {
         //privateKeyFile: "./testnet/password",
-        privateKey: "622306b68d3ad3e9c73a2f847f50f97caf1eb611ac2047624959663837c4e9bd"
+        privateKey: "622306b68d3ad3e9c73a2f847f50f97caf1eb611ac2047624959663837c4e9bd",
         //mnemonic: "YOUR_MNEMONIC",
         //hdpath: "m/44'/60'/0'/0/",
         //numAddresses: "1"
@@ -70,7 +70,23 @@ module.exports = {
         password: "config/livenet/password"
       }
     ]
-  }
+  },
+  localnode: {
+    networkType: "testnet", // Can be: testnet(ropsten), rinkeby, livenet or custom, in which case, it will use the specified networkId
+    syncMode: "light",
+    endpoint: "http://127.0.0.1:8545/", // Endpoint of an node to connect to. Can be on localhost or on the internet
+    accounts: [
+      {
+    
+        //privateKeyFile: "./testnet/password",
+        privateKey: "622306b68d3ad3e9c73a2f847f50f97caf1eb611ac2047624959663837c4e9bd",
+        
+        //mnemonic: "YOUR_MNEMONIC",
+        //hdpath: "m/44'/60'/0'/0/",
+        //numAddresses: "1"
+      }
+    ]
+  },
 
   // you can name an environment with specific settings and then specify with
   // "embark run custom_name" or "embark blockchain custom_name"
