@@ -1,19 +1,7 @@
 import EmbarkJS from 'embarkjs';
 
 
-try {
-const __embarkwhisper = require('embarkjs-whisper');
-EmbarkJS.Messages.registerProvider('whisper', __embarkwhisper.default || __embarkwhisper);
-} catch (e) {
-}
 
-
-
-try {
-const __embarkipfs = require('embarkjs-ipfs');
-EmbarkJS.Storage.registerProvider('ipfs', __embarkipfs.default || __embarkipfs);
-} catch (e) {
-}
 
 
 
@@ -25,21 +13,9 @@ EmbarkJS.Blockchain.registerProvider('web3', __embarkweb3.default || __embarkweb
 
 
 
-try {
-const __embarkens = require('embarkjs-ens');
-EmbarkJS.Names.registerProvider('ens', __embarkens.default || __embarkens);
-} catch (e) {
-}
 
 
 
-const communicationConfig = require('./config/communication.json');
-EmbarkJS.Messages.setProvider(communicationConfig.provider, communicationConfig.connection);
-
-
-
-const storageConfig = require('./config/storage.json');
-EmbarkJS.Storage.setProviders(storageConfig.dappConnection);
 
 
 
@@ -48,9 +24,6 @@ EmbarkJS.Blockchain.setProvider(blockchainConfig.provider, {});
 EmbarkJS.Blockchain.connect(blockchainConfig, (err) => {if (err) { console.error(err); } });
 
 
-
-const namesConfig = require('./config/namesystem.json');
-EmbarkJS.Names.setProvider(namesConfig.provider, namesConfig);
 
 
 
