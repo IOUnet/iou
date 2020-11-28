@@ -183,10 +183,10 @@ class BurnIOU extends React.Component {
     return (<React.Fragment>
         
         
-          <h3> Enter address of IOU token to pay off and burn </h3>          
+          <h3> Enter address of IOU Edutoken to pay off and burn </h3>          
           <Form>
           <FormGroup> 
-          <Button color="primary" onClick={(e) => this.getIOUList(e)}>Get list of given me IOUs</Button>
+          <Button color="primary" onClick={(e) => this.getIOUList(e)}>Get list of given me IOU Edutokens</Button>
           <br />
             <List
                 items={this.state.IOUsList}
@@ -195,7 +195,7 @@ class BurnIOU extends React.Component {
                 multiple={false}
           //      onClick={(selected) => {this.state.getValue = _this.props.children }}
                 onChange={(e) => this.handleChangeList(e)}/>                
-            <FormText color="muted">Paste here IOU token  address </FormText>
+            <FormText color="muted">Paste here IOU Edutoken  address </FormText>
                   <Input type = "text"
                     key="getValue"
                 // initialValues  = {this.state.getValue}
@@ -207,9 +207,9 @@ class BurnIOU extends React.Component {
             {this.state.getValue && this.state.getValue !== 0 &&
             <Button color="primary" onClick={(e) => this.getValue(e)}>Get full IOU description</Button>
             }
-            <FormText color="muted">Click the button to get the IOU address value.</FormText>
+            <FormText color="muted">Click the button to get the IOU Edutoken address value.</FormText>
             {this.state.getValue && this.state.getValue !== 0 &&
-            <p>Current IOU is at  <span className="value font-weight-bold">{this.state.getValue}</span> <br />
+            <p>Current IOU Edutoken is at  <span className="value font-weight-bold">{this.state.getValue}</span> <br />
             <br/>
            Name: {this.state.name}
            <br /> 
@@ -221,7 +221,7 @@ class BurnIOU extends React.Component {
             Description: {this.state.description }  <br/>
             Keywords: {this.state.keywords }  <br/>
             Units: {this.state.units }  <br/>
-            Total minted: {this.state.totalMinted / 10**18}, by {this.state.IOULen} IOUs <br/>
+            Total minted: {this.state.totalMinted / 10**18}, by {this.state.IOULen} IOU Edutokens <br/>
             Total burned: {this.state.totalBurned / 10**18}, by {this.state.feedBackLen} feedbacks <br/>
             Balance: {(this.state.totalMinted - this.state.totalBurned)/10**18} <br/>
             Average Rating: {this.state.avRate} "from -100 to 100". <br/>
@@ -229,20 +229,20 @@ class BurnIOU extends React.Component {
           </FormGroup>
         </Form>
         
-        <h3> Pay off and burn IOU and burn tokens</h3>
+        <h3> Pay off and burn IOU Edutoken and burn tokens</h3>
         {this.state.getValue && this.state.getValue !== 0 && this.state.name !== "" &&
         <Form onKeyDown={(e) => this.checkEnter(e, this.setValue)}>
 
           <FormGroup > 
-              <FormText > I want to pay off {this.state.name} IOUs in amount </FormText>
+              <FormText > I want to pay off {this.state.name} IOU Edutokens in amount </FormText>
               <Input
                 type= "number"
                 step={'.01'}
                 key="valueSet"
                 name="valueSet"
                 defaultValue={this.state.valueSet}
-                placeholder="enter amount of IOS"
-                onChange={(e) => this.handleChange(e)}/>   <FormText > of {this.state.units } to owner of IOU. </FormText> <br />
+                placeholder="enter amount of IOU Edutokens"
+                onChange={(e) => this.handleChange(e)}/>   <FormText > of {this.state.units } to owner of IOU Edutoken. </FormText> <br />
            
               <FormText > and give the rate (-100-superugly, +100-superfine): </FormText>
      
@@ -266,9 +266,9 @@ class BurnIOU extends React.Component {
                       name="feedback"
                       placeholder="enter feedback..."
                       onChange={(e) => this.handleChange(e)}></Input> <br /> 
-          <Button color="primary" onClick={(e) => this.sendIOU(e)}>Pay off and burn  IOUs</Button>
+          <Button color="primary" onClick={(e) => this.sendIOU(e)}>Pay off and burn  IOU Edutokens</Button>
               <br />
-            <FormText color="muted">Once you press "Pay off and burn  IOUs", the transaction will need to be mined and then the will be updated on the blockchain from secunds to minutes.</FormText>
+            <FormText color="muted">Once you press "Pay off and burn  IOU Edutokens", the transaction will need to be mined and then the will be updated on the blockchain from secunds to minutes.</FormText>
           </FormGroup>
         </Form>
         }

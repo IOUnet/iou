@@ -174,10 +174,10 @@ class MintIOU extends React.Component {
     return (<React.Fragment>
         
         
-          <h3> List of IOUs Keys</h3>          
+          <h3> List of IOU Edutokens Keys</h3>          
           <Form>
           <FormGroup>
-          <Button color="primary" onClick={(e) => this.getKeysList(e)}>Get IOUs Keys list</Button>
+          <Button color="primary" onClick={(e) => this.getKeysList(e)}>Get IOU Edutokens Keys list</Button>
             <br />
             <List class="pointer"
                 items={this.state.allKeys}
@@ -187,7 +187,7 @@ class MintIOU extends React.Component {
           //      onClick={(selected) => {this.state.getValue = _this.props.children }}
                 onChange={(e) => this.handleChangeKeyList(e)}/>
             <p>Current key's value is <span className="value font-weight-bold">{this.state.currKey}</span></p>
-              <Button color="primary" onClick={(e) => this.getIOUList(e)}>Get IOUs list with this key</Button>
+              <Button color="primary" onClick={(e) => this.getIOUList(e)}>Get IOU Edutokens list with this key</Button>
             <br />
             <List class="pointer"
                 items={this.state.IOUsList}
@@ -197,7 +197,7 @@ class MintIOU extends React.Component {
           //      onClick={(selected) => {this.state.getValue = _this.props.children }}
                 onChange={(e) => this.handleChangeList(e)}/>
                 
-            <FormText color="muted">Or paste IOU Smart contract address </FormText>
+            <FormText color="muted">Or paste IOU Edutoken Smart contract address </FormText>
                   <Input type = "text"
                     key="getValue"
                 // initialValues  = {this.state.getValue}
@@ -207,11 +207,11 @@ class MintIOU extends React.Component {
                     onChange={(e) => this.handleChange(e)}/>
           
             {this.state.getValue && this.state.getValue !== 0 &&
-            <Button color="primary" onClick={(e) => this.getValue(e)}>Get full IOU description</Button>
+            <Button color="primary" onClick={(e) => this.getValue(e)}>Get full IOU Edutoken description</Button>
             }
-            <FormText color="muted">Click the button to get the IOU address value.</FormText>
+            <FormText color="muted">Click the button to get the IOU Edutoken address value.</FormText>
             {this.state.getValue && this.state.getValue !== 0 &&
-            <p>Current IOU is at  <span className="value font-weight-bold">{this.state.getValue}</span> <br />
+            <p>Current IOU Edutoken is at  <span className="value font-weight-bold">{this.state.getValue}</span> <br />
             <br/>
            Name: {this.state.name}
            <br /> 
@@ -223,7 +223,7 @@ class MintIOU extends React.Component {
             Description: {this.state.description }  <br/>
             keywords: {this.state.keywords }  <br/>
             Units: {this.state.units }  <br/>
-            Total minted: {this.state.totalMinted / 10**18}, by {this.state.IOULen} IOUs <br/>
+            Total minted: {this.state.totalMinted / 10**18}, by {this.state.IOULen} IOU Edutokens <br/>
             Total burned: {this.state.totalBurned / 10**18}, by {this.state.feedBackLen} feedbacks <br/>
             Balance: {(this.state.totalMinted - this.state.totalBurned)/10**18}
             <br />

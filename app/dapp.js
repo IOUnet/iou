@@ -107,24 +107,24 @@ class App extends React.Component {
       </div>);
     }
     return (<div>
-      <h3>Emit your IOU tokens - and you don't need money anymore</h3>
+      <h3>Emit your IOU Edutokens - and you don't need money anymore</h3>
       <div>
-          IOUs already: {this.state.allIOUs}, from  {this.state.allIssuers} issuers, with {this.state.allKeys} keywords.</div>
+          IOU Edutokens already: {this.state.allIOUs}, from  {this.state.allIssuers} issuers, with {this.state.allKeys} keywords.</div>
       <Nav tabs>
         <NavItem>
           <NavLink onClick={() => this.handleSelect('1')} className={classnames({ active: this.state.activeKey === '1' })}>
-            {this._renderStatus('Make new type of IOU ', this.state.blockchainEnabled)}
+            {this._renderStatus('Make new type of IOU Edutoken ', this.state.blockchainEnabled)}
           </NavLink>
         </NavItem>
         <NavItem>
           <NavLink onClick={() => this.handleSelect('2')} className={classnames({ active: this.state.activeKey === '2' })}>
-            {this._renderStatus('Mint & Give IOU', this.state.blockchainEnabled)}
+            {this._renderStatus('Mint & Give IOU Edutoken', this.state.blockchainEnabled)}
           </NavLink>
         </NavItem>
 
         <NavItem>
         <NavLink onClick={() => this.handleSelect('3')} className={classnames({ active: this.state.activeKey === '3' })}>
-            {this._renderStatus('Pay off IOU', this.state.blockchainEnabled)}
+            {this._renderStatus('Pay off IOU Edutoken', this.state.blockchainEnabled)}
           </NavLink>
         </NavItem>
 
@@ -136,7 +136,7 @@ class App extends React.Component {
 
         <NavItem>
         <NavLink onClick={() => this.handleSelect('5')} className={classnames({ active: this.state.activeKey === '3' })}>
-            {this._renderStatus('List IOUs by Keys', this.state.blockchainEnabled)}
+            {this._renderStatus('List IOU Edutokens by Keys', this.state.blockchainEnabled)}
           </NavLink>
         </NavItem>
 

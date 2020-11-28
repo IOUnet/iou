@@ -155,10 +155,10 @@ class MintIOU extends React.Component {
     return (<React.Fragment>
         
         
-          <h3> Choose IOU token </h3>          
+          <h3> Choose IOU Edutoken </h3>          
           <Form>
           <FormGroup>
-            <Button color="primary" onClick={(e) => this.getIOUList(e)}>Get my IOUs list</Button>
+            <Button color="primary" onClick={(e) => this.getIOUList(e)}>Get my IOU Edutokens list</Button>
             <br />
             <List class="pointer"
                 items={this.state.IOUsList}
@@ -168,7 +168,7 @@ class MintIOU extends React.Component {
           //      onClick={(selected) => {this.state.getValue = _this.props.children }}
                 onChange={(e) => this.handleChangeList(e)}/>
                 
-            <FormText color="muted">Or paste IOU Smart contract address </FormText>
+            <FormText color="muted">Or paste IOU Edutoken Smart contract address </FormText>
                   <Input type = "text"
                     key="getValue"
                 // initialValues  = {this.state.getValue}
@@ -178,11 +178,11 @@ class MintIOU extends React.Component {
                     onChange={(e) => this.handleChange(e)}/>
             <p>Current address value is <span className="value font-weight-bold">{this.state.getValue}</span></p>
             {this.state.getValue && this.state.getValue !== 0 &&
-            <Button color="primary" onClick={(e) => this.getValue(e)}>Get full IOU description</Button>
+            <Button color="primary" onClick={(e) => this.getValue(e)}>Get full IOU Edutoken description</Button>
             }
-            <FormText color="muted">Click the button to get the IOU address value.</FormText>
+            <FormText color="muted">Click the button to get the IOU Edutoken address value.</FormText>
             {this.state.getValue && this.state.getValue !== 0 &&
-            <p>Current IOU is at  <span className="value font-weight-bold">{this.state.getValue}</span> <br />
+            <p>Current IOU Edutoken is at  <span className="value font-weight-bold">{this.state.getValue}</span> <br />
             <br/>
            Name: {this.state.name}
            <br /> 
@@ -204,12 +204,12 @@ class MintIOU extends React.Component {
           </FormGroup>
         </Form>
         
-        <h3> Give new debt receipt and transfer IOU  tokens</h3>
+        <h3> Give new debt receipt and transfer IOU Edutoken  tokens</h3>
         {this.state.getValue && this.state.getValue !== 0 && this.state.name !== "" &&
         <Form onKeyDown={(e) => this.checkEnter(e, this.setValue)}>
 
           <FormGroup > 
-              <FormText > I want to give my {this.state.name} IOUs in amount </FormText>
+              <FormText > I want to give my {this.state.name} IOU Edutokens in amount </FormText>
               <Input
                 type= "number"
                 step={'.01'}
@@ -229,9 +229,9 @@ class MintIOU extends React.Component {
                       name="descrDebt"
                       placeholder="enter reason of debt..."
                       onChange={(e) => this.handleChange(e)}></Input> <br /> 
-          <Button color="primary" onClick={(e) => this.sendIOU(e)}>Send IOUs</Button>
+          <Button color="primary" onClick={(e) => this.sendIOU(e)}>Send IOU Edutokens</Button>
               <br />
-            <FormText color="muted">Once you press "Send IOUs", the transaction will need to be mined and then the will be updated on the blockchain from secunds to minutes.</FormText>
+            <FormText color="muted">Once you press "Send IOU Edutokens", the transaction will need to be mined and then the will be updated on the blockchain from secunds to minutes.</FormText>
           </FormGroup>
         </Form>
         }

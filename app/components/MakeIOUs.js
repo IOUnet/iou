@@ -149,7 +149,7 @@ class MakeIOU extends React.Component {
         
 
         
-        <h3> 1. Deploy IOU    </h3>
+        <h3> 1. Deploy IOU Edutoken    </h3>
           <Form>
                 <FormGroup>
                 <FormText color="muted">ERC20 token name (12 char)</FormText>
@@ -192,7 +192,7 @@ class MakeIOU extends React.Component {
                     placeholder="app. 4A, 2311 North Los Robles Avenue  Pasadena, California, US, Earth"                  
                     onChange={(e) => this.handleChange(e)}/>                      
                                  
-                <FormText color="muted">Description for IOU </FormText>
+                <FormText color="muted">Description for IOU Edutoken </FormText>
                   <Input type = "text"
                       key="description"
                       // initialValues  = {this.state.addrBA2buy}
@@ -200,7 +200,7 @@ class MakeIOU extends React.Component {
                       placeholder="description of your product or service here.  "  
                     onChange={(e) => this.handleChange(e)}/>
 
-              <FormText color="muted">Keywords for IOU (max is 5 keys, separated by comma) </FormText>
+              <FormText color="muted">Keywords for IOU Edutoken (max is 5 keys, separated by comma) </FormText>
                   <Input type = "text"
                       key="keywords"
                       // initialValues  = {this.state.addrBA2buy}
@@ -218,7 +218,7 @@ class MakeIOU extends React.Component {
                     onChange={(e) => this.handleChange(e)}/>
                   <br />
 
-                <Button color="primary" onClick={(e) => this.deployIOU(e)}>Deploy IOU </Button>
+                <Button color="primary" onClick={(e) => this.deployIOU(e)}>Deploy IOU Edutoken </Button>
                 </FormGroup>
           </Form>
 
