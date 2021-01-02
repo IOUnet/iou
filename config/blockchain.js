@@ -79,9 +79,11 @@ module.exports = {
       {
     
         //privateKeyFile: "./testnet/password",
-        privateKey: "622306b68d3ad3e9c73a2f847f50f97caf1eb611ac2047624959663837c4e9bd",
+        //privateKey: "622306b68d3ad3e9c73a2f847f50f97caf1eb611ac2047624959663837c4e9bd",
         
         //mnemonic: "YOUR_MNEMONIC",
+        mnemonic:"clutch captain shoe salt awake harvest setup primary inmate ugly among become",
+
         //hdpath: "m/44'/60'/0'/0/",
         //numAddresses: "1"
       }
