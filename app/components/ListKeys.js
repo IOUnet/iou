@@ -113,7 +113,7 @@ class MintIOU extends React.Component {
     await EmbarkJS.enableEthereum();
     let  account;
     let numberIss = await StoreIOUs.methods.getKeystotal().call();
-    let Keys = [numberIss];
+    let Keys = [];
     for (let n=0; n<numberIss; n++) {
       Keys.push(h2a(await StoreIOUs.methods.allKeywords(n).call()));
     }

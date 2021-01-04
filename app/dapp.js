@@ -4,6 +4,7 @@ import {TabContent, TabPane, Nav, NavItem, NavLink} from 'reactstrap';
 import classnames from 'classnames';
 
 import EmbarkJS from 'Embark/EmbarkJS';
+import ListIOUs from './components/ListIOUs.js';
 import MakeIOUs from './components/MakeIOUs';
 import MintIOUs from './components/MintIOUs';
 import BurnIOUs from './components/BurnIOUs';
@@ -130,7 +131,7 @@ class App extends React.Component {
 
         <NavItem>
         <NavLink onClick={() => this.handleSelect('4')} className={classnames({ active: this.state.activeKey === '3' })}>
-            {this._renderStatus('List of Issuers', this.state.blockchainEnabled)}
+            {this._renderStatus('All IOUs', this.state.blockchainEnabled)}
           </NavLink>
         </NavItem>
 
@@ -153,7 +154,7 @@ class App extends React.Component {
           <BurnIOUs />
         </TabPane>
         <TabPane tabId="4">
-          <ListIssuers />
+          <ListIOUs />
         </TabPane>
         <TabPane tabId="5">
           <ListKeys />
