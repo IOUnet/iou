@@ -78,26 +78,6 @@ class MintIOU extends React.Component {
     this.setState({ logs: this.state.logs });
   }
 
-  async sendIOU (e) {
-    
-    e.preventDefault();
-    await EmbarkJS.enableEthereum();
-    let  account;
-    await web3.eth.getAccounts().then(e => { account = e[0];  
-      });
-      const curIOU =  EmbarkJS.Blockchain.Contract({
-        abi: IOUs.options.jsonInterface,
-        address: this.state.getValue
-        });
-
-      curIOU.methods.mint(
-        this.state.creditorAddr,
-        web3.utils.toWei(this.state.valueSet),
-        this.state.descrDebt
-                ).send({from:account});
-    this._addToLog("mintIOUs.methods.mintIOUs: ", this.state.getValue);
-
-  }
 
   async getIOUList(e) {
     e.preventDefault();
@@ -164,6 +144,18 @@ class MintIOU extends React.Component {
          this.setState({IOULen: _value [0]});
          this.setState({feedBackLen: _value [1]});
         });
+
+        let keyVal = {};
+        keyVal["feedbacks"] =[];
+        for (let n=0; n<this.state.feedBackLen; n++) {
+            await this.state.curIOU.methods.allFeedbacks(n).call().then((_value ) =>
+            {
+              keyVal["feedbacks"].push(_value);
+            });
+
+        }
+        this.setState(keyVal);
+
     this._addToLog("IOU address: ", this.state.getValue );
   }
 
@@ -227,7 +219,7 @@ class MintIOU extends React.Component {
             Balance: {(this.state.totalMinted - this.state.totalBurned)/10**18}
             <br />
             Average Rating: {this.state.avRate} "from -100 to 100". <br/>
-            
+            Feedback: {}
             </p>}
           </FormGroup>
         </Form>
