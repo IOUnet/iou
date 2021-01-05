@@ -3,8 +3,8 @@ import EmbarkJS from 'Embark/EmbarkJS';
 import React from 'react';
 import {Form, FormGroup, Input, HelpBlock, Button, FormText} from 'reactstrap';
 
-import StoreIOUs from '../../embarkArtifacts/contracts/StoreIOUs';
-import IOUs from '../../embarkArtifacts/contracts/IOUtoken';
+//import StoreIOUs from '../../embarkArtifacts/contracts/StoreIOUs';
+//import IOUs from '../../embarkArtifacts/contracts/IOUtoken';
 import ReactGA from 'react-ga';
 import List from 'react-list-select';
 ReactGA.initialize('UA-161540415-1');
@@ -30,7 +30,6 @@ class ListIOU extends React.Component {
       location: "",
       units: "",     
       issuer: "",
-      IOUsList: [],
       curIOU: "",
       creditorAddr: "",
       descrDebt:"", 
@@ -38,7 +37,7 @@ class ListIOU extends React.Component {
       totalBurned: 0,
       keywords: [],
       avRate: 0,
-      allIssuers: []
+      allIssuers: [],
     };
   }
 
@@ -51,7 +50,7 @@ class ListIOU extends React.Component {
 
   handleChangeList(e) {
     let keyVal = {}
-    keyVal["getValue"] = this.state.IOUsList[e];
+    keyVal["getValue"] = this.props.IOUsList[e];
     this.setState( keyVal );
                  
   }
@@ -80,54 +79,7 @@ class ListIOU extends React.Component {
 
   
 
-  async getIOUList(e) {
-    e.preventDefault();
-    await EmbarkJS.enableEthereum();
-    const numberIOUs = await StoreIOUs.methods.getIOUstotal().call();
-    let curIOU;
-    
-    let keyVal = {};
-    keyVal["IOUsList"] =[];
-    for (let n=0; n<numberIOUs; n++) {
-    //  issuers.push(await StoreIOUs.methods.allIssuers(n).call());
-      await StoreIOUs.methods.allIOU(n).call().then(_IOUaddr =>  {
-              curIOU =  EmbarkJS.Blockchain.Contract({
-                    abi: IOUs.options.jsonInterface,
-                    address: _IOUaddr}) }).then((_IOUaddr) =>  {
-              curIOU.methods.thisIOU().call().then(_value =>
-                  {
-                      keyVal["IOUsList"].push(_value);
-                      keyVal["IOUsList"][n].address= curIOU.options.address; 
-                  })}).then(() =>  {
-              curIOU.methods.name().call().then(_name =>
-                          {
-                            keyVal["IOUsList"][n].name = _name;
-                          })}).then(() =>  {
-              curIOU.methods.symbol().call().then(_symb =>
-                            {
-                          keyVal["IOUsList"][n].symbol = _symb;
-                        });
-            }).then(() =>  {curIOU.methods.thisIOUkeywords().call().then(_value =>
-              {
-                let value = _value.map((e) => {
-                  return h2a(e)
-                })
-                keyVal["IOUsList"][n].keywords= value;
-              })}).then(() =>  {
-                curIOU.methods.getlen().call().then((_value ) =>
-                {
-                  keyVal["IOUsList"][n].IOULen= _value [0];
-                  keyVal["IOUsList"][n].feedBackLen= _value [1];
-                })
 
-              })
-
-      this.setState(keyVal);
-    }
-  }
-
-
-   
 
   render() {
     return (<React.Fragment>
@@ -137,10 +89,11 @@ class ListIOU extends React.Component {
           <Form>
           <FormGroup>
 
-              <Button color="primary" onClick={(e) => this.getIOUList(e)}>IOUs list</Button>
-            <br />
+  
             <List class="pointer"
-                items={this.state.IOUsList.map(_value => _value.name)}
+                items={this.props.IOUsList.map(_value => _value.name)}
+                /**  <Button color="primary" onClick={(e) => this.handleChangeList(e)}>IOUs list</Button>
+            <br /> */
             //  selected={[0]} .forEach(_value => {return _value.description})
             //    disabled={[4]}
                 multiple={false}

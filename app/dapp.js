@@ -11,6 +11,10 @@ import BurnIOUs from './components/BurnIOUs';
 import ListIssuers from './components/ListIssuers';
 import ListKeys from './components/ListKeys';
 import StoreIOUs from '../embarkArtifacts/contracts/StoreIOUs';
+import IOUs from '../embarkArtifacts/contracts/IOUtoken';
+const h2a = web3.utils.hexToAscii;
+const a2h = web3.utils.asciiToHex;
+
 
 import 'bootstrap/dist/css/bootstrap.css';
 import './dapp.css';
@@ -29,9 +33,57 @@ class App extends React.Component {
       blockchainEnabled: false,
       allIOUs:0,
       allKeys:0, 
-      allIssuers:0
+      allIssuers:0,
+      IOUsList: []
     };
   }
+  async getIOUList() {
+    await EmbarkJS.enableEthereum();
+    const numberIOUs = await StoreIOUs.methods.getIOUstotal().call();
+    let curIOU;
+    
+    let keyVal = {};
+    keyVal["IOUsList"] =[];
+    for (let n=0; n<numberIOUs; n++) {
+    //  issuers.push(await StoreIOUs.methods.allIssuers(n).call());
+      await StoreIOUs.methods.allIOU(n).call().then(_IOUaddr =>  {
+              curIOU =  EmbarkJS.Blockchain.Contract({
+                    abi: IOUs.options.jsonInterface,
+                    address: _IOUaddr}) }).then((_IOUaddr) =>  {
+              curIOU.methods.thisIOU().call().then(_value =>
+                  {
+                      keyVal["IOUsList"].push(_value);
+                      keyVal["IOUsList"][n].address= curIOU.options.address; 
+                  })}).then(() =>  {
+              curIOU.methods.name().call().then(_name =>
+                          {
+                            keyVal["IOUsList"][n].name = _name;
+                          })}).then(() =>  {
+              curIOU.methods.symbol().call().then(_symb =>
+                            {
+                          keyVal["IOUsList"][n].symbol = _symb;
+                        });
+            }).then(() =>  {curIOU.methods.thisIOUkeywords().call().then(_value =>
+              {
+                let value = _value.map((e) => {
+                  return h2a(e)
+                })
+                keyVal["IOUsList"][n].keywords= value;
+              })}).then(() =>  {
+                curIOU.methods.getlen().call().then((_value ) =>
+                {
+                  keyVal["IOUsList"][n].IOULen= _value [0];
+                  keyVal["IOUsList"][n].feedBackLen= _value [1];
+                })
+
+              })
+
+      this.setState(keyVal);
+    }
+  }
+
+
+   
 
   componentDidMount() {
     EmbarkJS.onReady((err) => {
@@ -40,6 +92,8 @@ class App extends React.Component {
         // you can use this to ask the user to enable metamask for e.g
         return this.setState({error: err.message || err});
       }
+      
+      this.getIOUList();
       this.getStat();
       EmbarkJS.Blockchain.isAvailable().then(result => {
         this.setState({blockchainEnabled: result});
@@ -154,7 +208,7 @@ class App extends React.Component {
           <BurnIOUs />
         </TabPane>
         <TabPane tabId="4">
-          <ListIOUs />
+          <ListIOUs IOUsList={this.state.IOUsList} />
         </TabPane>
         <TabPane tabId="5">
           <ListKeys />
