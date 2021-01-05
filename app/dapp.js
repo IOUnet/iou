@@ -9,6 +9,7 @@ import MakeIOUs from './components/MakeIOUs';
 import MintIOUs from './components/MintIOUs';
 import BurnIOUs from './components/BurnIOUs';
 import ListIssuers from './components/ListIssuers';
+import ListIssuersNames from './components/ListIssuersNames';
 import ListKeys from './components/ListKeys';
 import StoreIOUs from '../embarkArtifacts/contracts/StoreIOUs';
 import IOUs from '../embarkArtifacts/contracts/IOUtoken';
@@ -195,6 +196,16 @@ class App extends React.Component {
           </NavLink>
         </NavItem>
 
+        <NavItem>
+        <NavLink onClick={() => this.handleSelect('6')} className={classnames({ active: this.state.activeKey === '3' })}>
+            {this._renderStatus('All Issuers by Addrs', this.state.blockchainEnabled)}
+          </NavLink>
+        </NavItem>
+        <NavItem>
+        <NavLink onClick={() => this.handleSelect('7')} className={classnames({ active: this.state.activeKey === '3' })}>
+            {this._renderStatus('All Issuers by Names', this.state.blockchainEnabled)}
+          </NavLink>
+        </NavItem>
 
       </Nav>
       <TabContent activeTab={this.state.activeKey}>
@@ -213,7 +224,12 @@ class App extends React.Component {
         <TabPane tabId="5">
           <ListKeys />
         </TabPane>
-
+        <TabPane tabId="6">
+          <ListIssuers  IOUsList={this.state.IOUsList}/>
+        </TabPane>
+        <TabPane tabId="7">
+          <ListIssuersNames  IOUsList={this.state.IOUsList}/>
+        </TabPane>
       </TabContent>
     </div>);
   }

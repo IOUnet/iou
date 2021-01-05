@@ -3,8 +3,8 @@ import EmbarkJS from 'Embark/EmbarkJS';
 import React from 'react';
 import {Form, FormGroup, Input, HelpBlock, Button, FormText} from 'reactstrap';
 
-//import StoreIOUs from '../../embarkArtifacts/contracts/StoreIOUs';
-//import IOUs from '../../embarkArtifacts/contracts/IOUtoken';
+import StoreIOUs from '../../embarkArtifacts/contracts/StoreIOUs';
+import IOUs from '../../embarkArtifacts/contracts/IOUtoken';
 import ReactGA from 'react-ga';
 import List from 'react-list-select';
 ReactGA.initialize('UA-161540415-1');
@@ -12,7 +12,7 @@ ReactGA.pageview(window.location.pathname + window.location.search);
 const h2a = web3.utils.hexToAscii;
 const a2h = web3.utils.asciiToHex;
 
-class ListIOU extends React.Component {
+class IssuersIOUNames extends React.Component {
 
   constructor(props) {
     super(props);
@@ -30,6 +30,7 @@ class ListIOU extends React.Component {
       location: "",
       units: "",     
       issuer: "",
+      IOUsList: [],
       curIOU: "",
       creditorAddr: "",
       descrDebt:"", 
@@ -37,7 +38,7 @@ class ListIOU extends React.Component {
       totalBurned: 0,
       keywords: [],
       avRate: 0,
-      allIssuers: [],
+      allIssuers: []
     };
   }
 
@@ -77,21 +78,108 @@ class ListIOU extends React.Component {
     this.setState({ logs: this.state.logs });
   }
 
+  async sendIOU (e) {
+    
+    e.preventDefault();
+    await EmbarkJS.enableEthereum();
+    let  account;
+    await web3.eth.getAccounts().then(e => { account = e[0];  
+      });
+      const curIOU =  EmbarkJS.Blockchain.Contract({
+        abi: IOUs.options.jsonInterface,
+        address: this.state.getValue
+        });
+
+      curIOU.methods.mint(
+        this.state.creditorAddr,
+        web3.utils.toWei(this.state.valueSet),
+        this.state.descrDebt
+                ).send({from:account});
+    this._addToLog("mintIOUs.methods.mintIOUs: ", this.state.getValue);
+
+  }
+
+  async getIOUList(e) {
+    e.preventDefault();
+    await EmbarkJS.enableEthereum();
+
+    StoreIOUs.methods.getIOUList(this.state.currIss).call().then(_value => this.setState({ IOUsList: _value }));
+    
+  }
+
+  async getIssuersList(e) {
+    e.preventDefault();
+    await EmbarkJS.enableEthereum();
+    let  account;
+    let numberIss = await StoreIOUs.methods.getIssuerstotal().call();
+    let issuers = [];
+    for (let n=0; n<numberIss; n++) {
+      issuers.push(await StoreIOUs.methods.allIssuers(n).call());
+    }
+    this.setState({ allIssuers: issuers });
+    
+  }
+
+
+  async getValue(e) {
+    e.preventDefault();
+    await EmbarkJS.enableEthereum();
+    
+    this.state.curIOU =  EmbarkJS.Blockchain.Contract({
+        abi: IOUs.options.jsonInterface,
+        address: this.state.getValue});
+  await this.state.curIOU.methods.name().call().then(_value =>
+    {
+      this.setState({name: _value});
+    });
   
+  await this.state.curIOU.methods.symbol().call().then(_value =>
+      {
+        this.setState({symbol: _value});
+      });
+    await this.state.curIOU.methods.thisIOU().call().then(_value =>
+      {
 
+      this.setState({myName: _value.myName});
+      this.setState({socialProfile: _value.socialProfile});
+      this.setState({description: _value.description});
+      this.setState({issuer: _value.issuer});
+      this.setState({location: _value.location});
+      this.setState({units: h2a( _value.units)});
+      this.setState({avRate: _value.avRate});
+      this.setState({totalMinted: _value.totalMinted});
+      this.setState({totalBurned: _value.totalBurned});
+      });
+      await this.state.curIOU.methods.thisIOUkeywords().call().then(_value =>
+        {
+          let value = _value.map((e) => {
+            return h2a(e)
+          })
+        this.setState({keywords: value});
+        });
 
+      
+      await this.state.curIOU.methods.getlen().call().then((_value ) =>
+        {
+         this.setState({IOULen: _value [0]});
+         this.setState({feedBackLen: _value [1]});
+        });
+    this._addToLog("IOU address: ", this.state.getValue );
+  }
+
+   
 
   render() {
     return (<React.Fragment>
         
         
-          <h3> List of IOUs </h3>          
+          <h3> List of Issuers </h3>          
           <Form>
           <FormGroup>
 
   
             <List class="pointer"
-                items={this.props.IOUsList.map(_value => _value.name)}
+                items={this.props.IOUsList.map(_value => _value.myName)}
                 /**  <Button color="primary" onClick={(e) => this.handleChangeList(e)}>IOUs list</Button>
             <br /> */
             //  selected={[0]} .forEach(_value => {return _value.description})
@@ -133,4 +221,5 @@ class ListIOU extends React.Component {
   }
 }
 
-export default ListIOU;
+
+export default IssuersIOUNames;

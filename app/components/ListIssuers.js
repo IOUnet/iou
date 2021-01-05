@@ -112,7 +112,7 @@ class MintIOU extends React.Component {
     await EmbarkJS.enableEthereum();
     let  account;
     let numberIss = await StoreIOUs.methods.getIssuerstotal().call();
-    let issuers = [];
+    let issuers = [numberIss];
     for (let n=0; n<numberIss; n++) {
       issuers.push(await StoreIOUs.methods.allIssuers(n).call());
     }
