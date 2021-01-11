@@ -40,7 +40,9 @@ class MintIOU extends React.Component {
       totalBurned: 0,
       keywords: [],
       avRate: 0,
-      allIssuers: []
+      allIssuers: [],
+      orderByField:"",
+      orderByDirection:""
     };
   }
 
@@ -170,7 +172,21 @@ class MintIOU extends React.Component {
     this._addToLog("IOU address: ", this.state.getValue );
   }
 
-   
+  changeOrder(field, direction) {
+    this.setState({ orderByField: field, orderByDirection: direction }, () => {
+        const feedbacksS = this.state.feedbacks.sort((a,b) => {
+          if (direction == "asc") {
+            if (a[field] > b[field]) return 1;
+            if (a[field] < b[field]) return -1;
+          }
+          else if (direction == "desc") {
+            if (a[field] > b[field]) return -1;
+            if (a[field] < b[field]) return 1;
+          }
+        })
+        this.setState({ feedbacks: feedbacksS });
+    });
+}
 
   render() {
     return (<React.Fragment>
@@ -234,9 +250,15 @@ class MintIOU extends React.Component {
               {
                 <DynamicDataTable 
                   rows={this.state.feedbacks}  
+                  hoverable
                   buttons=""
                   totalRows={this.state.feedBackLen}
-                  perPage={10}                  
+                  perPage={10}
+                  onClick={(event, row) => console.warn(event, row.name)}
+                  orderByField={this.state.orderByField}
+                  orderByDirection={this.state.orderByDirection}
+                  changeOrder={(field, direction) => this.changeOrder(field, direction)}
+                  disallowOrderingBy = {['comment']}
                 />
 
               }
