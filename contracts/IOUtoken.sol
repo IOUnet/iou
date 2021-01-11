@@ -34,6 +34,7 @@ contract IOUtoken is ERC20Burnable {
 
     struct FeedBack {
         address sender;
+        uint256 amount;
         uint256 time;
         int256 rating; // estimation of skills in 255 grades
         string text; //comment
@@ -148,7 +149,7 @@ contract IOUtoken is ERC20Burnable {
     function burn (uint256 _amount, int256 _rating, string memory _feedback) public onlyHolder (_amount) {
         require (bytes(_feedback).length <256, "Feedback is long, must be < 256");
 
-        FeedBack memory feedback = FeedBack(msg.sender,block.timestamp, _rating, _feedback);
+        FeedBack memory feedback = FeedBack(msg.sender, _amount, block.timestamp, _rating, _feedback);
         allFeedbacks.push(feedback);
         feedBacksbySender[msg.sender].push(allFeedbacks.length-1);
         

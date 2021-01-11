@@ -1,0 +1,295 @@
+{
+  "id": "95789789-e6bc-4a33-b5d4-6445b87bd5c1",
+  "version": "2.0",
+  "name": "IOUs",
+  "url": "http://localhost:8000",
+  "tests": [{
+    "id": "2be14d6a-e557-46ea-9b08-1f29012222a7",
+    "name": "deployIOU",
+    "commands": [{
+      "id": "ad54a37d-bc04-4792-afcb-ca64d09046b9",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "ec01c137-17dd-4e78-b12b-15628bb55313",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1920x1030",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "e18071b6-84a0-4694-95cc-a21398fa29b4",
+      "comment": "",
+      "command": "click",
+      "target": "name=name",
+      "targets": [
+        ["name=name", "name"],
+        ["css=.form-control:nth-child(2)", "css:finder"],
+        ["xpath=//input[@name='name']", "xpath:attributes"],
+        ["xpath=//div[@id='app']/div/div[2]/div/form/div/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "e116646c-2ce9-43a4-bbf9-04858f818946",
+      "comment": "",
+      "command": "type",
+      "target": "name=name",
+      "targets": [
+        ["name=name", "name"],
+        ["css=.form-control:nth-child(2)", "css:finder"],
+        ["xpath=//input[@name='name']", "xpath:attributes"],
+        ["xpath=//div[@id='app']/div/div[2]/div/form/div/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "LeoHoffTok"
+    }, {
+      "id": "58ca92c4-954d-4c9d-88de-a5612e6db5eb",
+      "comment": "",
+      "command": "type",
+      "target": "name=symbol",
+      "targets": [
+        ["name=symbol", "name"],
+        ["css=.form-control:nth-child(4)", "css:finder"],
+        ["xpath=//input[@name='symbol']", "xpath:attributes"],
+        ["xpath=//div[@id='app']/div/div[2]/div/form/div/input[2]", "xpath:idRelative"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": "LH01"
+    }, {
+      "id": "71a5980e-a8cf-4772-a88b-1e814c3cd833",
+      "comment": "",
+      "command": "type",
+      "target": "name=myName",
+      "targets": [
+        ["name=myName", "name"],
+        ["css=.form-control:nth-child(6)", "css:finder"],
+        ["xpath=//input[@name='myName']", "xpath:attributes"],
+        ["xpath=//div[@id='app']/div/div[2]/div/form/div/input[3]", "xpath:idRelative"],
+        ["xpath=//input[3]", "xpath:position"]
+      ],
+      "value": "Leo Hoff"
+    }, {
+      "id": "ea23e752-5875-46b7-a9a6-45cdd96f5d62",
+      "comment": "",
+      "command": "type",
+      "target": "name=socialProfile",
+      "targets": [
+        ["name=socialProfile", "name"],
+        ["css=.form-control:nth-child(8)", "css:finder"],
+        ["xpath=//input[@name='socialProfile']", "xpath:attributes"],
+        ["xpath=//div[@id='app']/div/div[2]/div/form/div/input[4]", "xpath:idRelative"],
+        ["xpath=//input[4]", "xpath:position"]
+      ],
+      "value": "www.linkedIn.com/LeoHohh"
+    }, {
+      "id": "7ce685a5-da4d-4988-883e-e76cff2da200",
+      "comment": "",
+      "command": "type",
+      "target": "name=location",
+      "targets": [
+        ["name=location", "name"],
+        ["css=.form-control:nth-child(10)", "css:finder"],
+        ["xpath=//input[@name='location']", "xpath:attributes"],
+        ["xpath=//div[@id='app']/div/div[2]/div/form/div/input[5]", "xpath:idRelative"],
+        ["xpath=//input[5]", "xpath:position"]
+      ],
+      "value": "Pasadena, California"
+    }, {
+      "id": "18c60ea3-2939-4336-890c-48469baee291",
+      "comment": "",
+      "command": "type",
+      "target": "name=description",
+      "targets": [
+        ["name=description", "name"],
+        ["css=.form-control:nth-child(12)", "css:finder"],
+        ["xpath=//input[@name='description']", "xpath:attributes"],
+        ["xpath=//div[@id='app']/div/div[2]/div/form/div/input[6]", "xpath:idRelative"],
+        ["xpath=//input[6]", "xpath:position"]
+      ],
+      "value": "astro, pick up"
+    }, {
+      "id": "b6210959-7ac4-4060-9847-446058479198",
+      "comment": "",
+      "command": "type",
+      "target": "name=description",
+      "targets": [
+        ["name=description", "name"],
+        ["css=.form-control:nth-child(12)", "css:finder"],
+        ["xpath=//input[@name='description']", "xpath:attributes"],
+        ["xpath=//div[@id='app']/div/div[2]/div/form/div/input[6]", "xpath:idRelative"],
+        ["xpath=//input[6]", "xpath:position"]
+      ],
+      "value": "astrophysics"
+    }, {
+      "id": "6a762dc5-a76b-487c-ab35-34149280a9e5",
+      "comment": "",
+      "command": "click",
+      "target": "name=keywords",
+      "targets": [
+        ["name=keywords", "name"],
+        ["css=.form-control:nth-child(14)", "css:finder"],
+        ["xpath=//input[@name='keywords']", "xpath:attributes"],
+        ["xpath=//div[@id='app']/div/div[2]/div/form/div/input[7]", "xpath:idRelative"],
+        ["xpath=//input[7]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "a6b6f9d1-7096-44fa-87c7-5dbea982bb71",
+      "comment": "",
+      "command": "click",
+      "target": "name=description",
+      "targets": [
+        ["name=description", "name"],
+        ["css=.form-control:nth-child(12)", "css:finder"],
+        ["xpath=//input[@name='description']", "xpath:attributes"],
+        ["xpath=//div[@id='app']/div/div[2]/div/form/div/input[6]", "xpath:idRelative"],
+        ["xpath=//input[6]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "ce64f9fb-7ebc-4b32-9e1c-e2435382a70c",
+      "comment": "",
+      "command": "click",
+      "target": "name=description",
+      "targets": [
+        ["name=description", "name"],
+        ["css=.form-control:nth-child(12)", "css:finder"],
+        ["xpath=//input[@name='description']", "xpath:attributes"],
+        ["xpath=//div[@id='app']/div/div[2]/div/form/div/input[6]", "xpath:idRelative"],
+        ["xpath=//input[6]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "314a4852-41dd-44d2-be75-cacbec05276b",
+      "comment": "",
+      "command": "doubleClick",
+      "target": "name=description",
+      "targets": [
+        ["name=description", "name"],
+        ["css=.form-control:nth-child(12)", "css:finder"],
+        ["xpath=//input[@name='description']", "xpath:attributes"],
+        ["xpath=//div[@id='app']/div/div[2]/div/form/div/input[6]", "xpath:idRelative"],
+        ["xpath=//input[6]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "a0a93fe5-fa8b-44bc-bc21-9f8c83c40df5",
+      "comment": "",
+      "command": "click",
+      "target": "name=keywords",
+      "targets": [
+        ["name=keywords", "name"],
+        ["css=.form-control:nth-child(14)", "css:finder"],
+        ["xpath=//input[@name='keywords']", "xpath:attributes"],
+        ["xpath=//div[@id='app']/div/div[2]/div/form/div/input[7]", "xpath:idRelative"],
+        ["xpath=//input[7]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "bbc3d2b4-481b-4a5e-933b-df70b9c49ab8",
+      "comment": "",
+      "command": "type",
+      "target": "name=keywords",
+      "targets": [
+        ["name=keywords", "name"],
+        ["css=.form-control:nth-child(14)", "css:finder"],
+        ["xpath=//input[@name='keywords']", "xpath:attributes"],
+        ["xpath=//div[@id='app']/div/div[2]/div/form/div/input[7]", "xpath:idRelative"],
+        ["xpath=//input[7]", "xpath:position"]
+      ],
+      "value": "astrophysics"
+    }, {
+      "id": "355bf1cb-29e9-49eb-8a10-fb23d4d11fe6",
+      "comment": "",
+      "command": "click",
+      "target": "name=description",
+      "targets": [
+        ["name=description", "name"],
+        ["css=.form-control:nth-child(12)", "css:finder"],
+        ["xpath=//input[@name='description']", "xpath:attributes"],
+        ["xpath=//div[@id='app']/div/div[2]/div/form/div/input[6]", "xpath:idRelative"],
+        ["xpath=//input[6]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "ca801f4a-7c11-4cb4-883e-82f72e94ab92",
+      "comment": "",
+      "command": "type",
+      "target": "name=keywords",
+      "targets": [
+        ["name=keywords", "name"],
+        ["css=.form-control:nth-child(14)", "css:finder"],
+        ["xpath=//input[@name='keywords']", "xpath:attributes"],
+        ["xpath=//div[@id='app']/div/div[2]/div/form/div/input[7]", "xpath:idRelative"],
+        ["xpath=//input[7]", "xpath:position"]
+      ],
+      "value": "astrophysics, laser, violo"
+    }, {
+      "id": "0da2a3af-9840-4deb-a7e8-4825cce5670a",
+      "comment": "",
+      "command": "type",
+      "target": "name=keywords",
+      "targets": [
+        ["name=keywords", "name"],
+        ["css=.form-control:nth-child(14)", "css:finder"],
+        ["xpath=//input[@name='keywords']", "xpath:attributes"],
+        ["xpath=//div[@id='app']/div/div[2]/div/form/div/input[7]", "xpath:idRelative"],
+        ["xpath=//input[7]", "xpath:position"]
+      ],
+      "value": "astrophysics, laser, viola"
+    }, {
+      "id": "2b0ccacd-8bb4-44f0-b250-e056824e0c49",
+      "comment": "",
+      "command": "click",
+      "target": "name=units",
+      "targets": [
+        ["name=units", "name"],
+        ["css=.form-control:nth-child(16)", "css:finder"],
+        ["xpath=//input[@name='units']", "xpath:attributes"],
+        ["xpath=//div[@id='app']/div/div[2]/div/form/div/input[8]", "xpath:idRelative"],
+        ["xpath=//input[8]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "54984633-6079-4a98-ae30-129811328e44",
+      "comment": "",
+      "command": "type",
+      "target": "name=units",
+      "targets": [
+        ["name=units", "name"],
+        ["css=.form-control:nth-child(16)", "css:finder"],
+        ["xpath=//input[@name='units']", "xpath:attributes"],
+        ["xpath=//div[@id='app']/div/div[2]/div/form/div/input[8]", "xpath:idRelative"],
+        ["xpath=//input[8]", "xpath:position"]
+      ],
+      "value": "1 hour"
+    }, {
+      "id": "3178c612-ab08-4cc7-ab8d-77d144397a28",
+      "comment": "",
+      "command": "click",
+      "target": "css=.btn:nth-child(18)",
+      "targets": [
+        ["css=.btn:nth-child(18)", "css:finder"],
+        ["xpath=//button[@type='button']", "xpath:attributes"],
+        ["xpath=//div[@id='app']/div/div[2]/div/form/div/button", "xpath:idRelative"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,'Deploy IOU')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }],
+  "suites": [{
+    "id": "41276ee8-eec0-4fb1-960b-de696dfc596d",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": ["2be14d6a-e557-46ea-9b08-1f29012222a7"]
+  }],
+  "urls": ["http://localhost:8000/"],
+  "plugins": []
+}

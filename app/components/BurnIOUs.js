@@ -99,7 +99,7 @@ class BurnIOU extends React.Component {
       curIOU.methods.burn(
         web3.utils.toWei(this.state.valueSet),
         rate.toString(),
-        this.state.descrDebt
+        this.state.feedback
                 ).send({from:account});
     this._addToLog("StoreIOUs.methods.StoreIOUs: ", this.state.getValue);
 
