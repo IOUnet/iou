@@ -4,17 +4,15 @@ import React from 'react';
 import {Form, FormGroup, Input, HelpBlock, Button, FormText} from 'reactstrap';
 
 import StoreIOUs from '../../embarkArtifacts/contracts/StoreIOUs';
-import IOUs from '../../embarkArtifacts/contracts/IOUtoken';
 import ReactGA from 'react-ga';
 import List from 'react-list-select';
-import DynamicDataTable from "@langleyfoxall/react-dynamic-data-table";
 import IOUdescription from "./IOUdescription"
 ReactGA.initialize('UA-161540415-1');
 ReactGA.pageview(window.location.pathname + window.location.search);
 const h2a = web3.utils.hexToAscii;
 const a2h = web3.utils.asciiToHex;
 
-class MintIOU extends React.Component {
+class ListIssuers extends React.Component {
 
   constructor(props) {
     super(props);
@@ -85,9 +83,9 @@ class MintIOU extends React.Component {
 
   async getIOUList(e) {
     e.preventDefault();
-    await EmbarkJS.enableEthereum();
+    // await EmbarkJS.enableEthereum();
 
-    StoreIOUs.methods.getIOUList(this.state.currIss).call().then(_value => this.setState({ IOUsList: _value }));
+    await StoreIOUs.methods.getIOUList(this.state.currIss).call().then(_value => this.setState({ IOUsList: _value }));
     
   }
 
@@ -115,6 +113,7 @@ class MintIOU extends React.Component {
           <FormGroup>
   
             <br />
+            <FormText >Select issuer: </FormText>
             <List class="pointer"
                 items={this.state.allIssuers}
             //  selected={[0]}
@@ -144,11 +143,11 @@ class MintIOU extends React.Component {
           </FormGroup>
         </Form>
         <IOUdescription curIOUaddr = {this.state.getValue} />
-    
 
       </React.Fragment>
-    );
+    ); /**        />
+    */
   }
 }
 
-export default MintIOU;
+export default ListIssuers;

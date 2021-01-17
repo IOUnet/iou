@@ -19,8 +19,8 @@ class IOUdescription extends React.Component {
     super(props);
 
     this.state = {
-      valueSet: 0,
-      getValue: this.props.curIOUaddr,
+    /*  valueSet: 0,
+      getValue: "",
       currIss: 0,
       logs: [],
       name: "",
@@ -38,58 +38,63 @@ class IOUdescription extends React.Component {
       totalBurned: 0,
       keywords: [],
       avRate: 0,
-      allIssuers: [],
+      allIssuers: [], */
+      orderByField,
+      orderByDirection,
+      newIOU: true
     };
   }
 
-  async getValue(e) {
-    e.preventDefault();
-    await EmbarkJS.enableEthereum();
+  async getValue() {
+ //   e.preventDefault();
     
-    this.state.curIOU =  EmbarkJS.Blockchain.Contract({
+  //  if ( this.props.curIOUaddr =="" || this.state.newIOU == false ) return;
+    await EmbarkJS.enableEthereum();
+    const curIOU =  EmbarkJS.Blockchain.Contract({
         abi: IOUs.options.jsonInterface,
         address: this.props.curIOUaddr});
-  await this.state.curIOU.methods.name().call().then(_value =>
+
+    await curIOU.methods.name().call().then(_value =>
     {
-      this.setState({name: _value});
+      curIOUstate.name= _value;
     });
   
-  await this.state.curIOU.methods.symbol().call().then(_value =>
+    await curIOU.methods.symbol().call().then(_value =>
       {
-        this.setState({symbol: _value});
+        curIOUstate.symbol= _value;
       });
-    await this.state.curIOU.methods.thisIOU().call().then(_value =>
+    await curIOU.methods.thisIOU().call().then(_value =>
       {
 
-      this.setState({myName: _value.myName});
-      this.setState({socialProfile: _value.socialProfile});
-      this.setState({description: _value.description});
-      this.setState({issuer: _value.issuer});
-      this.setState({location: _value.location});
-      this.setState({units: h2a( _value.units)});
-      this.setState({avRate: _value.avRate});
-      this.setState({totalMinted: _value.totalMinted});
-      this.setState({totalBurned: _value.totalBurned});
+      curIOUstate.myName= _value.myName;
+      curIOUstate.socialProfile= _value.socialProfile;
+      curIOUstate.description= _value.description;
+      curIOUstate.issuer= _value.issuer;
+      curIOUstate.location= _value.location;
+      curIOUstate.units= h2a( _value.units);
+      curIOUstate.avRate= _value.avRate;
+      curIOUstate.totalMinted= _value.totalMinted;
+      curIOUstate.totalBurned= _value.totalBurned;
       });
-      await this.state.curIOU.methods.thisIOUkeywords().call().then(_value =>
+    await curIOU.methods.thisIOUkeywords().call().then(_value =>
         {
           let value = _value.map((e) => {
             return h2a(e)
           })
-        this.setState({keywords: value});
+        curIOUstate.keywords= value;
         });
 
       
-      await this.state.curIOU.methods.getlen().call().then((_value ) =>
+    await curIOU.methods.getlen().call().then((_value ) =>
         {
-         this.setState({IOULen: _value [0]});
-         this.setState({feedBackLen: _value [1]});
+         curIOUstate.IOULen= _value [0];
+         curIOUstate.feedBackLen= _value [1];
         }).then(async () => {
 
           let keyVal = {};
-          keyVal["feedbacks"] =[];
+          curIOUstate.feedbacks =[];
           for (let n=0; n<this.state.feedBackLen; n++) {
-              await this.state.curIOU.methods.allFeedbacks(n).call().then((_value ) =>
+              await curIOU.methods.allFeedbacks(n).call().then((_value ) =>
               {
                 var value = {}
                 value.sender= _value['sender'];
@@ -99,14 +104,14 @@ class IOUdescription extends React.Component {
                 value.rating= _value['rating'];
                 value.comment = _value['text'];
 
-                keyVal["feedbacks"].push(value);
+                curIOUstate.feedbacks.push(value);
 
               });
 
             }
-            this.setState(keyVal);
+            
           });
-    this._addToLog("IOU address: ", this.props.curIOUaddr );
+      return curIOUstate;
   }
 
   changeOrder(field, direction) {
@@ -128,59 +133,48 @@ class IOUdescription extends React.Component {
 
 
   render() {
+    const thisstate = this.getValue();
     return (<React.Fragment>
         
         
           <h3> IOU description: </h3>          
-          <Form>
-          <FormGroup>
+            <div color="muted">Click the button to get the IOU address value.</div>
             {this.props.curIOUaddr && this.props.curIOUaddr !== 0 &&
-            <Button color="primary" onClick={(e) => this.getValue(e)}>Get full IOU description</Button>
-            }
-            <FormText color="muted">Click the button to get the IOU address value.</FormText>
-            {this.props.curIOUaddr && this.props.curIOUaddr !== 0 &&
-            <p>Current IOU is at  <span className="value font-weight-bold">{this.props.curIOUaddr}</span> <br />
+            <div>Current IOU is at  <span className="value font-weight-bold">{this.props.curIOUaddr}</span> <br />
             <br/>
-           Name: {this.state.name}
+           Name: {thisstate.name}
            <br /> 
-            Symbol: {this.state.symbol } <br/>
-            Issuer name: {this.state.myName } <br/>
-            Issuer Eth address: {this.state.issuer } <br/>
-            Social Profile: {this.state.socialProfile} <br/>
-            Location: {this.state.location} <br/>
-            Description: {this.state.description }  <br/>
-            keywords: {this.state.keywords }  <br/>
-            Units: {this.state.units }  <br/>
-            Total minted: {this.state.totalMinted / 10**18}, by {this.state.IOULen} IOUs <br/>
-            Total burned: {this.state.totalBurned / 10**18}, by {this.state.feedBackLen} feedbacks <br/>
-            Balance: {(this.state.totalMinted - this.state.totalBurned)/10**18}
+            Symbol: {thisstate.symbol } <br/>
+            Issuer name: {thisstate.myName } <br/>
+            Issuer Eth address: {thisstate.issuer } <br/>
+            Social Profile: {thisstate.socialProfile} <br/>
+            Location: {thisstate.location} <br/>
+            Description: {thisstate.description }  <br/>
+            keywords: {thisstate.keywords }  <br/>
+            Units: {thisstate.units }  <br/>
+            Total minted: {thisstate.totalMinted / 10**18}, by {thisstate.IOULen} IOUs <br/>
+            Total burned: {thisstate.totalBurned / 10**18}, by {thisstate.feedBackLen} feedbacks <br/>
+            Balance: {(thisstate.totalMinted - thisstate.totalBurned)/10**18}
             <br />
-            Average Rating: {this.state.avRate} "from -100 to 100". <br/>
+            Average Rating: {thisstate.avRate} "from -100 to 100". <br/>
             Feedbacks:  
-              {
-                <DynamicDataTable 
-                  rows={this.state.feedbacks}  
-                  hoverable
-                  buttons=""
-                  totalRows={this.state.feedBackLen}
-                  perPage={10}
-                  onClick={(event, row) => console.warn(event, row.name)}
-                  orderByField={this.state.orderByField}
-                  orderByDirection={this.state.orderByDirection}
-                  changeOrder={(field, direction) => this.changeOrder(field, direction)}
-                  disallowOrderingBy = {['comment']}
-                />
-
+              {  <DynamicDataTable 
+                    rows={thisstate.feedbacks}  
+                    hoverable
+                    buttons = {[]}
+                    totalRows={parseInt(thisstate.feedBackLen)}
+                    perPage={10}
+                    onClick={(event, row) => console.warn(event, row.name)}
+                    orderByField={this.state.orderByField}
+                    orderByDirection={this.state.orderByDirection}
+                    changeOrder={(field, direction) => this.changeOrder(field, direction)}
+                    disallowOrderingBy = {['comment']}
+                  /> 
               }
-            </p>}
-          </FormGroup>
-        </Form>
-        
-    
-
+            </div>}
       </React.Fragment>
     );
-  }
+  } /**            */
 }
 
 export default IOUdescription;
