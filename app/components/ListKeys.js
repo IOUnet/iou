@@ -165,7 +165,9 @@ class MintIOU extends React.Component {
           
             </FormGroup>
         </Form>
-        <IOUdescription curIOUaddr = {this.state.getValue} />
+        <IOUdescription state={this.props.state}
+                    setState={state => this.props.setState(state)} 
+                    getValue={() => this.props.getValue()} />
 
     
 

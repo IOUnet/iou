@@ -39,81 +39,13 @@ class IOUdescription extends React.Component {
       keywords: [],
       avRate: 0,
       allIssuers: [], */
-      orderByField,
-      orderByDirection,
+      orderByField: 'asc',
+      orderByDirection: 'asc',
       newIOU: true
     };
   }
 
-  async getValue() {
- //   e.preventDefault();
-    
-  //  if ( this.props.curIOUaddr =="" || this.state.newIOU == false ) return;
-    await EmbarkJS.enableEthereum();
-    const curIOU =  EmbarkJS.Blockchain.Contract({
-        abi: IOUs.options.jsonInterface,
-        address: this.props.curIOUaddr});
-
-    await curIOU.methods.name().call().then(_value =>
-    {
-      curIOUstate.name= _value;
-    });
-  
-    await curIOU.methods.symbol().call().then(_value =>
-      {
-        curIOUstate.symbol= _value;
-      });
-    await curIOU.methods.thisIOU().call().then(_value =>
-      {
-
-      curIOUstate.myName= _value.myName;
-      curIOUstate.socialProfile= _value.socialProfile;
-      curIOUstate.description= _value.description;
-      curIOUstate.issuer= _value.issuer;
-      curIOUstate.location= _value.location;
-      curIOUstate.units= h2a( _value.units);
-      curIOUstate.avRate= _value.avRate;
-      curIOUstate.totalMinted= _value.totalMinted;
-      curIOUstate.totalBurned= _value.totalBurned;
-      });
-    await curIOU.methods.thisIOUkeywords().call().then(_value =>
-        {
-          let value = _value.map((e) => {
-            return h2a(e)
-          })
-        curIOUstate.keywords= value;
-        });
-
-      
-    await curIOU.methods.getlen().call().then((_value ) =>
-        {
-         curIOUstate.IOULen= _value [0];
-         curIOUstate.feedBackLen= _value [1];
-        }).then(async () => {
-
-          let keyVal = {};
-          curIOUstate.feedbacks =[];
-          for (let n=0; n<this.state.feedBackLen; n++) {
-              await curIOU.methods.allFeedbacks(n).call().then((_value ) =>
-              {
-                var value = {}
-                value.sender= _value['sender'];
-                value.amount= _value['amount'] / 10**18;
-                
-                value.time= new Date(_value['time']*1000).toLocaleDateString('en-US');
-                value.rating= _value['rating'];
-                value.comment = _value['text'];
-
-                curIOUstate.feedbacks.push(value);
-
-              });
-
-            }
-            
-          });
-      return curIOUstate;
-  }
-
+ 
   changeOrder(field, direction) {
     this.setState({ orderByField: field, orderByDirection: direction }, () => {
         const feedbacksS = this.state.feedbacks.sort((a,b) => {
@@ -132,37 +64,39 @@ class IOUdescription extends React.Component {
 
 
 
-  render() {
-    const thisstate = this.getValue();
-    return (<React.Fragment>
-        
-        
+  render() {      
+    
+
+    if ( this.props.state.curIOUaddr == "" || Object.keys(this.props.state.IOUsList).length == 0) return (<div> Data loadnig... </div>);
+        return (<React.Fragment>
+          
+  
           <h3> IOU description: </h3>          
             <div color="muted">Click the button to get the IOU address value.</div>
-            {this.props.curIOUaddr && this.props.curIOUaddr !== 0 &&
-            <div>Current IOU is at  <span className="value font-weight-bold">{this.props.curIOUaddr}</span> <br />
+            {this.props.state.IOUsList[this.props.state.curIOUaddr].address && this.props.state.IOUsList[this.props.state.curIOUaddr].address !== 0 &&
+            <div>Current IOU is at  <span className="value font-weight-bold">{this.props.state.IOUsList[this.props.state.curIOUaddr].address}</span> <br />
             <br/>
-           Name: {thisstate.name}
+           Name: {this.props.state.IOUsList[this.props.state.curIOUaddr].name}
            <br /> 
-            Symbol: {thisstate.symbol } <br/>
-            Issuer name: {thisstate.myName } <br/>
-            Issuer Eth address: {thisstate.issuer } <br/>
-            Social Profile: {thisstate.socialProfile} <br/>
-            Location: {thisstate.location} <br/>
-            Description: {thisstate.description }  <br/>
-            keywords: {thisstate.keywords }  <br/>
-            Units: {thisstate.units }  <br/>
-            Total minted: {thisstate.totalMinted / 10**18}, by {thisstate.IOULen} IOUs <br/>
-            Total burned: {thisstate.totalBurned / 10**18}, by {thisstate.feedBackLen} feedbacks <br/>
-            Balance: {(thisstate.totalMinted - thisstate.totalBurned)/10**18}
+            Symbol: {this.props.state.IOUsList[this.props.state.curIOUaddr].symbol } <br/>
+            Issuer name: {this.props.state.IOUsList[this.props.state.curIOUaddr].myName } <br/>
+            Issuer Eth address: {this.props.state.IOUsList[this.props.state.curIOUaddr].issuer } <br/>
+            Social Profile: {this.props.state.IOUsList[this.props.state.curIOUaddr].socialProfile} <br/>
+            Location: {this.props.state.IOUsList[this.props.state.curIOUaddr].location} <br/>
+            Description: {this.props.state.IOUsList[this.props.state.curIOUaddr].description }  <br/>
+            keywords: {this.props.state.IOUsList[this.props.state.curIOUaddr].keywords }  <br/>
+            Units: {this.props.state.IOUsList[this.props.state.curIOUaddr].units }  <br/>
+            Total minted: {this.props.state.IOUsList[this.props.state.curIOUaddr].totalMinted / 10**18}, by {this.props.state.IOUsList[this.props.state.curIOUaddr].IOULen} IOUs <br/>
+            Total burned: {this.props.state.IOUsList[this.props.state.curIOUaddr].totalBurned / 10**18}, by {this.props.state.IOUsList[this.props.state.curIOUaddr].feedBackLen} feedbacks <br/>
+            Balance: {(this.props.state.IOUsList[this.props.state.curIOUaddr].totalMinted - this.props.state.IOUsList[this.props.state.curIOUaddr].totalBurned)/10**18}
             <br />
-            Average Rating: {thisstate.avRate} "from -100 to 100". <br/>
+            Average Rating: {this.props.state.IOUsList[this.props.state.curIOUaddr].avRate} "from -100 to 100". <br/>
             Feedbacks:  
               {  <DynamicDataTable 
-                    rows={thisstate.feedbacks}  
+                    rows={this.props.state.IOUsList[this.props.state.curIOUaddr].feedbacks}  
                     hoverable
                     buttons = {[]}
-                    totalRows={parseInt(thisstate.feedBackLen)}
+                    totalRows={parseInt(this.props.state.IOUsList[this.props.state.curIOUaddr].feedBackLen)}
                     perPage={10}
                     onClick={(event, row) => console.warn(event, row.name)}
                     orderByField={this.state.orderByField}

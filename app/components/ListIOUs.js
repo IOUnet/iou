@@ -91,7 +91,7 @@ class ListIOU extends React.Component {
 
   
             <List class="pointer"
-                items={this.props.IOUsList.map(_value => _value.name)}
+                items={this.props.state.IOUsList.map(_value => _value.name)}
                 /**  <Button color="primary" onClick={(e) => this.handleChangeList(e)}>IOUs list</Button>
             <br /> */
             //  selected={[0]} .forEach(_value => {return _value.description})

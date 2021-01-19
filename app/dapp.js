@@ -35,9 +35,11 @@ class App extends React.Component {
       allIOUs:0,
       allKeys:0, 
       allIssuers:0,
+      curIOUaddr: "",
       IOUsList: []
     };
   }
+  /*
   async getIOUList() {
     await EmbarkJS.enableEthereum();
     const numberIOUs = await StoreIOUs.methods.getIOUstotal().call();
@@ -82,7 +84,80 @@ class App extends React.Component {
       this.setState(keyVal);
     }
   }
-
+*/
+  async getValue() {
+    //   e.preventDefault();
+       
+     //  if ( this.props.curIOUaddr =="" || this.state.newIOU == false ) return;
+       await EmbarkJS.enableEthereum();
+       const curIOU =  EmbarkJS.Blockchain.Contract({
+           abi: IOUs.options.jsonInterface,
+           address: this.state.curIOUaddr});
+       var curIOUstate ={}; 
+       await curIOU.methods.name().call().then(_value =>
+       {
+         curIOUstate.name= _value;
+       });
+     
+       await curIOU.methods.symbol().call().then(_value =>
+         {
+           curIOUstate.symbol= _value;
+         });
+       await curIOU.methods.thisIOU().call().then(_value =>
+         {
+   
+         curIOUstate.myName= _value.myName;
+         curIOUstate.socialProfile= _value.socialProfile;
+         curIOUstate.description= _value.description;
+         curIOUstate.issuer= _value.issuer;
+         curIOUstate.location= _value.location;
+         curIOUstate.units= h2a( _value.units);
+         curIOUstate.avRate= _value.avRate;
+         curIOUstate.totalMinted= _value.totalMinted;
+         curIOUstate.totalBurned= _value.totalBurned;
+         curIOUstate.address =  this.state.curIOUaddr;
+         });
+       await curIOU.methods.thisIOUkeywords().call().then(_value =>
+           {
+             let value = _value.map((e) => {
+               return h2a(e)
+             })
+           curIOUstate.keywords= value;
+           });
+   
+         
+       await curIOU.methods.getlen().call().then((_value ) =>
+           {
+            curIOUstate.IOULen= _value [0];
+            curIOUstate.feedBackLen= _value [1];
+           }).then(async () => {
+   
+             let keyVal = {};
+             curIOUstate.feedbacks =[];
+             for (let n=0; n<curIOUstate.feedBackLen; n++) {
+                 await curIOU.methods.allFeedbacks(n).call().then((_value ) =>
+                 {
+                   var value = {}
+                   value.sender= _value['sender'];
+                   value.amount= _value['amount'] / 10**18;
+                   
+                   value.time= new Date(_value['time']*1000).toLocaleDateString('en-US');
+                   value.rating= _value['rating'];
+                   value.comment = _value['text'];
+   
+                   curIOUstate.feedbacks.push(value);
+   
+                 });
+   
+               }
+               
+             });
+          let keyVal = {};
+          keyVal["IOUsList"] =[];
+          keyVal["IOUsList"][this.state.curIOUaddr] = curIOUstate;
+          this.setState(keyVal);
+     }
+   
 
    
 
@@ -94,7 +169,6 @@ class App extends React.Component {
         return this.setState({error: err.message || err});
       }
       
-      this.getIOUList();
       this.getStat();
       EmbarkJS.Blockchain.isAvailable().then(result => {
         this.setState({blockchainEnabled: result});
@@ -219,13 +293,19 @@ class App extends React.Component {
           <BurnIOUs />
         </TabPane>
         <TabPane tabId="4">
-          <ListIOUs IOUsList={this.state.IOUsList} />
+          <ListIOUs state={this.state}
+                    setState={state => this.setState(state)} 
+                    getValue={() => this.getValue()}/>
         </TabPane>
         <TabPane tabId="5">
-          <ListKeys />
+          <ListKeys state={this.state}
+                    setState={state => this.setState(state)} 
+                    getValue={() => this.getValue()} />
         </TabPane>
         <TabPane tabId="6">
-          <ListIssuers  IOUsList={this.state.IOUsList}/>
+          <ListIssuers state={this.state}
+                    setState={state => this.setState(state)} 
+                    getValue={() => this.getValue()}/>
         </TabPane>
         <TabPane tabId="7">
           <ListIssuersNames  IOUsList={this.state.IOUsList}/>

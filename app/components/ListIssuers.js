@@ -51,11 +51,14 @@ class ListIssuers extends React.Component {
                  
   }
 
+
+
   handleChangeList(e) {
     let keyVal = {}
-    keyVal["getValue"] = this.state.IOUsList[e];
-    this.setState( keyVal );
-                 
+    keyVal["curIOUaddr"] = this.state.IOUsList[e];
+   // this.setState( keyVal );
+    this.props.setState( keyVal );
+    this.props.getValue(this.state.IOUsList[e]);                 
   }
 
   handleChangeIssList(e) {
@@ -116,8 +119,7 @@ class ListIssuers extends React.Component {
             <FormText >Select issuer: </FormText>
             <List class="pointer"
                 items={this.state.allIssuers}
-            //  selected={[0]}
-            //    disabled={[4]}
+            
                 multiple={false}
           //      onClick={(selected) => {this.state.getValue = _this.props.children }}
                 onChange={(e) => this.handleChangeIssList(e)}/>
@@ -126,12 +128,12 @@ class ListIssuers extends React.Component {
             <br />
             <List class="pointer"
                 items={this.state.IOUsList}
-            //  selected={[0]}
-            //    disabled={[4]}
+            
                 multiple={false}
-          //      onClick={(selected) => {this.state.getValue = _this.props.children }}
-                onChange={(e) => this.handleChangeList(e)}/>
-                
+  
+                onChange={(e) => this.handleChangeList(e)}
+                />
+                {/*
             <FormText color="muted">Or paste IOU Smart contract address </FormText>
                   <Input type = "text"
                     key="getValue"
@@ -139,10 +141,15 @@ class ListIssuers extends React.Component {
                     name="getValue"
                     placeholder="Ethereum smart contract address 0x..."
                    // initial// initialValues  = {this.state.getValue}
-                    onChange={(e) =>  this.handleChange(e)}/>       
+                    onChange={(e) =>  this.handleChange(e)}  />  
+                */}
           </FormGroup>
         </Form>
-        <IOUdescription curIOUaddr = {this.state.getValue} />
+        <IOUdescription state={this.props.state}
+                    setState={state => this.props.setState(state)} 
+                    getValue={() => this.props.getValue()}
+          
+ />
 
       </React.Fragment>
     ); /**        />
