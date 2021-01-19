@@ -8,6 +8,8 @@ import StoreIOUs from '../../embarkArtifacts/contracts/StoreIOUs';
 import IOUs from '../../embarkArtifacts/contracts/IOUtoken';
 import ReactGA from 'react-ga';
 import List from 'react-list-select';
+import DynamicDataTable from "@langleyfoxall/react-dynamic-data-table";
+
 ReactGA.initialize('UA-161540415-1');
 ReactGA.pageview(window.location.pathname + window.location.search);
 const h2a = web3.utils.hexToAscii;
@@ -39,7 +41,9 @@ class MintIOU extends React.Component {
       totalBurned: 0,
       keywords: [],
       avRate: 0,
-      allKeys: []
+      allKeys: [],
+      orderByField:"asc",
+      orderByDirection:"asc"
     };
   }
 
@@ -164,11 +168,46 @@ class MintIOU extends React.Component {
         {
          this.setState({IOULen: _value [0]});
          this.setState({feedBackLen: _value [1]});
-        });
+        }).then(async () => {
+
+          let keyVal = {};
+          keyVal["feedbacks"] =[];
+          for (let n=0; n<this.state.feedBackLen; n++) {
+              await this.state.curIOU.methods.allFeedbacks(n).call().then((_value ) =>
+              {
+                var value = {}
+                value.sender= _value['sender'];
+                value.amount= _value['amount'] / 10**18;
+                
+                value.time= new Date(_value['time']*1000).toLocaleDateString('en-US');
+                value.rating= _value['rating'];
+                value.comment = _value['text'];
+
+                keyVal["feedbacks"].push(value);
+
+              });
+
+            }
+            this.setState(keyVal);
+          });
     this._addToLog("IOU address: ", this.state.getValue );
   }
 
-   
+  changeOrder(field, direction) {
+    this.setState({ orderByField: field, orderByDirection: direction }, () => {
+        const feedbacksS = this.state.feedbacks.sort((a,b) => {
+          if (direction == "asc") {
+            if (a[field] > b[field]) return 1;
+            if (a[field] < b[field]) return -1;
+          }
+          else if (direction == "desc") {
+            if (a[field] > b[field]) return -1;
+            if (a[field] < b[field]) return 1;
+          }
+        })
+        this.setState({ feedbacks: feedbacksS });
+    });
+}
 
   render() {
     return (<React.Fragment>
@@ -228,8 +267,23 @@ class MintIOU extends React.Component {
             Balance: {(this.state.totalMinted - this.state.totalBurned)/10**18}
             <br />
             Average Rating: {this.state.avRate} "from -100 to 100". <br/>
+            Feedbacks:  </p>}
+
+                <DynamicDataTable 
+                  rows={this.state.feedbacks}  
+                  hoverable
+                  buttons={[]}
+                  totalRows={parseInt(this.state.feedBackLen)}
+                  perPage={10}
+                  onClick={(event, row) => console.warn(event, row.name)}
+                  orderByField={this.state.orderByField}
+                  orderByDirection={this.state.orderByDirection}
+                  changeOrder={(field, direction) => this.changeOrder(field, direction)}
+                  disallowOrderingBy = {['comment']}
+                />
+
+              
             
-            </p>}
           </FormGroup>
         </Form>
         

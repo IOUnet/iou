@@ -38,50 +38,6 @@ class App extends React.Component {
       IOUsList: []
     };
   }
-  async getIOUList() {
-    await EmbarkJS.enableEthereum();
-    const numberIOUs = await StoreIOUs.methods.getIOUstotal().call();
-    let curIOU;
-    
-    let keyVal = {};
-    keyVal["IOUsList"] =[];
-    for (let n=0; n<numberIOUs; n++) {
-    //  issuers.push(await StoreIOUs.methods.allIssuers(n).call());
-      await StoreIOUs.methods.allIOU(n).call().then(_IOUaddr =>  {
-              curIOU =  EmbarkJS.Blockchain.Contract({
-                    abi: IOUs.options.jsonInterface,
-                    address: _IOUaddr}) }).then((_IOUaddr) =>  {
-              curIOU.methods.thisIOU().call().then(_value =>
-                  {
-                      keyVal["IOUsList"].push(_value);
-                      keyVal["IOUsList"][n].address= curIOU.options.address; 
-                  })}).then(() =>  {
-              curIOU.methods.name().call().then(_name =>
-                          {
-                            keyVal["IOUsList"][n].name = _name;
-                          })}).then(() =>  {
-              curIOU.methods.symbol().call().then(_symb =>
-                            {
-                          keyVal["IOUsList"][n].symbol = _symb;
-                        });
-            }).then(() =>  {curIOU.methods.thisIOUkeywords().call().then(_value =>
-              {
-                let value = _value.map((e) => {
-                  return h2a(e)
-                })
-                keyVal["IOUsList"][n].keywords= value;
-              })}).then(() =>  {
-                curIOU.methods.getlen().call().then((_value ) =>
-                {
-                  keyVal["IOUsList"][n].IOULen= _value [0];
-                  keyVal["IOUsList"][n].feedBackLen= _value [1];
-                })
-
-              })
-
-      this.setState(keyVal);
-    }
-  }
 
 
    
@@ -94,7 +50,7 @@ class App extends React.Component {
         return this.setState({error: err.message || err});
       }
       
-      this.getIOUList();
+      
       this.getStat();
       EmbarkJS.Blockchain.isAvailable().then(result => {
         this.setState({blockchainEnabled: result});
@@ -219,16 +175,16 @@ class App extends React.Component {
           <BurnIOUs />
         </TabPane>
         <TabPane tabId="4">
-          <ListIOUs IOUsList={this.state.IOUsList} />
+          <ListIOUs  />
         </TabPane>
         <TabPane tabId="5">
           <ListKeys />
         </TabPane>
         <TabPane tabId="6">
-          <ListIssuers  IOUsList={this.state.IOUsList}/>
+          <ListIssuers  />
         </TabPane>
         <TabPane tabId="7">
-          <ListIssuersNames  IOUsList={this.state.IOUsList}/>
+          <ListIssuersNames  />
         </TabPane>
       </TabContent>
     </div>);

@@ -41,8 +41,8 @@ class MintIOU extends React.Component {
       keywords: [],
       avRate: 0,
       allIssuers: [],
-      orderByField:"",
-      orderByDirection:""
+      orderByField:"asc",
+      orderByDirection:"asc"
     };
   }
 
@@ -96,7 +96,7 @@ class MintIOU extends React.Component {
     await EmbarkJS.enableEthereum();
     let  account;
     let numberIss = await StoreIOUs.methods.getIssuerstotal().call();
-    let issuers = [numberIss];
+    let issuers = [];
     for (let n=0; n<numberIss; n++) {
       issuers.push(await StoreIOUs.methods.allIssuers(n).call());
     }
@@ -246,13 +246,13 @@ class MintIOU extends React.Component {
             Balance: {(this.state.totalMinted - this.state.totalBurned)/10**18}
             <br />
             Average Rating: {this.state.avRate} "from -100 to 100". <br/>
-            Feedbacks:  
-              {
+            Feedbacks:  </p>}
+              
                 <DynamicDataTable 
                   rows={this.state.feedbacks}  
                   hoverable
-                  buttons=""
-                  totalRows={this.state.feedBackLen}
+                  buttons={[]}
+                  totalRows={parseInt(this.state.feedBackLen)}
                   perPage={10}
                   onClick={(event, row) => console.warn(event, row.name)}
                   orderByField={this.state.orderByField}
@@ -261,8 +261,8 @@ class MintIOU extends React.Component {
                   disallowOrderingBy = {['comment']}
                 />
 
-              }
-            </p>}
+              
+            
           </FormGroup>
         </Form>
         
