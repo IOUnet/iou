@@ -72,6 +72,8 @@ class IOUdescription extends React.Component {
           
   
           <h3> IOU description: </h3>          
+          <Button color="primary" onClick={() => this.props.getValue()}>Update IOU</Button>
+            <br /> 
             <div color="muted">Click the button to get the IOU address value.</div>
             {this.props.state.IOUsList[this.props.state.curIOUaddr].address && this.props.state.IOUsList[this.props.state.curIOUaddr].address !== 0 &&
             <div>Current IOU is at  <span className="value font-weight-bold">{this.props.state.IOUsList[this.props.state.curIOUaddr].address}</span> <br />

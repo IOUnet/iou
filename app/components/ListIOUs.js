@@ -3,10 +3,11 @@ import EmbarkJS from 'Embark/EmbarkJS';
 import React from 'react';
 import {Form, FormGroup, Input, HelpBlock, Button, FormText} from 'reactstrap';
 
-//import StoreIOUs from '../../embarkArtifacts/contracts/StoreIOUs';
-//import IOUs from '../../embarkArtifacts/contracts/IOUtoken';
+import StoreIOUs from '../../embarkArtifacts/contracts/StoreIOUs';
+import IOUs from '../../embarkArtifacts/contracts/IOUtoken';
 import ReactGA from 'react-ga';
 import List from 'react-list-select';
+import IOUdescription from "./IOUdescription";
 ReactGA.initialize('UA-161540415-1');
 ReactGA.pageview(window.location.pathname + window.location.search);
 const h2a = web3.utils.hexToAscii;
@@ -38,6 +39,7 @@ class ListIOU extends React.Component {
       keywords: [],
       avRate: 0,
       allIssuers: [],
+      IOUsList:[]
     };
   }
 
@@ -50,10 +52,14 @@ class ListIOU extends React.Component {
 
   handleChangeList(e) {
     let keyVal = {}
-    keyVal["getValue"] = this.props.IOUsList[e];
-    this.setState( keyVal );
-                 
-  }
+    keyVal["curIOUaddr"] = this.state.IOUsList[e].address;
+    this.props.setState( keyVal );
+    if ( typeof this.props.state.IOUsList[this.state.IOUsList[e]] == "undefined") {
+
+      this.props.getValue();                 
+   }
+  }           
+  
 
   handleChangeIssList(e) {
     let keyVal = {}
@@ -61,7 +67,6 @@ class ListIOU extends React.Component {
     this.setState( keyVal );
                  
   }
-
 
   checkEnter(e, func) {
     if (e.key !== 'Enter') {
@@ -80,8 +85,36 @@ class ListIOU extends React.Component {
   
 
 
+  async getIOUList() {
+    await EmbarkJS.enableEthereum();
+    const numberIOUs = await StoreIOUs.methods.getIOUstotal().call();
+    let curIOU;  
+ 
+     
+    let cIOUsList =[];
+    for (let n=0; n<numberIOUs; n++) {
+      await StoreIOUs.methods.allIOU(n).call().then(_IOUaddr =>  {
+              curIOU =  EmbarkJS.Blockchain.Contract({
+                    abi: IOUs.options.jsonInterface,
+                    address: _IOUaddr}) }).then(() =>  {
+              curIOU.methods.name().call().then(_name =>
+                          {
+                            const curKeyVal= {
+                              address: curIOU.options.address,
+                              name: _name
+                            }
+                            cIOUsList.push(curKeyVal);
+                            this.setState({IOUsList: cIOUsList});
+                          })});      
+    }
+    
+    
+  }
+
 
   render() {
+    this.getIOUList();
+    //if ( this.state.IOUsList.length == 0) return (<div> IOUs list loadnig... </div>);
     return (<React.Fragment>
         
         
@@ -91,43 +124,19 @@ class ListIOU extends React.Component {
 
   
             <List class="pointer"
-                items={this.props.state.IOUsList.map(_value => _value.name)}
-                /**  <Button color="primary" onClick={(e) => this.handleChangeList(e)}>IOUs list</Button>
-            <br /> */
-            //  selected={[0]} .forEach(_value => {return _value.description})
-            //    disabled={[4]}
+                items={this.state.IOUsList.map(_value => _value.name)}
+
                 multiple={false}
-          //      onClick={(selected) => {this.state.getValue = _this.props.children }}
+
                 onChange={(e) => this.handleChangeList(e)}/>
                 
-           
-          
-      
-            <FormText color="muted">Click the token to get the IOU address value.</FormText>
-            {this.state.getValue && this.state.getValue !== 0 &&
-            <p>
-           Name: {this.state.getValue.name}
-           <br /> 
-            Symbol: {this.state.getValue.symbol } <br/>
-            Issuer name: {this.state.getValue.myName } <br/>
-            Issuer Eth address: {this.state.getValue.issuer } <br/>
-            Social Profile: {this.state.getValue.socialProfile} <br/>
-            Location: {this.state.getValue.location} <br/>
-            Description: {this.state.getValue.description }  <br/>
-            keywords: {this.state.getValue.keywords }  <br/>
-            Units: {h2a(this.state.getValue.units) }  <br/>
-            Total minted: {this.state.getValue.totalMinted / 10**18}, by {this.state.getValue.IOULen} IOUs <br/>
-            Total burned: {this.state.getValue.totalBurned / 10**18}, by {this.state.getValue.feedBackLen} feedbacks <br/>
-            Balance: {(this.state.getValue.totalMinted - this.state.getValue.totalBurned)/10**18}
-            <br />
-            Average Rating: {this.state.getValue.avRate} "from -100 to 100". <br/>
-            
-            </p>}
           </FormGroup>
         </Form>
-        
-    
-
+        <IOUdescription state={this.props.state}
+                    setState={state => this.props.setState(state)} 
+                    getValue={() => this.props.getValue()}   
+        />       
+  
       </React.Fragment>
     );
   }

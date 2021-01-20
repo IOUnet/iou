@@ -6,7 +6,7 @@ import {Form, FormGroup, Input, HelpBlock, Button, FormText} from 'reactstrap';
 import StoreIOUs from '../../embarkArtifacts/contracts/StoreIOUs';
 import ReactGA from 'react-ga';
 import List from 'react-list-select';
-import IOUdescription from "./IOUdescription"
+import IOUdescription from "./IOUdescription";
 ReactGA.initialize('UA-161540415-1');
 ReactGA.pageview(window.location.pathname + window.location.search);
 const h2a = web3.utils.hexToAscii;
@@ -56,9 +56,11 @@ class ListIssuers extends React.Component {
   handleChangeList(e) {
     let keyVal = {}
     keyVal["curIOUaddr"] = this.state.IOUsList[e];
-   // this.setState( keyVal );
     this.props.setState( keyVal );
-    this.props.getValue(this.state.IOUsList[e]);                 
+    if ( typeof this.props.state.IOUsList[this.state.IOUsList[e]] == "undefined") {
+
+      this.props.getValue();                 
+   }
   }
 
   handleChangeIssList(e) {
@@ -97,7 +99,7 @@ class ListIssuers extends React.Component {
     await EmbarkJS.enableEthereum();
     let  account;
     let numberIss = await StoreIOUs.methods.getIssuerstotal().call();
-    let issuers = [numberIss];
+    let issuers = [];
     for (let n=0; n<numberIss; n++) {
       issuers.push(await StoreIOUs.methods.allIssuers(n).call());
     }
@@ -121,7 +123,6 @@ class ListIssuers extends React.Component {
                 items={this.state.allIssuers}
             
                 multiple={false}
-          //      onClick={(selected) => {this.state.getValue = _this.props.children }}
                 onChange={(e) => this.handleChangeIssList(e)}/>
             <p>Current Issuer's address value is <span className="value font-weight-bold">{this.state.currIss}</span></p>
               <Button color="primary" onClick={(e) => this.getIOUList(e)}>Get this issuers IOUs list</Button>
@@ -147,13 +148,10 @@ class ListIssuers extends React.Component {
         </Form>
         <IOUdescription state={this.props.state}
                     setState={state => this.props.setState(state)} 
-                    getValue={() => this.props.getValue()}
-          
- />
-
+                    getValue={() => this.props.getValue()}   
+        />
       </React.Fragment>
-    ); /**        />
-    */
+    ); 
   }
 }
 

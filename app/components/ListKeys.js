@@ -54,16 +54,21 @@ class MintIOU extends React.Component {
 
   handleChangeList(e) {
     let keyVal = {}
-    keyVal["getValue"] = this.state.IOUsList[e];
-    this.setState( keyVal );
-                 
+    keyVal["curIOUaddr"] = this.state.IOUsList[e];
+  //  this.setState( keyVal );
+    this.props.setState( keyVal );
+    if ( typeof this.props.state.IOUsList[this.state.IOUsList[e]] == "undefined") {
+ 
+       this.props.getValue();                 
+    }
+    
   }
 
   handleChangeKeyList(e) {
     let keyVal = {}
     keyVal["currKey"] = this.state.allKeys[e];
     this.setState( keyVal );
-                 
+    this.getIOUList(e);             
   }
 
 
@@ -81,26 +86,7 @@ class MintIOU extends React.Component {
     this.setState({ logs: this.state.logs });
   }
 
-  async sendIOU (e) {
-    
-    e.preventDefault();
-    await EmbarkJS.enableEthereum();
-    let  account;
-    await web3.eth.getAccounts().then(e => { account = e[0];  
-      });
-      const curIOU =  EmbarkJS.Blockchain.Contract({
-        abi: IOUs.options.jsonInterface,
-        address: this.state.getValue
-        });
 
-      curIOU.methods.mint(
-        this.state.creditorAddr,
-        web3.utils.toWei(this.state.valueSet),
-        this.state.descrDebt
-                ).send({from:account});
-    this._addToLog("mintIOUs.methods.mintIOUs: ", this.state.getValue);
-
-  }
 
   async getIOUList(e) {
   //  e.preventDefault();
@@ -115,7 +101,7 @@ class MintIOU extends React.Component {
     await EmbarkJS.enableEthereum();
     let  account;
     let numberIss = await StoreIOUs.methods.getKeystotal().call();
-    let Keys = [numberIss];
+    let Keys = [];
     for (let n=0; n<numberIss; n++) {
       Keys.push(h2a(await StoreIOUs.methods.allKeywords(n).call()));
     }
@@ -138,22 +124,16 @@ class MintIOU extends React.Component {
 
             <List class="pointer"
                 items={this.state.allKeys}
-            //  selected={[0]}
-            //    disabled={[4]}
                 multiple={false}
-          //      onClick={(selected) => {this.state.getValue = _this.props.children }}
                 onChange={(e) => this.handleChangeKeyList(e)}/>
             <p>Current key's value is <span className="value font-weight-bold">{this.state.currKey}</span></p>
               <Button color="primary" onClick={(e) => this.getIOUList(e)}>Get IOUs list with this key</Button>
             <br />
             <List class="pointer"
                 items={this.state.IOUsList}
-            //  selected={[0]}
-            //    disabled={[4]}
                 multiple={false}
-          //      onClick={(selected) => {this.state.getValue = _this.props.children }}
                 onChange={(e) => this.handleChangeList(e)}/>
-                
+              {/*}  
             <FormText color="muted">Or paste IOU Smart contract address </FormText>
                   <Input type = "text"
                     key="getValue"
@@ -162,7 +142,7 @@ class MintIOU extends React.Component {
                     placeholder="Ethereum smart contract address 0x..."
                    // initial// initialValues  = {this.state.getValue}
                     onChange={(e) => this.handleChange(e)}/>
-          
+          */}
             </FormGroup>
         </Form>
         <IOUdescription state={this.props.state}
