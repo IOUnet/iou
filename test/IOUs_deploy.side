@@ -10,14 +10,7 @@
       "id": "ad54a37d-bc04-4792-afcb-ca64d09046b9",
       "comment": "",
       "command": "open",
-      "target": "/",
-      "targets": [],
-      "value": ""
-    }, {
-      "id": "ec01c137-17dd-4e78-b12b-15628bb55313",
-      "comment": "",
-      "command": "setWindowSize",
-      "target": "1920x1030",
+      "target": "http://localhost:8000/",
       "targets": [],
       "value": ""
     }, {

@@ -176,7 +176,7 @@ class MintIOU extends React.Component {
                     placeholder="Ethereum smart contract address 0x..."
                    // initial// initialValues  = {this.state.getValue}
                     onChange={(e) => this.handleChange(e)}/>
-            <p>Current address value is <span className="value font-weight-bold">{this.state.getValue}</span></p>
+            < p>Current address value is <span className="value font-weight-bold">{this.state.getValue}</span></p>
             {this.state.getValue && this.state.getValue !== 0 &&
             <Button color="primary" onClick={(e) => this.getValue(e)}>Get full IOU description</Button>
             }

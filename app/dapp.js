@@ -229,11 +229,7 @@ class App extends React.Component {
             {this._renderStatus('All Issuers by Addrs', this.state.blockchainEnabled)}
           </NavLink>
         </NavItem>
-        <NavItem>
-        <NavLink onClick={() => this.handleSelect('7')} className={classnames({ active: this.state.activeKey === '3' })}>
-            {this._renderStatus('All Issuers by Names', this.state.blockchainEnabled)}
-          </NavLink>
-        </NavItem>
+
 
       </Nav>
       <TabContent activeTab={this.state.activeKey}>
@@ -241,10 +237,14 @@ class App extends React.Component {
           <MakeIOUs/>
         </TabPane>
         <TabPane tabId="2">
-          <MintIOUs />
+          <MintIOUs  state={this.state}
+                    setState={state => this.setState(state)} 
+                    getValue={() => this.getValue()}/>
         </TabPane>
         <TabPane tabId="3">
-          <BurnIOUs />
+          <BurnIOUs  state={this.state}
+                    setState={state => this.setState(state)} 
+                    getValue={() => this.getValue()} />
         </TabPane>
         <TabPane tabId="4">
           <ListIOUs state={this.state}
