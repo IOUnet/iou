@@ -7,7 +7,7 @@ import {Form, FormGroup, Input,  Button, FormText} from 'reactstrap';
 import IOUs from '../../embarkArtifacts/contracts/IOUtoken';
 //import ReactGA from 'react-ga';
 import DynamicDataTable from "@langleyfoxall/react-dynamic-data-table";
-
+import ChangeOrder from './ChangeOrder'
 //ReactGA.initialize('UA-161540415-1');
 //ReactGA.pageview(window.location.pathname + window.location.search);
 const h2a = web3.utils.hexToAscii;

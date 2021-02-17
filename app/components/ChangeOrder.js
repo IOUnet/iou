@@ -1,4 +1,4 @@
-changeOrder(field, direction) {
+const ChangeOrder = (field, direction) => {
     this.setState({ orderByField: field, orderByDirection: direction }, () => {
         const feedbacksS = this.state.feedbacks.sort((a,b) => {
           if (direction == "asc") {
@@ -14,3 +14,4 @@ changeOrder(field, direction) {
     });
 }
 
+export default ChangeOrder;

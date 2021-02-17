@@ -91,7 +91,7 @@ class MintIOU extends React.Component {
 
   }
 
-  async getIOUList(e) {
+  async getIOUList() {
     e.preventDefault();
     await EmbarkJS.enableEthereum();
     let  account;
@@ -152,13 +152,14 @@ class MintIOU extends React.Component {
    
 
   render() {
+    this.getIOUList();
     return (<React.Fragment>
         
         
           <h3> Choose IOU token </h3>          
           <Form>
           <FormGroup>
-            <Button color="primary" onClick={(e) => this.getIOUList(e)}>Get my IOUs list</Button>
+            <Button color="primary" onClick={(e) => this.getIOUList()}>Get my IOUs list</Button>
             <br />
             <List class="pointer"
                 items={this.state.IOUsList}
