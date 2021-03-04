@@ -111,7 +111,7 @@ class MakeIOU extends React.Component {
 
   async getIOUList(e) {
     e.preventDefault();
-    await EmbarkJS.enableEthereum();
+    //await EmbarkJS.enableEthereum();
     let  account;
     await web3.eth.getAccounts().then(e => { account = e[0];  
       });

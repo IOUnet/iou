@@ -54,7 +54,7 @@ class Whisper extends React.Component {
 
   async getKeysList(e) {
     e.preventDefault();
-    await EmbarkJS.enableEthereum();
+    //await EmbarkJS.enableEthereum();
     let  account;
     let numberKeys = await StoreIOUs.methods.getKeystotal().call();
     let keyW = [numberKeys];

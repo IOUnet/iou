@@ -45,14 +45,14 @@ class MintIOU extends React.Component {
     let keyVal = {}
     keyVal[e.target.name] = e.target.value;
     this.setState( keyVal );
-                 
+    this.getValue(e);                 
   }
 
   handleChangeList(e) {
     let keyVal = {}
     keyVal["getValue"] = this.state.IOUsList[e];
     this.setState( keyVal );
-                 
+    this.getValue(e);                       
   }
 
 
@@ -92,21 +92,20 @@ class MintIOU extends React.Component {
   }
 
   async getIOUList() {
-    e.preventDefault();
-    await EmbarkJS.enableEthereum();
-    let  account;
-    await web3.eth.getAccounts().then(e => { account = e[0];  
-      });
-    StoreIOUs.methods.getIOUList(account).call().then(_value => this.setState({ IOUsList: _value }));
+    //e.preventDefault();
     
-  }
-
+      await  web3.eth.getAccounts().then((e) => {   
+          StoreIOUs.methods.getIOUList(e[0]).call().then((_value) => {
+            this.setState({ IOUsList: _value })});
+      })
+    
+  };
 
 
   async getValue(e) {
-    e.preventDefault();
-    await EmbarkJS.enableEthereum();
-    
+   // e.preventDefault();
+  //  await EmbarkJS.enableEthereum();
+    if ( this.state.getValue =="") return;
     this.state.curIOU =  EmbarkJS.Blockchain.Contract({
         abi: IOUs.options.jsonInterface,
         address: this.state.getValue});
@@ -168,15 +167,7 @@ class MintIOU extends React.Component {
                 multiple={false}
           //      onClick={(selected) => {this.state.getValue = _this.props.children }}
                 onChange={(e) => this.handleChangeList(e)}/>
-                
-            <FormText color="muted">Or paste IOU Smart contract address </FormText>
-                  <Input type = "text"
-                    key="getValue"
-                // initialValues  = {this.state.getValue}
-                    name="getValue"
-                    placeholder="Ethereum smart contract address 0x..."
-                   // initial// initialValues  = {this.state.getValue}
-                    onChange={(e) => this.handleChange(e)}/>
+
             < p>Current address value is <span className="value font-weight-bold">{this.state.getValue}</span></p>
             {this.state.getValue && this.state.getValue !== 0 &&
             <Button color="primary" onClick={(e) => this.getValue(e)}>Get full IOU description</Button>

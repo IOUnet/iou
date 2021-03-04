@@ -110,7 +110,7 @@ class BurnIOU extends React.Component {
     let  account;
     await web3.eth.getAccounts().then(e => { account = e[0];  
       });
-    await EmbarkJS.enableEthereum();
+   // await EmbarkJS.enableEthereum();
 
     StoreIOUs.methods.getIOUListHold(account).call().then(_value => this.setState({ IOUsList: _value }));
     
@@ -120,7 +120,7 @@ class BurnIOU extends React.Component {
 
   async getValue(e) {
     e.preventDefault();
-    await EmbarkJS.enableEthereum();
+   // await EmbarkJS.enableEthereum();
     
     this.state.curIOU =  EmbarkJS.Blockchain.Contract({
         abi: IOUs.options.jsonInterface,

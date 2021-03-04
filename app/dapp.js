@@ -44,7 +44,7 @@ class App extends React.Component {
     //   e.preventDefault();
        
      //  if ( this.props.curIOUaddr =="" || this.state.newIOU == false ) return;
-       await EmbarkJS.enableEthereum();
+     //  await EmbarkJS.enableEthereum();
        const curIOU =  EmbarkJS.Blockchain.Contract({
            abi: IOUs.options.jsonInterface,
            address: this.state.curIOUaddr});
@@ -173,23 +173,18 @@ class App extends React.Component {
        
   }
 
+async checkWeb3 () {
+try {  await   EmbarkJs.enableEthereum ();} 
+catch (eRR) {
+ alert ('Something went wrong connecting to Ethereum\n\n'+'Please make sure you have a node running or  using correct wallet, for example  Metamask (for descktop) or  StatusIM (for mobail) to connect to the Ethereum network' );
+}
+}
  
 
   render() {
+    
+  //this.checkWeb3();
     const ensEnabled = EmbarkJS.Names.currentNameSystems && EmbarkJS.Names.isAvailable();
-    if (this.state.error) {
-      return (<div>
-        <div>Something went wrong connecting to ethereum. Please make sure you have a node running or are using StatusIM
-          to connect to the ethereum network:
-        </div>
-        <div>{this.state.error}</div>
-        <div> 
-        <a href = "https://Status.im/" target="_blank">
-        <img src = "https://status.im/developer_tools/img/lp-status-logo.svg">Install Status </img>
-        </a>
-        </div>
-      </div>);
-    }
     return (<div>
       <h3>Emit your IOU tokens - and you don't need money anymore</h3>
       <div>
@@ -237,14 +232,10 @@ class App extends React.Component {
           <MakeIOUs/>
         </TabPane>
         <TabPane tabId="2">
-          <MintIOUs  state={this.state}
-                    setState={state => this.setState(state)} 
-                    getValue={() => this.getValue()}/>
+          <MintIOUs  />
         </TabPane>
         <TabPane tabId="3">
-          <BurnIOUs  state={this.state}
-                    setState={state => this.setState(state)} 
-                    getValue={() => this.getValue()} />
+          <BurnIOUs />
         </TabPane>
         <TabPane tabId="4">
           <ListIOUs state={this.state}
@@ -265,7 +256,10 @@ class App extends React.Component {
       </TabContent>
     </div>);
   }
-}
+
+  
+  }
+
 /**
  *         <NavItem>
         <NavLink onClick={() => this.handleSelect('6')} className={classnames({ active: this.state.activeKey === '3' })}>

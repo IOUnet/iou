@@ -98,7 +98,7 @@ class MintIOU extends React.Component {
 
   async getKeysList() {
     //e.preventDefault();
-    await EmbarkJS.enableEthereum();
+   // await EmbarkJS.enableEthereum();
     let  account;
     let numberIss = await StoreIOUs.methods.getKeystotal().call();
     let Keys = [];

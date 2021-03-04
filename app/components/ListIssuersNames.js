@@ -78,30 +78,11 @@ class IssuersIOUNames extends React.Component {
     this.setState({ logs: this.state.logs });
   }
 
-  async sendIOU (e) {
-    
-    e.preventDefault();
-    await EmbarkJS.enableEthereum();
-    let  account;
-    await web3.eth.getAccounts().then(e => { account = e[0];  
-      });
-      const curIOU =  EmbarkJS.Blockchain.Contract({
-        abi: IOUs.options.jsonInterface,
-        address: this.state.getValue
-        });
 
-      curIOU.methods.mint(
-        this.state.creditorAddr,
-        web3.utils.toWei(this.state.valueSet),
-        this.state.descrDebt
-                ).send({from:account});
-    this._addToLog("mintIOUs.methods.mintIOUs: ", this.state.getValue);
-
-  }
 
   async getIOUList(e) {
     e.preventDefault();
-    await EmbarkJS.enableEthereum();
+   // await EmbarkJS.enableEthereum();
 
     StoreIOUs.methods.getIOUList(this.state.currIss).call().then(_value => this.setState({ IOUsList: _value }));
     
@@ -109,7 +90,7 @@ class IssuersIOUNames extends React.Component {
 
   async getIssuersList(e) {
     e.preventDefault();
-    await EmbarkJS.enableEthereum();
+    //await EmbarkJS.enableEthereum();
     let  account;
     let numberIss = await StoreIOUs.methods.getIssuerstotal().call();
     let issuers = [];
@@ -123,7 +104,7 @@ class IssuersIOUNames extends React.Component {
 
   async getValue(e) {
     e.preventDefault();
-    await EmbarkJS.enableEthereum();
+    //await EmbarkJS.enableEthereum();
     
     this.state.curIOU =  EmbarkJS.Blockchain.Contract({
         abi: IOUs.options.jsonInterface,

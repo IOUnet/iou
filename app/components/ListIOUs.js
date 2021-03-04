@@ -86,7 +86,7 @@ class ListIOU extends React.Component {
 
 
   async getIOUList() {
-    await EmbarkJS.enableEthereum();
+    //await EmbarkJS.enableEthereum();
     const numberIOUs = await StoreIOUs.methods.getIOUstotal().call();
     let curIOU;  
  

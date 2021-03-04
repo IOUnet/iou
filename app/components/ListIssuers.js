@@ -96,7 +96,7 @@ class ListIssuers extends React.Component {
 
   async getIssuersList() {
   //  e.preventDefault();
-    await EmbarkJS.enableEthereum();
+  //  await EmbarkJS.enableEthereum();
     let  account;
     let numberIss = await StoreIOUs.methods.getIssuerstotal().call();
     let issuers = [];
