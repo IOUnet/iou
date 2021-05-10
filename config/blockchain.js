@@ -97,16 +97,16 @@ module.exports = {
     // embark run --nodashboard  alfajores
   //  endpoint: "https://alfajores-forno.celo-testnet.org", // Endpoint of an node to connect to. Can be on localhost or on the internet
 // http://127.0.0.1:8545/
-    endpoint: "http://127.0.0.1:8545/", // Endpoint of an node to connect to. Can be on localhost or on the internet
+    endpoint: "https://alfajores-forno.celo-testnet.org/", // Endpoint of an node to connect to. Can be on localhost or on the internet
     accounts: [
       {
         //privateKeyFile: "./testnet/password",
        // privateKey: "",// process.env.privKey,
      //  nodeAccounts: true,
       // numAddresses: "10",
-     // addressIndex: "1",
+      //addressIndex: "0",
         mnemonic: "sing bomb odor actress latin surround design squirrel engage swim illness daring office pumpkin critic room parrot pencil course gorilla thumb plate recycle hidden",
-        hdpath: "m/44'/60'/0'/0/",
+        hdpath: "m/44'/52752'/0'/0/0",
                    //m/44'/60'/0'/0/
  
       }
