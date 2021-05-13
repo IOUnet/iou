@@ -84,7 +84,7 @@ class MakeIOU extends React.Component {
         return a2h(e);
       });
 
-   let gasAmount;
+/*   let gasAmount;
     await MakeIOUs.methods.makeIOU(
       this.state.name,
       this.state.symbol,
@@ -95,7 +95,7 @@ class MakeIOU extends React.Component {
       a2h(this.state.units),
       keys
      ).estimateGas({from: account}).then(e => { gasAmount = e;  
-     }); 
+     }); */
     MakeIOUs.methods.makeIOU(
         this.state.name,
         this.state.symbol,
@@ -104,7 +104,7 @@ class MakeIOU extends React.Component {
         this.state.description,
         this.state.location,
        a2h(this.state.units),
-        keys).send({from:account, gas: gasAmount}); //}
+        keys).send({from:account}); // , gas: gasAmount}
     this._addToLog("MakeIOUs.methods.MakeIOUs: ", this.state.getValue);
 
   }

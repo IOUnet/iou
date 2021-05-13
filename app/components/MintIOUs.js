@@ -173,7 +173,7 @@ class MintIOU extends React.Component {
                     key="getValue"
                 // initialValues  = {this.state.getValue}
                     name="getValue"
-                    placeholder="Ethereum smart contract address 0x..."
+                     placeholder="Celo smart contract address 0x..."
                    // initial// initialValues  = {this.state.getValue}
                     onChange={(e) => this.handleChange(e)}/>
             <p>Current address value is <span className="value font-weight-bold">{this.state.getValue}</span></p>
@@ -188,7 +188,7 @@ class MintIOU extends React.Component {
            <br /> 
             Symbol: {this.state.symbol } <br/>
             Issuer name: {this.state.myName } <br/>
-            Issuer Eth address: {this.state.issuer } <br/>
+            Issuer Celo address: {this.state.issuer } <br/>
             Social Profile: {this.state.socialProfile} <br/>
             Location: {this.state.location} <br/>
             Description: {this.state.description }  <br/>
@@ -221,7 +221,7 @@ class MintIOU extends React.Component {
                 <Input type = "text"
                       key="creditorAddr"
                       name="creditorAddr"
-                      placeholder="Paste creditor's Ethereum address (0x...)"
+                      placeholder="Paste creditor's Celoereum address (0x...)"
                       onChange={(e) => this.handleChange(e)}></Input> <br /> 
                   <FormText > for reason: </FormText>
                 <Input type = "text"

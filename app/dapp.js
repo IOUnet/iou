@@ -35,7 +35,7 @@ class App extends React.Component {
   componentDidMount() {
     EmbarkJS.onReady((err) => {
       if (err) {
-        // If err is not null then it means something went wrong connecting to ethereum
+        // If err is not null then it means something went wrong connecting to Celoereum
         // you can use this to ask the user to enable metamask for e.g
         return this.setState({error: err.message || err});
       }
@@ -95,8 +95,8 @@ class App extends React.Component {
     const ensEnabled = EmbarkJS.Names.currentNameSystems && EmbarkJS.Names.isAvailable();
     if (this.state.error) {
       return (<div>
-        <div>Something went wrong connecting to ethereum. Please make sure you have a node running or are using StatusIM
-          to connect to the ethereum network:
+        <div>Something went wrong connecting to Celoereum. Please make sure you have a node running or are using StatusIM
+          to connect to the Celoereum network:
         </div>
         <div>{this.state.error}</div>
         <div> 
