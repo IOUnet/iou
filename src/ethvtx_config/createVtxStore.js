@@ -1,6 +1,8 @@
 import { applyMiddleware, compose, createStore } from 'redux';
 import { getSagas, getReducers, getInitialState, configureVtx } from 'ethvtx';
 import createSagaMiddleware from 'redux-saga';
+
+/*
 import thunk from 'redux-thunk'
 import indexTokenReducer from './reducers/indexTokenReducer';
 import indexTokenTokens from './reducers/getTokenTokens';
@@ -10,6 +12,8 @@ import { watchIndexTokenBuyProcess } from './sagas/buyIndexTokenSaga';
 import { watchIndexTokenSellProcess } from './sagas/sellIndexTokenSaga';
 import { watchStartBuyIndexTokens } from './sagas/getGasPrice'
 import { all } from 'redux-saga/effects'
+
+*/
 
 export const createVtxStore = () => {
 
