@@ -95,8 +95,8 @@ class App extends React.Component {
     const ensEnabled = EmbarkJS.Names.currentNameSystems && EmbarkJS.Names.isAvailable();
     if (this.state.error) {
       return (<div>
-        <div>Something went wrong connecting to Celoereum. Please make sure you have a node running or are using StatusIM
-          to connect to the Celoereum network:
+        <div>Something went wrong connecting to Celo. Please make sure you have a node running or are using StatusIM
+          to connect to the Celo network:
         </div>
         <div>{this.state.error}</div>
         <div> 
