@@ -5,7 +5,7 @@ import  EmbarkJs  from 'embarkjs';
 import { start, setWeb3, authorizeAndSetWeb3 } from 'ethvtx/lib/dispatchers';
 import { embark } from 'ethvtx/lib/utils';
 
-import {OraclePrice, OracleCircAmount,  OracleTotSupply,  Index2Swap, IndexFactory, Lstorage, IndexStorage, ERC20,  IndexToken, Experts, Exchange, SVTtst } from "../embarkArtifacts/contracts"
+import {IOUToken, MakeIOU, StoreIOUs } from "../embarkArtifacts/contracts"
 
 export const setupWeb3 = async (store) => {
     try {
@@ -46,108 +46,42 @@ export const setupWeb3 = async (store) => {
             VtxContract.init(store);
             try {
             // Loading a spec si made easy with the embark.loadSpec helper
-            loadContractSpec(store.dispatch, ...embark.loadSpec(Experts, 'Experts', true, true));
-            loadContractSpec(store.dispatch, ...embark.loadSpec(Exchange, 'Exchange', true, true));
-            loadContractSpec(store.dispatch, ...embark.loadSpec(OraclePrice, 'OraclePrice', true, true));
-            loadContractSpec(store.dispatch, ...embark.loadSpec(OracleCircAmount, 'OracleCircAmount', true, true));
-            loadContractSpec(store.dispatch, ...embark.loadSpec(OracleTotSupply, 'OracleTotSupply', true, true));
-            loadContractSpec(store.dispatch, ...embark.loadSpec(Index2Swap, 'IndexSwap', true, true));
-            loadContractSpec(store.dispatch, ...embark.loadSpec(IndexFactory, 'IndexFactory', true, true));
-            loadContractSpec(store.dispatch, ...embark.loadSpec(Lstorage, 'Lstorage', true, true));
-            loadContractSpec(store.dispatch, ...embark.loadSpec(IndexStorage, 'IndexStorage', true, true));
-            loadContractSpec(store.dispatch, ...embark.loadSpec(ERC20, 'ERC20', true, true));
-            loadContractSpec(store.dispatch, ...embark.loadSpec(IndexToken, 'IndexToken', true, true));
-           
-
+            loadContractSpec(store.dispatch, ...embark.loadSpec(IOUToken, 'IOUToken', true, true));
+            loadContractSpec(store.dispatch, ...embark.loadSpec(MakeIOU, 'MakeIOU', true, true));
+            loadContractSpec(store.dispatch, ...embark.loadSpec(StoreIOUs, 'StoreIOUs', true, true));
+         
             // Loading an instance BEFORE starting the store will check on the chain if the correct bytecode is found, and if not, the WrongNet status is applied
-            loadContractInstance(store.dispatch, 'ERC20', SVTtst.address, {
-                alias: '@svettoken',
+
+            loadContractInstance(store.dispatch, 'MakeIOU', MakeIOU.address, {
+                alias: '@makeiou',
                 permanent: true,
                 balance: true
             });
 
-            loadContractInstance(store.dispatch, 'Experts', Experts.address, {
-                alias: '@experts',
+            loadContractInstance(store.dispatch, 'StoreIOUs', StoreIOUs.address, {
+                alias: '@storeious',
                 permanent: true,
                 balance: true
             });
-
-            loadContractInstance(store.dispatch, 'Exchange', Exchange.address, {
-                alias: '@exchange',
-                permanent: true,
-                balance: true
-            });
-            loadContractInstance(store.dispatch, 'OraclePrice', OraclePrice.address, {
-                alias: '@oracleprice',
-                permanent: true,
-                balance: true
-            });
-            loadContractInstance(store.dispatch, 'OracleCircAmount', OracleCircAmount.address, {
-                alias: '@oraclecircamount',
-                permanent: true,
-                balance: true
-            });
-            loadContractInstance(store.dispatch, 'OracleTotSupply', OracleTotSupply.address, {
-                alias: '@oracletotsupply',
-                permanent: true,
-                balance: true
-            });
-            loadContractInstance(store.dispatch, 'IndexSwap', Index2Swap.address, {
-                alias: '@indexswap',
-                permanent: true,
-                balance: true
-            });
-            loadContractInstance(store.dispatch, 'IndexFactory', IndexFactory.address, {
-                alias: '@indexfactory',
-                permanent: true,
-                balance: true
-            });
-            loadContractInstance(store.dispatch, 'Lstorage', Lstorage.address, {
-                alias: '@lstorage',
-                permanent: true,
-                balance: true
-            });
-            loadContractInstance(store.dispatch, 'IndexStorage', IndexStorage.address, {
-                alias: '@indexstorage',
-                permanent: true,
-                balance: true
-            });
+        
             
-            await IndexStorage.methods.indexList().call().then(_value => 
-                _value.map((item, key) => {
-                  const curIndex =  EmbarkJs.Blockchain.Contract({
-                      abi: IndexToken.options.jsonInterface,
-                      address:  item.addr});
-                  
-                      curIndex.methods.name().call().then(name => {
-  
-                          loadContractInstance(store.dispatch, 'IndexToken', item.addr, {
-                        //      address: item.addr,
-                              permanent: true,
-                              balance: true
-                          });
-                      
-                          curIndex.methods.getActivesList ().call().then(_value => 
-                              _value.map((itemT, key) => {
-                                const curToken =  EmbarkJs.Blockchain.Contract({
-                                    abi: ERC20.options.jsonInterface,
-                                    address:  itemT.addrActive});
-                                
-                                    curToken.methods.name().call().then(nameT => {
-                
-                                        loadContractInstance(store.dispatch, 'ERC20', itemT.addrActive, {
-                                   //         alias: "@" + nameT.toLowerCase(),
-                                            permanent: true,
-                                            balance: true
-                                        });
-                                    
-                                    
-                                    
+            await StoreIOUs.methods.getIOUstotal().call().then(_value => 
+                {   
+                    for (let i=0; i<_value; i++) {
+                        StoreIOUs.methods.allIOU[i].call().then(IOUaddr => 
+                        {  
+                        loadContractInstance(store.dispatch, 'IOUtoken', IOUaddr, {
+                                //      address: item.addr,
+                                    permanent: true,
+                                    balance: true
                                 });
-                            }));
-                      
-                  });
-              }));
+                 /*       const curIOU =  EmbarkJs.Blockchain.Contract({
+                            abi: IOUToken.options.jsonInterface,
+                            address:  item.addr}); */
+
+                        });
+                    }
+                });
             }
             catch {
                 alert ("Can't connect to smart contract. Check type of Ethereum  network you connected and reload dApp.")
