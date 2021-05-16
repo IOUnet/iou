@@ -1,3 +1,4 @@
+
 IOU.loans- DeFi  COMMUNITY SCORING FOR UNBANKED PEOPLE
 
 "for new world with money for people and not people for money"

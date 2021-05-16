@@ -1,11 +1,19 @@
 {
-  "name": "embark_demo",
-  "version": "5.0.0",
-  "description": "Demo DApp for Embark",
+
+  "name": "iounet",
+  "version": "1.3.0",
+  "description": "IOU token and network",
   "homepage": "https://github.com/embark-framework/embark/tree/master/dapps/templates/demo#readme",
   "bugs": "https://github.com/embark-framework/embark/issues",
   "scripts": {
-    "test": "embark test"
+    "testEmbark": "embark test",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "storybook": "start-storybook -p 6006 -s public",
+    "build-storybook": "build-storybook -s public",
+    "deploy": "npm run build-storybook && netlify deploy --dir=storybook-static --prod"
   },
   "keywords": [],
   "author": "",
@@ -40,12 +48,60 @@
     "react-ethvtx": "^2.1.1",
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.9",
-    "redux-saga": "^1.1.3"
+    "redux-saga": "^1.1.3",
+    "@storybook/addon-actions": "^6.2.8",
+    "@storybook/addon-essentials": "^6.2.8",
+    "@storybook/addon-links": "^6.2.8",
+    "@storybook/node-logger": "^6.2.8",
+    "@storybook/preset-create-react-app": "^3.1.7",
+    "@storybook/react": "^6.2.8"
   },
   "dependencies": {
     "@material-ui/core": "^4.9.13",
     "embark-pipeline": "^6.0.0",
     "react-ga": "^2.7.0",
-    "react-list-select": "^0.4.1"
+    "react-list-select": "^0.4.1",
+    "@material-ui/icons": "^4.11.2",
+    "@testing-library/jest-dom": "^5.11.10",
+    "@testing-library/react": "^11.2.6",
+    "@testing-library/user-event": "^12.8.3",
+    "clsx": "^1.1.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "4.0.3",
+    "web-vitals": "^1.1.1"
+
+
+  },
+
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ],
+    "overrides": [
+      {
+        "files": [
+          "**/*.stories.*"
+        ],
+        "rules": {
+          "import/no-anonymous-default-export": "off"
+        }
+      }
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
+
 }
